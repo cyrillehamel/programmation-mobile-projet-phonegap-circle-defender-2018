@@ -1,1 +1,1 @@
-# programmation-mobile-projet-phonegap-circle-defender-2018-fouany
+# programmation-mobile-projet-phonegap-circle-defender-2018

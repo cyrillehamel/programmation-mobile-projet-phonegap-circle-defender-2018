@@ -1,13 +1,18 @@
 package ca.qc.cgmatane.informatique.circledefender;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import org.apache.cordova.*;
+import org.apache.cordova.DroidGap;
 
-public class VuePrincipale extends AppCompatActivity {
+public class VuePrincipale extends DroidGap {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.vue_principale);
+        super.init();
+        super.loadUrl(Config.getStartUrl());
+        super.loadUrl("file:///android_asset/www/index.html");
+
     }
+
 }

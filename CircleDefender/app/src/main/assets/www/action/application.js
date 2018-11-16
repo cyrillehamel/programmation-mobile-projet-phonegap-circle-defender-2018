@@ -6,7 +6,7 @@
     {
         
 
-         window.addEventListener("hashchange",naviguer);
+        window.addEventListener("hashchange",naviguer);
 
         naviguer();
 
@@ -18,12 +18,12 @@
        
         if(!hash)
         {
-             var menuVue = new MenuVue();
+            var menuVue = new MenuVue();
             menuVue.afficher();
         }
         else if(hash.match(/^#/))
         {
-             var menuVue = new MenuVue();
+            var menuVue = new MenuVue();
             menuVue.afficher();
         }
         else if(hash.match(/^#authentifier/))

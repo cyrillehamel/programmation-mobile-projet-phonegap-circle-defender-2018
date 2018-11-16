@@ -6,7 +6,7 @@ var AuthentifierVue = (function()
     {
         this.afficher = function()
         {
-            document.getElementsByTagName("body")[0].innerHTML = AuthentifierVue;
+            document.getElementsByTagName("body")[0].innerHTML = pageAuthentifierVue;
 
             
         }

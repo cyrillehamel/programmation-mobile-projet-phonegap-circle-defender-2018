@@ -18,18 +18,19 @@
        
         if(!hash)
         {
-             var menuVue = new MenuVue();
-            menuVue.afficher();
+            var authentifierVue = new AuthentifierVue();
+            authentifierVue.afficher();
         }
         else if(hash.match(/^#/))
         {
-             var menuVue = new MenuVue();
-            menuVue.afficher();
-        }
-        else if(hash.match(/^#authentifier/))
-        {
             var authentifierVue = new AuthentifierVue();
             authentifierVue.afficher();
+             
+        }
+        else if(hash.match(/^#menu/))
+        {
+            var menuVue = new MenuVue();
+            menuVue.afficher();
         }
         else if(hash.match(/^#jeu/))
         {

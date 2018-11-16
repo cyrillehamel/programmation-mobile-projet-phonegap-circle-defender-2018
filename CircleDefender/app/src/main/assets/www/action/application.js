@@ -20,11 +20,6 @@
         {
             var authentifierVue = new AuthentifierVue();
             authentifierVue.afficher();
-        }
-        else if(hash.match(/^#/))
-        {
-            var authentifierVue = new AuthentifierVue();
-            authentifierVue.afficher();
              
         }
         else if(hash.match(/^#menu/))

@@ -1,4 +1,4 @@
-var Utilisateur = function (id, score, idUtilisateur, idModeDeJeu, idPersonnage) {
+var Score = function (id, score, idUtilisateur, idModeDeJeu, idPersonnage) {
     this.id = id;
     this.score = score;
     this.idUtilisateur = idUtilisateur

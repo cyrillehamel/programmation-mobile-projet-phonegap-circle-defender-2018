@@ -1,7 +1,6 @@
-var Utilisateur = function (id, score, idUtilisateur, idModeDeJeu, idPersonnage) {
+var Utilisateur = function (id, mail, motDePasse, pseudonyme) {
     this.id = id;
-    this.score = score;
-    this.idUtilisateur = idUtilisateur
-    this.idModeDeJeu = idModeDeJeu;
-    this.idPersonnage = idPersonnage;
+    this.mail = mail;
+    this.motDePasse = motDePasse
+    this.pseudonyme = pseudonyme;
 }

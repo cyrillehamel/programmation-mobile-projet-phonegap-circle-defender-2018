@@ -51,30 +51,26 @@
     </script>
 
      <script type="plain/text" id="page-modifier-compte">
-        <h1>Modification du Compte</h1> 
+        <h2>Modification du compte</h2>
         
         <form id="formulaire-modifier-compte">
             <div>
-                <label for="pseudonyme">Pseudonyme :</label>
-                <input required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
+                <input class="form-control" required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
             </div>
             <div>
-                <label for="mail">Mail :</label>
-                <input required type="email" name="mail" id="mail" placeholder="Mail"/>
+                <input class="form-control" required type="email" name="mail" id="mail" placeholder="Email"/>
             </div>
             <div>
-                <label for="mot_de_passe">Mot de Passe:</label>
-                <input required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de Passe" />
+                <input class="form-control" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe" />
             </div>
             <div>
-                <label for="confirmer_mot_de_passe">Confirmer Mot de Passe:</label>
-                <input required type="password" name="confirmer_mot_de_passe" id="confirmer_mot_de_passe" placeholder="Confirmer le Mot de Passe"/>
+                <input class="form-control" required type="password" name="confirmer_mot_de_passe" id="confirmer_mot_de_passe" placeholder="Confirmer le mot de passe"/>
             </div>
             <div>
-                <input type="submit" id="modifier_compte" value="Modifier"/>
+                <input class="btn btn-success" type="submit" id="modifier_compte" value="Modifier"/>
             </div>
-            <div>
-                <a href='#menu'>Retour</a>
+            <div class="retour">
+                <a class="btn btn-primary" href='#menu'>Retour</a>
             </div>
         </form>
     </script>

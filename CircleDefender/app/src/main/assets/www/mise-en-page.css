@@ -2,7 +2,7 @@ body{
     text-align: center;
 }
 
-#formulaire-authentification, #formulaire-creation-compte{
+#formulaire-authentification, #formulaire-creation-compte, #formulaire-modifier-compte{
     margin-left: 30%;
     margin-right: 30%;
     margin-top: 2%;
@@ -22,5 +22,9 @@ h1{
 
 li{
     margin-top: 2%;
+}
+
+.retour{
+    margin-top: 8%;
 }
 

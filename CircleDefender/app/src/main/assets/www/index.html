@@ -2,24 +2,23 @@
 <html>
  <head>
   <title>Circle defender </title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <link rel="stylesheet" href="mise-en-page.css">
      <meta charset="utf-8"/>
-  <style type="text/css">
+     <style type="text/css">
   </style>
  </head>
  <body>    
  	Une erreur est survenue lors du lancement de l'applciation. Veuillez la relancer.
      
      <script type="plain/text" id="page-authentification">
-        <h1>Authentification</h1>
+        <h2>Authentification</h2>
 
         <form id="formulaire-authentification">
-            <label for="identifiant">Identifiant:</label>
-            <input required type="text" name="identifiant" id="identifiant" placeholder="Identifiant"/>
+            <input class="form-control" required type="text" name="identifiant" id="identifiant" placeholder="Identifiant"/>
+            <input class="form-control" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe"/>
 
-            <label for="motDePasse">Mot de Passe:</label>
-            <input required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de Passe"/>
-
-            <input type="submit" id="se_connecter" value="Connexion"/>
+            <input class="btn btn-success" type="submit" id="se_connecter" value="Connexion"/>
         </form>
     </script>
 

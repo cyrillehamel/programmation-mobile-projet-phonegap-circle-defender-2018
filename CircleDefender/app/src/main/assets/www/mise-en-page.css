@@ -1,0 +1,14 @@
+body{
+    text-align: center;
+}
+
+#formulaire-authentification{
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 2%;
+}
+
+input{
+    margin-bottom: 10px;
+}
+

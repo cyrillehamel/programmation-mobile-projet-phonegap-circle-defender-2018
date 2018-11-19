@@ -23,28 +23,27 @@
     </script>
 
     <script type="plain/text" id="page-creation-compte">
-        <h1>Authentification</h1>
+        <h2>Créer un compte</h2>
 
         <form id="formulaire-creation-compte">
-            <label for="email">Email:</label>
-            <input required type="email" name="email" id="email" placeholder="Email"/>
+            <input class="form-control" required type="email" name="email" id="email" placeholder="Email"/>
 
-            <label for="motDePasse">Mot de Passe:</label>
-            <input required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de Passe"/>
+            <input class="form-control" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe"/>
 
-            <input type="submit" id="se_connecter" value="Connexion"/>
+            <input class="btn btn-success" type="submit" id="se_connecter" value="Connexion"/>
         </form>
     </script>
 
     <script type="plain/text" id="page-menu">
-        <h1>Menu Principal</h1>
+        <h1>Circle Defender</h1>
+        <h2>Menu Principal</h2>
 
-        <h2>
-        	<a href='#jeu'>Jouer</a>
-        	<a href='#leaderboard'>Leaderboard</a>
-        	<a href='#modifier-compte'>Paramètres</a>
-        	<a href='#quitter'>Quitter</a>
-        </h2>
+        <ul>
+        	<li><a class="btn btn-primary" href='#jeu'>Jouer</a></li>
+        	<li><a class="btn btn-primary" href='#leaderboard'>Leaderboard</a></li>
+        	<li><a class="btn btn-primary" href='#modifier-compte'>Paramètres</a></li>
+        	<li><a class="btn btn-primary" href='#quitter'>Quitter</a></li>
+        </ul>
     </script>
 
     <script type="plain/text" id="page-jeu">

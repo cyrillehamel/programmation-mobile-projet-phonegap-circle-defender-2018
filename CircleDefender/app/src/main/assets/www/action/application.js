@@ -25,12 +25,7 @@
         else if(hash.match(/^#jeu/))
         {
             var jeuVue = new JeuVue();
-            console.log("application -> afficher BEFORE");
             jeuVue.afficher();
-
-            console.log("application -> afficher AFTER");
-
-
         }
         else if(hash.match(/^#modifier-compte\/([0-9]+)/))
         {   

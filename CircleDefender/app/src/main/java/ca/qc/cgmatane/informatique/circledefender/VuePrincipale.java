@@ -9,7 +9,7 @@ public class VuePrincipale extends DroidGap {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.init();
+        super.init();   
         super.loadUrl(Config.getStartUrl());
         super.loadUrl("file:///android_asset/www/index.html");
 

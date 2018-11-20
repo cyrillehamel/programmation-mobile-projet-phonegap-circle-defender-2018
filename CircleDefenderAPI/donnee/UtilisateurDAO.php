@@ -6,6 +6,7 @@
  * Time: 08:35
  */
 
+require_once "../modele/Utilisateur.php";
 require_once "Connexion.php";
 
 class UtilisateurDAO
@@ -86,11 +87,11 @@ class UtilisateurDAO
     {
         // requete pour lire un seul enregistrement
         $requete = "SELECT
-                u.mail, u.pseudonyme, u.creation
+                u.id, u.mail, u.pseudonyme, u.creation
             FROM
                 " . $this->nom_table . " u
             WHERE
-                u.id_utilisateur = ?
+                u.id = ?
             LIMIT
                 1";
 
@@ -108,7 +109,7 @@ class UtilisateurDAO
 
         // définir les valeurs comme propriétés de l'objet
         $utilisateur = new Utilisateur();
-        $utilisateur->setId($id);
+        $utilisateur->setId($enregistrement['id']);
         $utilisateur->setMail($enregistrement['mail']);
         $utilisateur->setPseudonyme($enregistrement['pseudonyme']);
         $utilisateur->setCreation($enregistrement['creation']);

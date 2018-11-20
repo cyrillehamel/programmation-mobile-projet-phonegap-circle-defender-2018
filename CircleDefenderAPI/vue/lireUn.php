@@ -27,11 +27,14 @@ $id = isset($_GET['id']) ? $_GET['id'] : die();
 // lecture des détails de l'utilisateur à récupérer
 $utilisateur = $utilisateurDAO->lireUn($id);
 
-$item_utilisateur['id'] = $utilisateur->getId();
-$item_utilisateur['mail'] = $utilisateur->getMail();
-$item_utilisateur['pseudonyme'] = $utilisateur->getPseudonyme();
-$item_utilisateur['creation'] = $utilisateur->getCreation();
+$item_utilisateur = array();
 
-array_push($tab_utilisateur, $item_utilisateur);
+if($utilisateur->getId() !== null)
+{
+    $item_utilisateur['id'] = $utilisateur->getId();
+    $item_utilisateur['mail'] = $utilisateur->getMail();
+    $item_utilisateur['pseudonyme'] = $utilisateur->getPseudonyme();
+    $item_utilisateur['creation'] = $utilisateur->getCreation();
+}
 
-echo json_encode($tab_utilisateur);
+echo json_encode($item_utilisateur);

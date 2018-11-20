@@ -16,11 +16,10 @@ class UtilisateurDAO
 
     /**
      * Constructeur du DAO
-     * @param $bdd connexion à la base de données
      */
-    public function __construct($bdd)
+    public function __construct()
     {
-        $this->connexion_bdd = $bdd;
+        $this->connexion_bdd = Connexion::get()->connect();
     }
 
 //    /**

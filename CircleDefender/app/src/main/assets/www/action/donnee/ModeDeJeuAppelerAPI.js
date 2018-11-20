@@ -11,4 +11,20 @@ var ModeDeJeuAppelerAPI = function ()
 
         // return ??
     }
+
+    const lireModeDeJeuParId = async (idModeDeJeu) => {
+        const reponse = await fetch('http://URL_DE_L_API', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: idModeDeJeu
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const monJson = await reponse.json();
+        // faire quelque chose avec le json
+
+        return new modeDeJeu(); // passer en param les valeurs du json
+    }
 }

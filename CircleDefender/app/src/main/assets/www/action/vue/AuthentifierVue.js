@@ -1,6 +1,6 @@
 var AuthentifierVue = (function()
 {
-    var pageAuthentifierVue = document.getElementById("page-authentification").innerHTML;
+    var pageAuthentifierVue = document.getElementById("page-modifier-compte").innerHTML;
 
     return function()
     {

@@ -34,8 +34,9 @@
             jeuVue.afficher();
         }
         else if(hash.match(/^#modifier-compte\/([0-9]+)/))
-        {
-            var modifierCompteVue = new ModifierCompteVue();
+        {   
+            var utilisateurTest = new Utilisateur(1,'toto@mail.fr', 'motDePasse', 'pseudonyme');
+            var modifierCompteVue = new ModifierCompteVue(utilisateurTest,actionModifierCompte);
             modifierCompteVue.afficher();
         }
         else if(hash.match(/^#detail-joueur\/([0-9]+)/))
@@ -54,6 +55,17 @@
             
         }  
 
+    }
+    
+    var actionModifierCompte = function(utilisateur)
+    {
+      
+        naviguerAccueil();
+    }
+
+    var naviguerAccueil = function()
+    {
+        window.location.hash = "#menu";
     }
     
     initialiser();

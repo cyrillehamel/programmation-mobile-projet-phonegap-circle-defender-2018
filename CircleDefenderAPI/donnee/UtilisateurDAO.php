@@ -6,6 +6,8 @@
  * Time: 08:35
  */
 
+require_once "Connexion.php";
+
 class UtilisateurDAO
 {
     // Connexion à la base de données

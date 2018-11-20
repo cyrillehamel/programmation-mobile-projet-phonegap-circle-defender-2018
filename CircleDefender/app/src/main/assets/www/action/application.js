@@ -4,12 +4,8 @@
 
     var initialiser = function()
     {
-        
-
-         window.addEventListener("hashchange",naviguer);
-
+        window.addEventListener("hashchange",naviguer);
         naviguer();
-
     }
 
     var naviguer = function()
@@ -20,7 +16,6 @@
         {
             var authentifierVue = new AuthentifierVue();
             authentifierVue.afficher();
-             
         }
         else if(hash.match(/^#menu/))
         {
@@ -29,7 +24,6 @@
         }
         else if(hash.match(/^#jeu/))
         {
-            
             var jeuVue = new JeuVue();
             jeuVue.afficher();
         }
@@ -44,17 +38,17 @@
             var detailJoueurVue = new DetailJoueurVue();
             detailJoueurVue.afficher();
         }
-        else
-        {
-            if(hash.match(/^#leaderboard/)){
-             
-            
+        else if(hash.match(/^#leaderboard/)){
+
             var leaderboardVue = new LeaderboardVue();
             leaderboardVue.afficher();  
-            }
-            
-        }  
+        }
+        else if (hash.match(/^#quitter/)) {
+            navigator.app.exitApp();
+        }
+        else {
 
+        }
     }
     
     var actionModifierCompte = function(utilisateur)

@@ -13,4 +13,3 @@ var AuthentifierVue = (function()
     };
 
 })();
-

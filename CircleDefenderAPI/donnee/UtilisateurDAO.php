@@ -186,4 +186,50 @@ class UtilisateurDAO
 //
 //        return false;
 //    }
+
+    /**
+     * Authentifier un utilisateur
+     * @return Utilisateur Donnée complètes de l'utilisateur authentifié
+     */
+    function authentifier($mail, $mdp)
+    {
+        // requete pour chercher l'utilisateur
+        $requete = "SELECT
+                u.id, u.mail, u.pseudonyme, u.creation
+            FROM
+                " . $this->nom_table . " u
+            WHERE
+                u.mail = :mail AND
+                u.mot_de_passe = :mdp
+            GROUP BY
+                u.id, u.mail, u.pseudonyme, u.creation
+            LIMIT
+                1";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($requete);
+
+        // sanitize
+        $mail = htmlspecialchars(strip_tags($mail));
+        $mdp = htmlspecialchars(strip_tags($mdp));
+
+        // liaison des variables
+        $stmt->bindParam(":mail", $mail);
+        $stmt->bindParam(":mdp", $mdp);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir les valeurs comme propriétés de l'objet
+        $utilisateur = new Utilisateur();
+        $utilisateur->setId($enregistrement['id']);
+        $utilisateur->setMail($mail);
+        $utilisateur->setPseudonyme($enregistrement['pseudonyme']);
+        $utilisateur->setCreation($enregistrement['creation']);
+
+        return $utilisateur;
+    }
 }

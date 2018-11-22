@@ -27,6 +27,11 @@
             var jeuVue = new JeuVue();
             jeuVue.afficher();
         }
+        else if(hash.match(/^#creer-compte/))
+        {
+            var creerCompte = new CreationCompteVue();
+            creerCompte.afficher();
+        }
         else if(hash.match(/^#modifier-compte\/([0-9]+)/))
         {   
             var utilisateurTest = new Utilisateur(1,'toto@mail.fr', 'motDePasse', 'pseudonyme');

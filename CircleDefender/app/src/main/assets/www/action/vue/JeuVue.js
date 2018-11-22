@@ -18,6 +18,7 @@ var JeuVue = (function()
         this.afficher = function()
         {
             afficherCercleJoueur();
+            afficherArcDeCercle();
             afficherEnnemis();
         };
 
@@ -44,9 +45,19 @@ var JeuVue = (function()
             stagePrincipal.addChild(circle);
 
             createjs.Tween.get(circle, {loop: true})
-                .to({y: 372}, 2000, createjs.Ease.getPowInOut(2));
+                .to({y: 400}, 2000, createjs.Ease.linear);
 
         };
+
+        function afficherArcDeCercle(){
+            var arcDeCercle = new createjs.Shape();
+
+            arcDeCercle.graphics.beginStroke("teal").arc(88, 300, 25, 0, Math.PI, true);
+            arcDeCercle.x = 100;
+            arcDeCercle.y = 100;
+
+            stagePrincipal.addChild(arcDeCercle);
+        }
 
         initialiser();
 

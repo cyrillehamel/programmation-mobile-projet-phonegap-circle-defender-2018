@@ -44,44 +44,52 @@ class UtilisateurDAO
 //
 //        return $stmt;
 //    }
-//
-//    /**
-//     * créer un utilisateur
-//     * @return bool indiquant l'état d'exécution de la requete
-//     */
-//    function creer()
-//    {
-//        // requete pour insérer un enregistrement
-//        $requete = "INSERT INTO
-//                " . $this->nom_table . "(nom, pseudonyme, url_image, mdp_hash)
-//            VALUES
-//                (:nom, :pseudonyme, :url_image, :mdp_hash)";
-//
-//        // préparation de la requete
-//        $stmt = $this->connexion_bdd->prepare($requete);
-//
-//        // sanitize
-//        $this->nom = htmlspecialchars(strip_tags($this->nom));
-//        $this->pseudonyme = htmlspecialchars(strip_tags($this->pseudonyme));
-//        $this->url_image = htmlspecialchars(strip_tags($this->url_image));
-//        $this->mdp_hash = htmlspecialchars(strip_tags($this->mdp_hash));
-//
-//        // liaison des variables
-//        $stmt->bindParam(":nom", $this->nom);
-//        $stmt->bindParam(":pseudonyme", $this->pseudonyme);
-//        $stmt->bindParam(":url_image", $this->url_image);
-//        $stmt->bindParam(":mdp_hash", $this->mdp_hash);
-//
-//        // exécution de la requete
-//        if ($stmt->execute()) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
+
+    /**
+     * Ajouter un utilisateur
+     * @return Utilisateur Donnée complètes de l'utilisateur créé
+     */
+    function ajouter($mail, $mdp, $pseudonyme)
+    {
+        // requete pour insérer un enregistrement
+        $requete = "INSERT INTO
+                " . $this->nom_table . "(mail, mot_de_passe, pseudonyme)
+            VALUES
+                (:mail, :mdp, :pseudonyme)
+            RETURNING id, creation";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($requete);
+
+        // sanitize
+        $mail = htmlspecialchars(strip_tags($mail));
+        $mdp = htmlspecialchars(strip_tags($mdp));
+        $pseudonyme = htmlspecialchars(strip_tags($pseudonyme));
+
+        // liaison des variables
+        $stmt->bindParam(":mail", $mail);
+        $stmt->bindParam(":mdp", $mdp);
+        $stmt->bindParam(":pseudonyme", $pseudonyme);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir les valeurs comme propriétés de l'objet
+        $utilisateur = new Utilisateur();
+        $utilisateur->setId($enregistrement['id']);
+        $utilisateur->setMail($mail);
+        $utilisateur->setPseudonyme($pseudonyme);
+        $utilisateur->setCreation($enregistrement['creation']);
+
+        return $utilisateur;
+    }
 
     /**
      * Lire les données d'un utilisateur
+     * @return Utilisateur
      */
     function lireUn($id)
     {

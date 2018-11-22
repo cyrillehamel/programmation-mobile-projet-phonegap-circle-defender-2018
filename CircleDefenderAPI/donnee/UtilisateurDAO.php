@@ -125,42 +125,53 @@ class UtilisateurDAO
         return $utilisateur;
     }
 
-//    /**
-//     * modifier un utilisateur
-//     * @return bool indiquant l'état d'exécution de la requete
-//     */
-//    function modifier()
-//    {
-//        // requete de modification
-//        $requete = "UPDATE
-//                " . $this->nom_table . "
-//            SET
-//                nom = :nom,
-//                mdp_hash = :mdp_hash
-//            WHERE
-//                id_utilisateur = :id_utilisateur";
-//
-//        // préparation de la requete
-//        $stmt = $this->connexion_bdd->prepare($requete);
-//
-//        // sanitize
-//        $this->id_utilisateur = htmlspecialchars(strip_tags($this->id_utilisateur));
-//        $this->nom = htmlspecialchars(strip_tags($this->nom));
-//        $this->mdp_hash = htmlspecialchars(strip_tags($this->mdp_hash));
-//
-//        // liaison des variables
-//        $stmt->bindParam(':nom', $this->nom);
-//        $stmt->bindParam(':mdp_hash', $this->mdp_hash);
-//        $stmt->bindParam(':id_utilisateur', $this->id_utilisateur);
-//
-//        // exécution de la requete
-//        if ($stmt->execute()) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
-//
+    /**
+     * Modifier un utilisateur
+     * @return Utilisateur Donnée complètes de l'utilisateur authentifié
+     */
+    function modifier($id, $mdp, $pseudonyme)
+    {
+        // requete de modification
+        $requete = "UPDATE
+                " . $this->nom_table . "
+            SET
+                pseudonyme = :pseudonyme,
+                mot_de_passe = :mdp
+            WHERE
+                id = :id
+            RETURNING
+                mail,
+                creation";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($requete);
+
+        // sanitize
+        $id = htmlspecialchars(strip_tags($id));
+        $mdp = htmlspecialchars(strip_tags($mdp));
+        $pseudonyme = htmlspecialchars(strip_tags($pseudonyme));
+
+        // liaison des variables
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':mdp', $mdp);
+        $stmt->bindParam(':pseudonyme', $pseudonyme);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir les valeurs comme propriétés de l'objet
+        $utilisateur = new Utilisateur();
+        $utilisateur->setId($id);
+        $utilisateur->setMail($enregistrement['mail']);
+        $utilisateur->setPseudonyme($pseudonyme);
+        $utilisateur->setCreation($enregistrement['creation']);
+
+        return $utilisateur;
+    }
+
 //    /**
 //     * supprimer un utilisateur
 //     * @return bool indiquant l'état d'exécution de la requete

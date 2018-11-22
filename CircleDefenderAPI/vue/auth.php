@@ -24,11 +24,11 @@ $utilisateurDAO = new UtilisateurDAO();
 // récupération des données transmises en POST
 $donnee = json_decode(file_get_contents("php://input"));
 
-// définition de l'id de l'utilisateur à récupérer
+// définition de l'id de l'utilisateur à authentifier
 $mail = isset($donnee->mail) ? $donnee->mail : die();
 $mdp = isset($donnee->mdp) ? $donnee->mdp : die();
 
-// lecture des détails de l'utilisateur à récupérer
+// lecture des détails de l'utilisateur à authentifier
 $utilisateur = $utilisateurDAO->authentifier($mail, $mdp);
 
 $item_utilisateur = array();

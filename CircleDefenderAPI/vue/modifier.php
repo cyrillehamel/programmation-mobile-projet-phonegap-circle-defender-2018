@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Marc-Antoine
  * Date: 22/11/2018
- * Time: 16:51
+ * Time: 17:59
  */
 
 // headers requis
@@ -24,13 +24,13 @@ $utilisateurDAO = new UtilisateurDAO();
 // récupération des données transmises en POST
 $donnee = json_decode(file_get_contents("php://input"));
 
-// définition de l'id de l'utilisateur à ajouter
-$mail = isset($donnee->mail) ? $donnee->mail : die();
+// définition de l'id de l'utilisateur à modifier
+$id = isset($donnee->id) ? $donnee->id : die();
 $mdp = isset($donnee->mdp) ? $donnee->mdp : die();
 $pseudonyme = isset($donnee->pseudonyme) ? $donnee->pseudonyme : die();
 
-// lecture des détails de l'utilisateur à ajouter
-$utilisateur = $utilisateurDAO->ajouter($mail, $mdp, $pseudonyme);
+// lecture des détails de l'utilisateur à modifier
+$utilisateur = $utilisateurDAO->modifier($id, $mdp, $pseudonyme);
 
 $item_utilisateur = array();
 

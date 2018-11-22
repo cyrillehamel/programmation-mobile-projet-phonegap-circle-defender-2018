@@ -2,6 +2,9 @@ var JeuVue = (function()
 {
     var pageJeuVue = document.getElementById("page-jeu").innerHTML;
 
+    console.log("x is " + window.screen.availHeight);
+    console.log("y is " + window.screen.availWidth);
+    // It works
 
     return function()
     {
@@ -39,13 +42,13 @@ var JeuVue = (function()
             var circle = new createjs.Shape();
 
             circle.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
-            circle.x = 188;
-            circle.y = 100;
+            circle.x = 50;
+            circle.y = 50;
 
             stagePrincipal.addChild(circle);
 
             createjs.Tween.get(circle, {loop: true})
-                .to({y: 400}, 2000, createjs.Ease.linear);
+                .to({x:188 , y: 400}, 2000, createjs.Ease.linear);
 
         };
 

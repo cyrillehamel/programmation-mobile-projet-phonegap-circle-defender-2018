@@ -14,10 +14,10 @@ var LeaderboardVue = (function()
             for(var numeroScore in listeScoreDonnee)
             {   
                 if(listeScoreDonnee[numeroScore] !=null){
-                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\' + numeroScore + '">';
+                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\'; 
                 for(var numeroUtilisateur in listeUtilisateurDonnee){
                     if(listeUtilisateurDonnee[numeroUtilisateur].id === listeScoreDonnee[numeroScore].idUtilisateur ){                   
-                     li+=" "+listeUtilisateurDonnee[numeroUtilisateur].pseudonyme;
+                     li+= listeUtilisateurDonnee[numeroUtilisateur].id +'">'+listeUtilisateurDonnee[numeroUtilisateur].pseudonyme;
                     }
                 }
                     li+=" "+listeScoreDonnee[numeroScore].score+

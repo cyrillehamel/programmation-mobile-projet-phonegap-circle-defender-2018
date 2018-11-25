@@ -1,6 +1,6 @@
-var Utilisateur = function (id, mail, motDePasse, pseudonyme) {
+var Utilisateur = function (id, mail, pseudonyme, creation) {
     this.id = id;
     this.mail = mail;
-    this.motDePasse = motDePasse
     this.pseudonyme = pseudonyme;
+    this.creation = creation;
 }

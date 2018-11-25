@@ -8,6 +8,7 @@ var JeuVue = (function()
 
         var positionJoueurX, positionJoueurY;
 
+		var circle = new createjs.Shape();
 
         var initialiser = function(){
 
@@ -43,7 +44,7 @@ var JeuVue = (function()
         {
             afficherCercleJoueur();
             afficherArcDeCercle();
-            afficherEnnemis();
+            setInterval(function() { afficherEnnemis() }, 2000);
         };
         
         function afficherCercleJoueur(){
@@ -67,8 +68,6 @@ var JeuVue = (function()
         };
         
         function afficherEnnemis() {
-
-            var circle = new createjs.Shape();
 
             circle.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
 
@@ -101,6 +100,10 @@ var JeuVue = (function()
             createjs.Tween.get(circle, {loop: true})
                 .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
         };
+
+        function sleep(ms) {
+  			return new Promise(resolve => setTimeout(resolve, ms));
+		};
     
         initialiser();
 

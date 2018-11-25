@@ -49,9 +49,9 @@ var JeuVue = (function()
         function afficherCercleJoueur(){
 
             var circle = new createjs.Shape();
-            circle.graphics.beginFill("Black").drawCircle(0, 0, 18);
-            circle.x = positionJoueurX;
-            circle.y = positionJoueurY;
+            circle.graphics.beginFill("Black").drawCircle(positionJoueurX, positionJoueurY, 18);
+            /*circle.x = positionJoueurX;
+            circle.y = positionJoueurY;*/
             stagePrincipal.addChild(circle);
             //stagePrincipal.update();
         };
@@ -59,9 +59,9 @@ var JeuVue = (function()
         function afficherArcDeCercle(){
             var arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(0, 0, 25, 0, Math.PI, true);
-            arcDeCercle.x = positionJoueurX;
-            arcDeCercle.y = positionJoueurY;
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
+            /*arcDeCercle.x = positionJoueurX;
+            arcDeCercle.y = positionJoueurY;*/
 
             stagePrincipal.addChild(arcDeCercle);
         };

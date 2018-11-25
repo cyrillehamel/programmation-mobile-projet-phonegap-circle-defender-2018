@@ -43,7 +43,8 @@ var UtilisateurAppelerAPI = function ()
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
+        }
+        );
         var utilisateur = await reponse.json();
         console.log(utilisateur);
 

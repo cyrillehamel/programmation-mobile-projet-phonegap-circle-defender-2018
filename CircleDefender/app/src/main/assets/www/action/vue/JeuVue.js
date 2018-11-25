@@ -71,16 +71,37 @@ var JeuVue = (function()
             var circle = new createjs.Shape();
 
             circle.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
-            circle.x = 50;
-            circle.y = 50;
+
+            var randomGaucheDroite = Math.floor(Math.random()*2);
+            var randomBasHaut = Math.floor(Math.random()*2);
+
+            // Quart haut gauche
+            if((randomGaucheDroite===0) && (randomBasHaut===0)){
+            	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+            	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+            }
+            // Quart haut droite
+            else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
+            	circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+            	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+            }
+            // Quart bas gauche
+            else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
+            	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+            	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+            }
+            // Quart bas droite
+            else {
+				circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+            	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+            }
 
             stagePrincipal.addChild(circle);
 
             createjs.Tween.get(circle, {loop: true})
-                .to({x:positionJoueurX - 25, y: positionJoueurY -25}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
+                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
         };
     
-
         initialiser();
 
     };

@@ -1,22 +1,25 @@
 var UtilisateurAppelerAPI = function ()
 {
-    const lireUtilisateurParId = async (idUtilisateur) => {
-        const reponse = await fetch('http://URL_DE_L_API', {
-            method: 'POST',
-            body: JSON.stringify({
-                id: idUtilisateur
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        const monJson = await reponse.json();
-        // faire quelque chose avec le json
+    // changer url
+    this.lireUtilisateurParId = async (idUtilisateur) => {
+        if (!Number.isInteger(idUtilisateur)) {
+            window.alert("Vous devez entrer un nombre entier pour voir un profil");
+            return null;
+        }
 
-        return new Utilisateur();
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/vue/lireUn.php?id=' + idUtilisateur);
+        var utilisateur = await reponse.json();
+
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+            );
     }
 
-    const lireListeMeilleursJoueurs = async () => {
+    // TODO
+    this.lireListeMeilleursJoueurs = async () => {
         var listeMeilleursJoueurs = [];
 
         const reponse = await fetch('http://URL_DE_L_API');
@@ -28,26 +31,32 @@ var UtilisateurAppelerAPI = function ()
         // return ??
     }
 
-    const ajouterUtilisateur = async (utilisateur) => {
-        const reponse = await fetch('http://URL_DE_L_API', {
+    // changer url
+    this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/vue/ajouter.php', {
             method: 'POST',
             body: JSON.stringify({
-                id: utilisateur.id,
-                mail: utilisateur.mail,
-                mot_de_passe: utlisateur.motDePasse,
-                pseudonyme: utlisateur.pseudonyme
+                mail: mail,
+                mdp: motDePasse,
+                pseudonyme: pseudonyme
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
-        });
-        const monJson = await reponse.json();
-        // faire quelque chose avec le json
+        }
+        );
+        var utilisateur = await reponse.json();
+        console.log(utilisateur);
 
-        return "WIP";
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+        );
     }
 
-    const modifierUtilisateur = async (utilisateur) => {
+    this.modifierUtilisateur = async (utilisateur) => {
         const reponse = await fetch('http://URL_DE_L_API', {
             method: 'POST',
             body: JSON.stringify({
@@ -66,7 +75,7 @@ var UtilisateurAppelerAPI = function ()
         return "WIP";
     }
 
-    const supprimerUtilisateur = async (idUtilisateur) => {
+    this.supprimerUtilisateur = async (idUtilisateur) => {
         const reponse = await fetch('http://URL_DE_L_API', {
             method: 'POST',
             body: JSON.stringify({

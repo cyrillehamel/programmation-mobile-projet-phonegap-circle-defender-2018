@@ -1,4 +1,4 @@
-var ModeDeJeuAppelerAPI = function ()
+var ModeDeJeuDAO = function ()
 {
     const lireListeModesDeJeu = async () => {
         var listeModesDeJeu = [];

@@ -1,9 +1,9 @@
-var UtilisateurAppelerAPI = function ()
+var UtilisateurDAO = function ()
 {
     // changer url
     this.lireUtilisateurParId = async (idUtilisateur) => {
         if (!Number.isInteger(idUtilisateur)) {
-            window.alert("Vous devez entrer un nombre entier pour voir un profil");
+            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + idUtilisateur);
             return null;
         }
 
@@ -41,11 +41,12 @@ var UtilisateurAppelerAPI = function ()
                 pseudonyme: pseudonyme
             }),
             headers: {
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         }
         );
-        var utilisateur = await reponse.json();
+        const utilisateur = await reponse.json();
         console.log(utilisateur);
 
         return new Utilisateur(
@@ -69,10 +70,6 @@ var UtilisateurAppelerAPI = function ()
                 'Content-Type': 'application/json'
             }
         });
-        const monJson = await reponse.json();
-        // faire quelque chose avec le json
-
-        return "WIP";
     }
 
     this.supprimerUtilisateur = async (idUtilisateur) => {
@@ -85,10 +82,6 @@ var UtilisateurAppelerAPI = function ()
                 'Content-Type': 'application/json'
             }
         });
-        const monJson = await reponse.json();
-        // faire quelque chose avec le json
-
-        return "WIP";
     }
 
 }

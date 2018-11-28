@@ -172,31 +172,36 @@ class UtilisateurDAO
         return $utilisateur;
     }
 
-//    /**
-//     * supprimer un utilisateur
-//     * @return bool indiquant l'état d'exécution de la requete
-//     */
-//    function supprimer()
-//    {
-//        // requete de suppression
-//        $query = "DELETE FROM " . $this->nom_table . " WHERE id_utilisateur = ?";
-//
-//        // préparation de la requete
-//        $stmt = $this->connexion_bdd->prepare($query);
-//
-//        // sanitize
-//        $this->id_utilisateur = htmlspecialchars(strip_tags($this->id_utilisateur));
-//
-//        // liaison de l'id de l'utilisateur à supprimer
-//        $stmt->bindParam(1, $this->id_utilisateur);
-//
-//        // exécution de la requete
-//        if ($stmt->execute()) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    /**
+     * supprimer un utilisateur
+     * @return Utilisateur Id de l'utilisateur supprimé
+     */
+    function supprimer($id)
+    {
+        // requete de suppression
+        $query = "DELETE FROM " . $this->nom_table . " WHERE id = ? RETURNING id";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($query);
+
+        // sanitize
+        $id = htmlspecialchars(strip_tags($id));
+
+        // liaison de l'id de l'utilisateur à supprimer
+        $stmt->bindParam(1, $id);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir l'id comme propriété de l'objet
+        $utilisateur = new Utilisateur();
+        $utilisateur->setId($enregistrement['id']);
+
+        return $utilisateur;
+    }
 
     /**
      * Authentifier un utilisateur

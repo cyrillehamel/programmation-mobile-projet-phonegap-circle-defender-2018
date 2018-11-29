@@ -21,17 +21,5 @@ error_reporting(E_ALL);
 // Création du DAO
 $modeDeJeuDAO = new ModeDeJeuDAO();
 
-// lecture des détails de l'utilisateur à récupérer
-$modesDeJeu = $modeDeJeuDAO->lire();
-
-//$item_utilisateur = array();
-//
-//if(sizeof($modesDeJeu) > 0)
-//{
-//    $item_utilisateur['id'] = $modeDeJeu->getId();
-//    $item_utilisateur['mail'] = $modeDeJeu->getMail();
-//    $item_utilisateur['pseudonyme'] = $modeDeJeu->getPseudonyme();
-//    $item_utilisateur['creation'] = $modeDeJeu->getCreation();
-//}
-
-echo json_encode($modesDeJeu);
+// lecture et renvoi des détails de l'utilisateur à récupérer
+echo json_encode($modeDeJeuDAO->lire());

@@ -4,11 +4,11 @@ var JeuVue = (function()
 
     return function()
     {
-        var stagePrincipal;
-
-        var arcDeCercle;
+        var stagePrincipal, arcDeCercle;
 
         var positionJoueurX, positionJoueurY;
+
+        var positionJoueurXPourCible, positionJoueurYPourCible;
 
         var arcDeCercleEstEnHaut = true;
         var circleEnnemi1 = new createjs.Shape();
@@ -45,22 +45,17 @@ var JeuVue = (function()
             createjs.Ticker.addEventListener("tick", stagePrincipal);
 
 
-
-
             ///// GESTURE
             var myElement = document.getElementById('demo-canvas');
 
-// create a simple instance
-// by default, it only adds horizontal recognizers
             var mc = new Hammer(myElement);
 
-// let the pan gesture support all directions.
-// this will block the vertical scrolling on a touch-device while on the element
+            // let the pan gesture support all directions.
+            // this will block the vertical scrolling on a touch-device while on the element
             mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 
-// listen to events...
+
             mc.on("panleft panright panup pandown tap press", function(ev) {
-                myElement.textContent = ev.type +" gesture detected.";
                 console.log("Test gesture");
                 stagePrincipal.removeChild(arcDeCercle);
                 arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
@@ -78,7 +73,7 @@ var JeuVue = (function()
                 { 
                     stagePrincipal.removeChild(circleEnnemiAutres);
                     afficherEnnemis();
-                },2000);
+                },500);
         };
         
         function afficherCercleJoueur(){
@@ -94,9 +89,7 @@ var JeuVue = (function()
         function afficherArcDeCercle(booleen){
             arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
-            /*arcDeCercle.x = positionJoueurX;
-            arcDeCercle.y = positionJoueurY;*/
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
 
             stagePrincipal.addChild(arcDeCercle);
         };
@@ -109,71 +102,101 @@ var JeuVue = (function()
             if(chanceSpawnNouveau>=8){   
                 afficherEnnemiAutres();
             }
-
         };
 
         function afficherEnnemi1(){
             var randomGaucheDroite = Math.floor(Math.random()*2);
             var randomBasHaut = Math.floor(Math.random()*2);
 
+            positionJoueurXPourCible = positionJoueurX;
+            positionJoueurYPourCible = positionJoueurY;
+
+            // quart haut gauche
             if((randomGaucheDroite===0) && (randomBasHaut===0)){
                 circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+
+                positionJoueurXPourCible -= 23;
+                positionJoueurYPourCible -= 23;
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
-                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
                 circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+
+                positionJoueurXPourCible += 23;
+                positionJoueurYPourCible -= 23;
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
                 circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));                
+                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+
+                positionJoueurXPourCible -= 23;
+                positionJoueurYPourCible += 23;
             }
             // Quart bas droite
             else {
-                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
-                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
+                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+
+                positionJoueurXPourCible += 23;
+                positionJoueurYPourCible += 23;
             }
 
             stagePrincipal.addChild(circleEnnemi1);
 
             createjs.Tween.get(circleEnnemi1, {loop: true})
-                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear);
+                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 500, createjs.Ease.linear);
 
         };
 
         function afficherEnnemiAutres(){
             circleEnnemiAutres.graphics.beginFill("Green").drawCircle(0, 0, 10);
 
+            positionJoueurXPourCible = positionJoueurX;
+            positionJoueurYPourCible = positionJoueurY;
+
             var randomGaucheDroite = Math.floor(Math.random()*2);
             var randomBasHaut = Math.floor(Math.random()*2);
 
-
+            // Quart haut gauche
             if((randomGaucheDroite===0) && (randomBasHaut===0)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 70)+1);
+                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 70)+1);
+
+                positionJoueurXPourCible -= 23;
+                positionJoueurYPourCible -= 23;
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
-                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
+                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 70)+1);
+
+                positionJoueurXPourCible += 23;
+                positionJoueurYPourCible -= 23;
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));                
+                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 70)+1);
+                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+
+                positionJoueurXPourCible -= 23;
+                positionJoueurYPourCible += 23;
             }
             // Quart bas droite
             else {
-                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
-                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
+                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+
+                positionJoueurXPourCible += 23;
+                positionJoueurYPourCible += 23;
             }
 
             stagePrincipal.addChild(circleEnnemiAutres);
 
             createjs.Tween.get(circleEnnemiAutres, {loop: true})
-                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear);
+                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 500, createjs.Ease.linear);
 
         };
 

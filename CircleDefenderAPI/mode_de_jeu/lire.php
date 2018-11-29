@@ -23,7 +23,6 @@ $modeDeJeuDAO = new ModeDeJeuDAO();
 
 // lecture des détails de l'utilisateur à récupérer
 $modesDeJeu = $modeDeJeuDAO->lire();
-print_r($modesDeJeu);
 
 //$item_utilisateur = array();
 //

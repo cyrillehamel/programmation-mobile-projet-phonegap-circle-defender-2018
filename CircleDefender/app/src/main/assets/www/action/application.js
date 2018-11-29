@@ -110,7 +110,7 @@
     
       var actionAuthentifierCompte = function(utilisateur)
     {
-      
+        //appel au DAO
         naviguerAccueil();
     }
 

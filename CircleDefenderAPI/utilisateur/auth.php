@@ -25,8 +25,13 @@ $utilisateurDAO = new UtilisateurDAO();
 $donnee = json_decode(file_get_contents("php://input"));
 
 // définition de l'id de l'utilisateur à authentifier
-$mail = isset($donnee->mail) ? $donnee->mail : die();
-$mdp = isset($donnee->mdp) ? $donnee->mdp : die();
+if (isset($donnee->mail) && isset($donnee->mdp)) {
+    $mail = $donnee->mail;
+    $mdp = $donnee->mdp;
+} else {
+    echo null;
+    die();
+}
 
 // lecture des détails de l'utilisateur à authentifier
 $utilisateur = $utilisateurDAO->authentifier($mail, $mdp);

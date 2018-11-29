@@ -6,6 +6,9 @@
  * Time: 16:29
  */
 
+require_once "../modele/ModeDeJeu.php";
+require_once "Connexion.php";
+
 class ModeDeJeuDAO
 {
     // Connexion à la base de données
@@ -38,7 +41,7 @@ class ModeDeJeuDAO
         $stmt->execute();
 
         // récupérer l'enregistrement renvoyé
-        $enregistrements = $stmt->fetchAll();
+        $enregistrements = $stmt->fetchAll(PDO::FETCH_CLASS, "ModeDeJeu");
 
         return $enregistrements;
     }

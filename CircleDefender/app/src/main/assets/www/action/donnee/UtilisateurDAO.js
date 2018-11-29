@@ -18,6 +18,19 @@ var UtilisateurDAO = function ()
             );
     }
 
+    this.lireUtilisateurParMail = async (mail) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?mail=' + mail);
+        var utilisateur = await reponse.json();
+
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            null,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+        );
+    }
+
     this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
             method: 'POST',
@@ -30,8 +43,9 @@ var UtilisateurDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
-
-        return (reponse === "erreur" ? false : true);
+        var rep = await reponse.json();
+        
+        return (rep.id === undefined ? false : true);
     }
 
     // TODO

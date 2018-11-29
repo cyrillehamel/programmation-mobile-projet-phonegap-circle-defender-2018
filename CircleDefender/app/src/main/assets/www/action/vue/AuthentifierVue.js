@@ -9,11 +9,6 @@ var AuthentifierVue = (function()
             document.getElementsByTagName("body")[0].innerHTML = pageAuthentifierVue;
             var formulaireAuthentifier = document.getElementById("formulaire-authentification");
             formulaireAuthentifier.addEventListener("submit", authentifierUtilisateur);
-
-            // DEBUG DAO
-            var daoUtilisateur = new UtilisateurDAO();
-            var test = daoUtilisateur.lireUtilisateurPourAuthentification("test@.test", "testdemdp");
-            // DEBUG DAO
         }
 
         var authentifierUtilisateur = function(evenement)

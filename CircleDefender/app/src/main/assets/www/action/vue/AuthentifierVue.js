@@ -27,7 +27,7 @@ var AuthentifierVue = (function()
 
             var identifiant = document.getElementById("identifiant").value;
             // Hashage du mot de passe de l'utilisateur :
-            var tableauDeBits = sjcl.hash.sha512.hash(document.getElementById("mot_de_passe").value;);
+            var tableauDeBits = sjcl.hash.sha512.hash(document.getElementById("mot_de_passe").value);
             var motDePasse = sjcl.codec.hex.fromBits(tableauDeBits);
             
             // création d'un nouvel utilisateur

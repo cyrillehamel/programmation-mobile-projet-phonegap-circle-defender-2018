@@ -11,8 +11,10 @@ var JeuVue = (function()
         var positionJoueurX, positionJoueurY;
 
         var arcDeCercleEstEnHaut = true;
-
-		var circle = new createjs.Shape();
+        var circleEnnemi1 = new createjs.Shape();
+        var circleEnnemiAutres = new createjs.Shape();  
+        
+        circleEnnemi1.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
 
         var initialiser = function(){
 
@@ -71,23 +73,28 @@ var JeuVue = (function()
         {
             afficherCercleJoueur();
             afficherArcDeCercle(arcDeCercleEstEnHaut);
-            setInterval(function() { afficherEnnemis() }, 2000);
+            setInterval(
+                function() 
+                { 
+                    stagePrincipal.removeChild(circleEnnemiAutres);
+                    afficherEnnemis();
+                },2000);
         };
         
         function afficherCercleJoueur(){
 
-            var circle = new createjs.Shape();
-            circle.graphics.beginFill("Black").drawCircle(positionJoueurX, positionJoueurY, 18);
-            /*circle.x = positionJoueurX;
-            circle.y = positionJoueurY;*/
-            stagePrincipal.addChild(circle);
+            var circleJoueur = new createjs.Shape();
+            circleJoueur.graphics.beginFill("Black").drawCircle(positionJoueurX, positionJoueurY, 18);
+            /*circleJoueur.x = positionJoueurX;
+            circleJoueur.y = positionJoueurY;*/
+            stagePrincipal.addChild(circleJoueur);
             //stagePrincipal.update();
         };
 
         function afficherArcDeCercle(booleen){
             arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
             /*arcDeCercle.x = positionJoueurX;
             arcDeCercle.y = positionJoueurY;*/
 
@@ -96,51 +103,78 @@ var JeuVue = (function()
         
         function afficherEnnemis() {
 
-            circle.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
+            afficherEnnemi1();
+
+            var chanceSpawnNouveau = Math.floor(Math.random()*10);
+            if(chanceSpawnNouveau>=8){   
+                afficherEnnemiAutres();
+            }
+
+        };
+
+        function afficherEnnemi1(){
+            var randomGaucheDroite = Math.floor(Math.random()*2);
+            var randomBasHaut = Math.floor(Math.random()*2);
+
+            if((randomGaucheDroite===0) && (randomBasHaut===0)){
+                circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+            }
+            // Quart haut droite
+            else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
+                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+                circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+            }
+            // Quart bas gauche
+            else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
+                circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));                
+            }
+            // Quart bas droite
+            else {
+                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+            }
+
+            stagePrincipal.addChild(circleEnnemi1);
+
+            createjs.Tween.get(circleEnnemi1, {loop: true})
+                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear);
+
+        };
+
+        function afficherEnnemiAutres(){
+            circleEnnemiAutres.graphics.beginFill("Green").drawCircle(0, 0, 10);
 
             var randomGaucheDroite = Math.floor(Math.random()*2);
             var randomBasHaut = Math.floor(Math.random()*2);
 
-            var positionJoueurXModifiee = positionJoueurX;
-            var positionJoueurYModifiee = positionJoueurY;
 
-            // Quart haut gauche
             if((randomGaucheDroite===0) && (randomBasHaut===0)){
-            	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-            	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
-
-            	positionJoueurXModifiee -= 23;
-            	positionJoueurYModifiee -= 23;
+                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
-            	circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
-            	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
-
-                positionJoueurXModifiee += 23;
-                positionJoueurYModifiee -= 23;
+                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
-            	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-            	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
-
-                positionJoueurXModifiee -= 23;
-                positionJoueurYModifiee += 23;
+                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));                
             }
             // Quart bas droite
             else {
-				circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
-            	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
-
-                positionJoueurXModifiee += 23;
-                positionJoueurYModifiee += 23;
+                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
+                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
             }
 
-            stagePrincipal.addChild(circle);
+            stagePrincipal.addChild(circleEnnemiAutres);
 
-            createjs.Tween.get(circle, {loop: true})
-                .to({x:positionJoueurXModifiee, y: positionJoueurYModifiee}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
+            createjs.Tween.get(circleEnnemiAutres, {loop: true})
+                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear);
+
         };
 
         function sleep(ms) {

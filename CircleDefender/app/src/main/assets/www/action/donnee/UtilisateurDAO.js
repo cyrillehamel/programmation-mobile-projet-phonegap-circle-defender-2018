@@ -43,9 +43,8 @@ var UtilisateurDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
-        var rep = await reponse.json();
         
-        return (rep.id === undefined ? false : true);
+        return ((await reponse.json().id) === undefined ? false : true);
     }
 
     // TODO

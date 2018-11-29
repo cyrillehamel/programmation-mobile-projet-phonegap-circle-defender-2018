@@ -23,17 +23,16 @@ $modeDeJeuDAO = new ModeDeJeuDAO();
 
 // lecture des détails de l'utilisateur à récupérer
 $modesDeJeu = $modeDeJeuDAO->lire();
-
-var_dump($modesDeJeu);
+print_r($modesDeJeu);
 
 //$item_utilisateur = array();
 //
-//if($modeDeJeu->getId() !== null)
+//if(sizeof($modesDeJeu) > 0)
 //{
 //    $item_utilisateur['id'] = $modeDeJeu->getId();
 //    $item_utilisateur['mail'] = $modeDeJeu->getMail();
 //    $item_utilisateur['pseudonyme'] = $modeDeJeu->getPseudonyme();
 //    $item_utilisateur['creation'] = $modeDeJeu->getCreation();
 //}
-//
-//echo json_encode($item_utilisateur);
+
+echo json_encode($modesDeJeu);

@@ -29,7 +29,7 @@ if (isset($donnee->mail) && isset($donnee->mdp)) {
     $mail = $donnee->mail;
     $mdp = $donnee->mdp;
 } else {
-    echo null;
+    echo "erreur";
     die();
 }
 

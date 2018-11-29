@@ -31,21 +31,7 @@ var UtilisateurDAO = function ()
             }
         });
 
-        window.alert(reponse);
-        if (reponse === undefined) {
-            window.alert("Couple mail/mot de passe invalide");
-            return null;
-        }
-
-        const utilisateur = await reponse.json();
-
-        return new Utilisateur(
-            utilisateur.id,
-            utilisateur.mail,
-            null,
-            utilisateur.pseudonyme,
-            utilisateur.creation
-        );
+        return (reponse === "erreur" ? false : true);
     }
 
     // TODO

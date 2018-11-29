@@ -43,7 +43,7 @@ var JeuVue = (function()
         this.afficher = function()
         {
             afficherCercleJoueur();
-            afficherArcDeCercle();
+            afficherArcDeCercle(false);
             setInterval(function() { afficherEnnemis() }, 2000);
         };
         
@@ -57,10 +57,10 @@ var JeuVue = (function()
             //stagePrincipal.update();
         };
 
-        function afficherArcDeCercle(){
+        function afficherArcDeCercle(booleen){
             var arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
             /*arcDeCercle.x = positionJoueurX;
             arcDeCercle.y = positionJoueurY;*/
 

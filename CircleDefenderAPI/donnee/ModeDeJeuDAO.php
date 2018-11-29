@@ -41,7 +41,7 @@ class ModeDeJeuDAO
         $stmt->execute();
 
         // récupérer l'enregistrement renvoyé
-        $enregistrements = $stmt->fetchAll(PDO::FETCH_CLASS, "ModeDeJeu");
+        $enregistrements = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         return $enregistrements;
     }

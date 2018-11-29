@@ -6,7 +6,11 @@ var JeuVue = (function()
     {
         var stagePrincipal;
 
+        var arcDeCercle;
+
         var positionJoueurX, positionJoueurY;
+
+        var arcDeCercleEstEnHaut = true;
 
 		var circle = new createjs.Shape();
 
@@ -37,13 +41,36 @@ var JeuVue = (function()
             stagePrincipal = new createjs.Stage("demo-canvas");
             createjs.Ticker.setFPS(60);
             createjs.Ticker.addEventListener("tick", stagePrincipal);
+
+
+
+
+            ///// GESTURE
+            var myElement = document.getElementById('demo-canvas');
+
+// create a simple instance
+// by default, it only adds horizontal recognizers
+            var mc = new Hammer(myElement);
+
+// let the pan gesture support all directions.
+// this will block the vertical scrolling on a touch-device while on the element
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+// listen to events...
+            mc.on("panleft panright panup pandown tap press", function(ev) {
+                myElement.textContent = ev.type +" gesture detected.";
+                console.log("Test gesture");
+                stagePrincipal.removeChild(arcDeCercle);
+                arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
+                afficherArcDeCercle(arcDeCercleEstEnHaut);
+            });
         };
 
 
         this.afficher = function()
         {
             afficherCercleJoueur();
-            afficherArcDeCercle(false);
+            afficherArcDeCercle(arcDeCercleEstEnHaut);
             setInterval(function() { afficherEnnemis() }, 2000);
         };
         
@@ -58,7 +85,7 @@ var JeuVue = (function()
         };
 
         function afficherArcDeCercle(booleen){
-            var arcDeCercle = new createjs.Shape();
+            arcDeCercle = new createjs.Shape();
 
             arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
             /*arcDeCercle.x = positionJoueurX;

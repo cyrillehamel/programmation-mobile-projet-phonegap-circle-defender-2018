@@ -74,31 +74,46 @@ var JeuVue = (function()
             var randomGaucheDroite = Math.floor(Math.random()*2);
             var randomBasHaut = Math.floor(Math.random()*2);
 
+            var positionJoueurXModifiee = positionJoueurX;
+            var positionJoueurYModifiee = positionJoueurY;
+
             // Quart haut gauche
             if((randomGaucheDroite===0) && (randomBasHaut===0)){
             	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
             	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+
+            	positionJoueurXModifiee -= 23;
+            	positionJoueurYModifiee -= 23;
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
             	circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
             	circle.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+
+                positionJoueurXModifiee += 23;
+                positionJoueurYModifiee -= 23;
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
             	circle.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
             	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+
+                positionJoueurXModifiee -= 23;
+                positionJoueurYModifiee += 23;
             }
             // Quart bas droite
             else {
 				circle.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 25)+1)+(positionJoueurX - 25));
             	circle.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 25)+1)+(positionJoueurY - 25));
+
+                positionJoueurXModifiee += 23;
+                positionJoueurYModifiee += 23;
             }
 
             stagePrincipal.addChild(circle);
 
             createjs.Tween.get(circle, {loop: true})
-                .to({x:positionJoueurX, y: positionJoueurY}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
+                .to({x:positionJoueurXModifiee, y: positionJoueurYModifiee}, 2000, createjs.Ease.linear); // 25 = rayon du cercle Joueur
         };
 
         function sleep(ms) {

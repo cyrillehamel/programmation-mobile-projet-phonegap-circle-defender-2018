@@ -9,6 +9,8 @@ var JeuVue = (function()
         var positionJoueurX, positionJoueurY;
 
         var circleEnnemi1 = new createjs.Shape();
+        var circleEnnemiAutres = new createjs.Shape();  
+        
         circleEnnemi1.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
 
         var initialiser = function(){
@@ -46,11 +48,9 @@ var JeuVue = (function()
             afficherCercleJoueur();
             afficherArcDeCercle();
             setInterval(
-                { 
                 function() 
-                    stagePrincipal.removeAllChildren();
-                    afficherCercleJoueur();
-                    afficherArcDeCercle();
+                { 
+                    stagePrincipal.removeChild(circleEnnemiAutres);
                     afficherEnnemis();
                 },2000);
         };
@@ -65,10 +65,11 @@ var JeuVue = (function()
             //stagePrincipal.update();
         };
 
-        function afficherArcDeCercle(booleen){
+        function afficherArcDeCercle(){
+
             var arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
             /*arcDeCercle.x = positionJoueurX;
             arcDeCercle.y = positionJoueurY;*/
 
@@ -118,7 +119,6 @@ var JeuVue = (function()
         };
 
         function afficherEnnemiAutres(){
-            var circleEnnemiAutres = new createjs.Shape();  
             circleEnnemiAutres.graphics.beginFill("Green").drawCircle(0, 0, 10);
 
             var randomGaucheDroite = Math.floor(Math.random()*2);

@@ -5,7 +5,8 @@
         loop: true,
         volume: 0.2
     });
-
+    var idUtilisateur;
+    var utilisateurDao= new UtilisateurDAO();
     var instance = this;
 
     var initialiser = function()
@@ -16,8 +17,11 @@
 
     var naviguer = function()
     {
+    
+        
      var hash = window.location.hash;
        
+        
         if(!hash)
         {
             stopMusique();
@@ -27,12 +31,20 @@
         }
         else if(hash.match(/^#menu/))
         {
+            if(null==idUtilisateur)
+            {
+               naviguerAuthentification(); 
+            }
             stopMusique();
             var menuVue = new MenuVue();
             menuVue.afficher();
         }
         else if(hash.match(/^#jeu/))
         {
+            if(null==idUtilisateur)
+            {
+               naviguerAuthentification(); 
+            }
             stopMusique();
             var jeuVue = new JeuVue();
             jeuVue.afficher();
@@ -43,21 +55,33 @@
             var creerCompte = new CreationCompteVue();
             creerCompte.afficher();
         }
-        else if(hash.match(/^#modifier-compte\/([0-9]+)/))
+        else if(hash.match(/^#modifier-compte/))
         {   
+            if(null==idUtilisateur)
+            {
+               naviguerAuthentification(); 
+            }
             stopMusique();
-            var utilisateurTest = new Utilisateur(1,'toto@mail.fr', 'motDePasse', 'pseudonyme');
-            var modifierCompteVue = new ModifierCompteVue(utilisateurTest,actionModifierCompte);
+            var utilisateur = produitDao.lireUtilisateurParId(idUtilisateur);
+            var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
         }
         else if(hash.match(/^#detail-joueur\/([0-9]+)/))
-        {
+        {   
+            if(null==idUtilisateur)
+            {
+               naviguerAuthentification(); 
+            }
             stopMusique();
             var detailJoueurVue = new DetailJoueurVue();
             detailJoueurVue.afficher();
         }
         else if(hash.match(/^#leaderboard/))
         {   
+            if(null==idUtilisateur)
+            {
+               naviguerAuthentification(); 
+            }
             stopMusique();        
             var utilisateurTest1 = new Utilisateur(1,'toto@mail.fr', 'motDePasse', 'pseudonyme1');
             var utilisateurTest2 = new Utilisateur(2,'toto@mail.fr', 'motDePasse', 'pseudonyme2');
@@ -93,6 +117,10 @@
     var naviguerAccueil = function()
     {
         window.location.hash = "#menu";
+    }
+     var naviguerAuthentification = function()
+    {
+        window.location.hash = "#";
     }
 
     var stopMusique = function()

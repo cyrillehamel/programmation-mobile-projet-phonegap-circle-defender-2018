@@ -18,6 +18,36 @@ var UtilisateurDAO = function ()
             );
     }
 
+    this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                mail: mail,
+                mdp: motDePasse
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        window.alert(reponse);
+        if (reponse === undefined) {
+            window.alert("Couple mail/mot de passe invalide");
+            return null;
+        }
+
+        const utilisateur = await reponse.json();
+
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            null,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+        );
+    }
+
     // TODO
     this.lireListeMeilleursJoueurs = async () => {
         var listeMeilleursJoueurs = [];
@@ -47,7 +77,6 @@ var UtilisateurDAO = function ()
         }
         );
         const utilisateur = await reponse.json();
-        console.log(utilisateur);
 
         return new Utilisateur(
             utilisateur.id,

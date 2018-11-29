@@ -88,10 +88,10 @@ class UtilisateurDAO
     }
 
     /**
-     * Lire les données d'un utilisateur
+     * Lire les données d'un utilisateur à partir de son id
      * @return Utilisateur
      */
-    function lireUn($id)
+    function lireUnId($id)
     {
         // requete pour lire un seul enregistrement
         $requete = "SELECT
@@ -108,6 +108,44 @@ class UtilisateurDAO
 
         // liaison de l'id de l'utilisateur à modifier
         $stmt->bindParam(1, $id);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir les valeurs comme propriétés de l'objet
+        $utilisateur = new Utilisateur();
+        $utilisateur->setId($enregistrement['id']);
+        $utilisateur->setMail($enregistrement['mail']);
+        $utilisateur->setPseudonyme($enregistrement['pseudonyme']);
+        $utilisateur->setCreation($enregistrement['creation']);
+
+        return $utilisateur;
+    }
+
+    /**
+     * Lire les données d'un utilisateur à partir de son mail
+     * @return Utilisateur
+     */
+    function lireUnMail($mail)
+    {
+        // requete pour lire un seul enregistrement
+        $requete = "SELECT
+                u.id, u.mail, u.pseudonyme, u.creation
+            FROM
+                " . $this->nom_table . " u
+            WHERE
+                u.mail = ?
+            LIMIT
+                1";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($requete);
+
+        // liaison de l'id de l'utilisateur à modifier
+        $stmt->bindParam(1, $mail);
 
         // exécution de la requete
         $stmt->execute();

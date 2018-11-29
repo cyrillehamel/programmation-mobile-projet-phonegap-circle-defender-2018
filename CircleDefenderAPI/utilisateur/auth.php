@@ -28,10 +28,7 @@ $donnee = json_decode(file_get_contents("php://input"));
 if (isset($donnee->mail) && isset($donnee->mdp)) {
     $mail = $donnee->mail;
     $mdp = $donnee->mdp;
-} else {
-    echo "erreur";
-    die();
-}
+} else die();
 
 // lecture des détails de l'utilisateur à authentifier
 $utilisateur = $utilisateurDAO->authentifier($mail, $mdp);

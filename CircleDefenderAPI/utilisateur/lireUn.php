@@ -21,11 +21,18 @@ require_once '../donnee/UtilisateurDAO.php';
 // Création du DAO
 $utilisateurDAO = new UtilisateurDAO();
 
-// définition de l'id de l'utilisateur à récupérer
-$id = isset($_GET['id']) ? $_GET['id'] : die();
+// définition de l'id ou du mail de l'utilisateur à récupérer
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
 
-// lecture des détails de l'utilisateur à récupérer
-$utilisateur = $utilisateurDAO->lireUn($id);
+    // lecture des détails de l'utilisateur à récupérer
+    $utilisateur = $utilisateurDAO->lireUnId($id);
+} elseif (isset($_GET['mail'])) {
+    $mail = $_GET['mail'];
+
+    // lecture des détails de l'utilisateur à récupérer
+    $utilisateur = $utilisateurDAO->lireUnMail($mail);
+} else die();
 
 $item_utilisateur = array();
 

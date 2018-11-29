@@ -9,8 +9,8 @@ var AuthentifierVue = (function()
             document.getElementsByTagName("body")[0].innerHTML = pageAuthentifierVue;
             var formulaireAuthentifier = document.getElementById("formulaire-authentification");
             formulaireAuthentifier.addEventListener("submit", authentifierUtilisateur);
- 
         }
+
         var authentifierUtilisateur = function(evenement)
         {
             evenement.preventDefault();
@@ -30,7 +30,7 @@ var AuthentifierVue = (function()
             var tableauDeBits = sjcl.hash.sha512.hash(document.getElementById("mot_de_passe").value;);
             var motDePasse = sjcl.codec.hex.fromBits(tableauDeBits);
             
-            // création d'un utilisateur
+            // création d'un nouvel utilisateur
             var utilisateur = new Utilisateur(null, identifiant, motDePasse, null, null);
 
             actionAuthentifierCompte(utilisateur);   

@@ -12,6 +12,7 @@ var UtilisateurDAO = function ()
         return new Utilisateur(
             utilisateur.id,
             utilisateur.mail,
+            null,
             utilisateur.pseudonyme,
             utilisateur.creation
             );
@@ -51,6 +52,7 @@ var UtilisateurDAO = function ()
         return new Utilisateur(
             utilisateur.id,
             utilisateur.mail,
+            null,
             utilisateur.pseudonyme,
             utilisateur.creation
         );

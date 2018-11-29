@@ -26,8 +26,8 @@
         {
             stopMusique();
             soundWait.play();
-            var authentifierVue = new AuthentifierVue();
-            authentifierVue.afficher(actionAuthentifierCompte);
+            var authentifierVue = new AuthentifierVue(actionAuthentifierCompte);
+            authentifierVue.afficher();
         }
         else if(hash.match(/^#menu/))
         {

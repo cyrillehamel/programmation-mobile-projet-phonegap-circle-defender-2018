@@ -5,7 +5,7 @@
         loop: true,
         volume: 0.2
     });
-    var idUtilisateur;
+    var idUtilisateur=1;
     var utilisateurDao= new UtilisateurDAO();
     var instance = this;
 

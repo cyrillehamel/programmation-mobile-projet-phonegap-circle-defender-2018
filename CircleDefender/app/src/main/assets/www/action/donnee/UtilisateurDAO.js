@@ -1,13 +1,12 @@
 var UtilisateurDAO = function ()
 {
-    // changer url
     this.lireUtilisateurParId = async (idUtilisateur) => {
         if (!Number.isInteger(idUtilisateur)) {
             window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + idUtilisateur);
             return null;
         }
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/vue/lireUn.php?id=' + idUtilisateur);
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?id=' + idUtilisateur);
         var utilisateur = await reponse.json();
 
         return new Utilisateur(
@@ -26,14 +25,14 @@ var UtilisateurDAO = function ()
         const monJson = await reponse.json();
 
         // TODO : prendre le JSON et ajouter à la liste tous les joueurs récupérés
-        localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
+        
+        //localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 
         // return ??
     }
 
-    // changer url
     this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/vue/ajouter.php', {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/ajouter.php', {
             method: 'POST',
             body: JSON.stringify({
                 mail: mail,
@@ -58,22 +57,22 @@ var UtilisateurDAO = function ()
     }
 
     this.modifierUtilisateur = async (utilisateur) => {
-        const reponse = await fetch('http://URL_DE_L_API', {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/modifier.php', {
             method: 'POST',
             body: JSON.stringify({
                 id: utilisateur.id,
-                mail:utilisateur.mail,
-                mot_de_passe: utlisateur.motDePasse,
+                mdp: utlisateur.motDePasse,
                 pseudonyme: utlisateur.pseudonyme
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         });
+        // TODO : message pour confirmer la modification
     }
 
     this.supprimerUtilisateur = async (idUtilisateur) => {
-        const reponse = await fetch('http://URL_DE_L_API', {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/supprimer.php', {
             method: 'POST',
             body: JSON.stringify({
                 id: idUtilisateur
@@ -82,6 +81,7 @@ var UtilisateurDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
+        // TODO : message pour confirmer la suppression
     }
 
 }

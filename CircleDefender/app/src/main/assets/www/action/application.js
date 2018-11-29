@@ -23,7 +23,7 @@
             stopMusique();
             soundWait.play();
             var authentifierVue = new AuthentifierVue();
-            authentifierVue.afficher();
+            authentifierVue.afficher(actionAuthentifierCompte);
         }
         else if(hash.match(/^#menu/))
         {
@@ -81,6 +81,12 @@
     var actionModifierCompte = function(utilisateur)
     {
       
+        naviguerAccueil();
+    }
+    
+      var actionAuthentifierCompte = function(utilisateur)
+    {
+        //appel au DAO
         naviguerAccueil();
     }
 

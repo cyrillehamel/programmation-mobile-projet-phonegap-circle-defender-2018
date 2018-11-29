@@ -46,8 +46,8 @@ var JeuVue = (function()
             afficherCercleJoueur();
             afficherArcDeCercle();
             setInterval(
-                function() 
                 { 
+                function() 
                     stagePrincipal.removeAllChildren();
                     afficherCercleJoueur();
                     afficherArcDeCercle();
@@ -65,11 +65,10 @@ var JeuVue = (function()
             //stagePrincipal.update();
         };
 
-        function afficherArcDeCercle(){
-
+        function afficherArcDeCercle(booleen){
             var arcDeCercle = new createjs.Shape();
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, true);
+            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
             /*arcDeCercle.x = positionJoueurX;
             arcDeCercle.y = positionJoueurY;*/
 

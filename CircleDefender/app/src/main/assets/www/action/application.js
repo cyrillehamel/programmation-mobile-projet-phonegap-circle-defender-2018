@@ -5,7 +5,7 @@
         loop: true,
         volume: 0.2
     });
-    var idUtilisateur=1;
+    var idUtilisateur;
     var utilisateurDao= new UtilisateurDAO();
     var instance = this;
 
@@ -62,7 +62,7 @@
                naviguerAuthentification(); 
             }
             stopMusique();
-            var utilisateur = produitDao.lireUtilisateurParId(idUtilisateur);
+            var utilisateur = utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
         }
@@ -108,10 +108,19 @@
         naviguerAccueil();
     }
     
-      var actionAuthentifierCompte = function(utilisateur)
+      var actionAuthentifierCompte = async function(utilisateur)
     {
         //appel au DAO
-        naviguerAccueil();
+        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,"testdemdp");
+        if(testauthen==true){
+            utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
+            idUtilisateur=utilisateurAutentifier.id;
+             naviguerAccueil();
+        }else{
+             window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
+            naviguerAuthentification();
+        }
+       
     }
 
     var naviguerAccueil = function()

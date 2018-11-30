@@ -93,8 +93,8 @@ var UtilisateurDAO = function ()
             method: 'POST',
             body: JSON.stringify({
                 id: utilisateur.id,
-                mdp: utlisateur.motDePasse,
-                pseudonyme: utlisateur.pseudonyme
+                mdp: utilisateur.motDePasse,
+                pseudonyme: utilisateur.pseudonyme
             }),
             headers: {
                 'Content-Type': 'application/json'

@@ -15,7 +15,7 @@
         naviguer();
     }
 
-    var naviguer = function()
+    var naviguer = async function()
     {
     
         
@@ -52,7 +52,7 @@
         else if(hash.match(/^#creer-compte/))
         {
             stopMusique();
-            var creerCompte = new CreationCompteVue();
+            var creerCompte = new CreationCompteVue(actionCreationCompte);
             creerCompte.afficher();
         }
         else if(hash.match(/^#modifier-compte/))
@@ -62,7 +62,7 @@
                naviguerAuthentification(); 
             }
             stopMusique();
-            var utilisateur = utilisateurDao.lireUtilisateurParId(idUtilisateur);
+            var utilisateur =await  utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
         }
@@ -102,16 +102,24 @@
         }
     }
     
-    var actionModifierCompte = function(utilisateur)
+    var actionCreationCompte = async function(utilisateur)
     {
-      
+        
+        var compteCreation = await utilisateurDao.ajouterUtilisateur(utilisateur.mail,utilisateur.motDePasse,utilisateur.pseudonyme);
+        actionAuthentifierCompte(utilisateur);
+    }
+    
+    var actionModifierCompte =async function(utilisateur)
+    {
+        await utilisateurDao.modifierUtilisateur(utilisateur);
         naviguerAccueil();
     }
     
       var actionAuthentifierCompte = async function(utilisateur)
     {
         //appel au DAO
-        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,"testdemdp");
+        
+        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,utilisateur.motDePasse);
         if(testauthen==true){
             utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
             idUtilisateur=utilisateurAutentifier.id;

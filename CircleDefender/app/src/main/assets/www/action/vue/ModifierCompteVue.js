@@ -21,11 +21,7 @@ var ModifierCompteVue = (function()
             compteMail = document.getElementById("mail");
             compteMail.value  = utilisateur.mail;
 
-            compteMotDePasse = document.getElementById("mot_de_passe");
-            compteMotDePasse.value  = utilisateur.motDePasse;
             
-            confirmationComptemotDePasse=document.getElementById("confirmer_mot_de_passe");
-            confirmationComptemotDePasse.value = utilisateur.motDePasse;
            
              formulaireModifier.addEventListener("submit",enregistrerUtilisateur);
         }
@@ -36,13 +32,14 @@ var ModifierCompteVue = (function()
 
             var pseudonyme = document.getElementById("pseudonyme").value;
             var mail = document.getElementById("mail").value;
-            var motdePasse = document.getElementById("mot_de_passe").value;
+            var motDePasse = document.getElementById("mot_de_passe").value;
             var confirmationMotdepasse = document.getElementById("confirmer_mot_de_passe").value;
             
-            if(confirmationMotdepasse ==  motdePasse){
-                
-             var UtilsateurModifier = new Utilisateur(utilisateur.id, mail, motdePasse, pseudonyme);
-
+            if(confirmationMotdepasse ==  motDePasse){
+            
+            var tableauDeBits = sjcl.hash.sha512.hash(motDePasse);
+            var motDePasse = sjcl.codec.hex.fromBits(tableauDeBits);
+             var UtilsateurModifier = new Utilisateur(utilisateur.id, mail, motDePasse, pseudonyme,null);
             actionModifierCompte(UtilsateurModifier);   
             }
                 

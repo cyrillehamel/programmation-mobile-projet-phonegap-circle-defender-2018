@@ -4,6 +4,7 @@ var JeuVue = (function()
 
     return function()
     {
+        var canvas;
         var stagePrincipal;
         var arcDeCercle;
         var cercleJoueur;
@@ -16,13 +17,10 @@ var JeuVue = (function()
         var cercleEnnemis = new createjs.Shape();
         var circleEnnemiAutres = new createjs.Shape();
 
-        var canvas;
-        
 
         var initialiser = function(){
 
             cercleEnnemis.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
-
 
             canvas = document.createElement('canvas');
             canvas.id = "demo-canvas";
@@ -32,8 +30,8 @@ var JeuVue = (function()
             canvas.style.position = "center";
             canvas.style.border = "1px solid";*/
 
-            positionJoueurX = (canvas.width / 2); //round
-            positionJoueurY = (canvas.height / 2); // round
+            positionJoueurX = Math.round(canvas.width / 2);
+            positionJoueurY = Math.round(canvas.height / 2);
 
             document.getElementsByTagName("body")[0].innerHTML = pageJeuVue;
             document.body.appendChild(canvas);
@@ -106,7 +104,8 @@ var JeuVue = (function()
 
                 if ( distanceReelle < distanceCollision ){
                     console.log("Intersection détectée");
-                    //cercleJoueur.alpha = cercleEnnemis.hitTest(position.x, position.y) ? 1 : .2;
+                    //alert("Intersection détectée");
+                    //cercleJoueur.alpha = .2;
                 }
             }
         }
@@ -114,16 +113,13 @@ var JeuVue = (function()
         function afficherCercleJoueur(){
 
             cercleJoueur = new createjs.Shape();
-
             cercleJoueur.setBounds(positionJoueurX, positionJoueurY, 36, 36);
 
             cercleJoueur.x = positionJoueurX;
             cercleJoueur.y = positionJoueurY;
             cercleJoueur.graphics.beginFill("Black").drawCircle(0, 0, 18);
 
-
             stagePrincipal.addChild(cercleJoueur);
-
             //stagePrincipal.update();
         };
 
@@ -131,8 +127,6 @@ var JeuVue = (function()
             arcDeCercle = new createjs.Shape();
 
             arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
-
-            arcDeCercle.g
 
             stagePrincipal.addChild(arcDeCercle);
         };
@@ -185,7 +179,6 @@ var JeuVue = (function()
 
                 positionJoueurXPourCible += 15;
                 positionJoueurYPourCible += 15;
-
             }
 
             cercleEnnemis.setBounds(cercleEnnemis.x, cercleEnnemis.y, 20, 20);
@@ -202,12 +195,6 @@ var JeuVue = (function()
                 //throw new Error();
 
             }
-
-
-            /*cercleJoueur.on('tick', function () {
-                var lpos = cercleEnnemis.localToLocal(positionJoueurX, positionJoueurY, this);
-                this.alpha = this.hitTest(lpos.x, lpos.y) ? 1 : .2;
-            });*/
 
         };
 

@@ -47,7 +47,7 @@ class PersonnageDAO
     }
 
     /**
-     * Lire les données d'un personnage
+     * Lire les données d'un personnage par son id
      * @return Personnage
      */
     function lireUnId($id)

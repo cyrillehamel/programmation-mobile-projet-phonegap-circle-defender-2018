@@ -47,7 +47,7 @@ class ModeDeJeuDAO
     }
 
     /**
-     * Lire les données d'un mode de jeu
+     * Lire les données d'un mode de jeu par son id
      * @return ModeDeJeu
      */
     function lireUnId($id)

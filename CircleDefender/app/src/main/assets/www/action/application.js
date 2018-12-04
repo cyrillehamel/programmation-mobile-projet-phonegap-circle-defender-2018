@@ -36,6 +36,10 @@
         
         if(!hash)
         {
+            if(null!=idUtilisateur)
+            {
+               naviguerAccueil(); 
+            }
             stopMusique();
             soundWait.play();
             var authentifierVue = new AuthentifierVue(actionAuthentifierCompte);

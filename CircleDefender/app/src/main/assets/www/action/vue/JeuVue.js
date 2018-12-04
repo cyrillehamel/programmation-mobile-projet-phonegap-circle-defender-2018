@@ -68,20 +68,14 @@ var JeuVue = (function()
         {
             afficherCercleJoueur();
             afficherArcDeCercle(arcDeCercleEstEnHaut);
-            setInterval(
-                function() 
-                { 
-                    stagePrincipal.removeChild(circleEnnemiAutres);
-                    afficherEnnemis();
-                },500);
+            demarrerEnnemis();
+
         };
         
         function afficherCercleJoueur(){
 
             var circleJoueur = new createjs.Shape();
             circleJoueur.graphics.beginFill("Black").drawCircle(positionJoueurX, positionJoueurY, 18);
-            /*circleJoueur.x = positionJoueurX;
-            circleJoueur.y = positionJoueurY;*/
             stagePrincipal.addChild(circleJoueur);
             //stagePrincipal.update();
         };
@@ -98,8 +92,8 @@ var JeuVue = (function()
 
             afficherEnnemi1();
 
-            var chanceSpawnNouveau = Math.floor(Math.random()*10);
-            if(chanceSpawnNouveau>=8){   
+            var chanceSpawnNouveau = Math.floor(Math.random() * 10);
+            if (chanceSpawnNouveau >= 8){
                 afficherEnnemiAutres();
             }
         };
@@ -116,38 +110,46 @@ var JeuVue = (function()
                 circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible -= 23;
-                positionJoueurYPourCible -= 23;
+                positionJoueurXPourCible -= 20;
+                positionJoueurYPourCible -= 20;
+
+
+
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
                 circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
                 circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible += 23;
-                positionJoueurYPourCible -= 23;
+                positionJoueurXPourCible += 20;
+                positionJoueurYPourCible -= 20;
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
                 circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible -= 23;
-                positionJoueurYPourCible += 23;
+                positionJoueurXPourCible -= 20;
+                positionJoueurYPourCible += 20;
             }
             // Quart bas droite
             else {
                 circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
                 circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible += 23;
-                positionJoueurYPourCible += 23;
+                positionJoueurXPourCible += 20;
+                positionJoueurYPourCible += 20;
             }
 
             stagePrincipal.addChild(circleEnnemi1);
 
             createjs.Tween.get(circleEnnemi1, {loop: true})
-                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 500, createjs.Ease.linear);
+                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 1500, createjs.Ease.linear);
+
+            console.log("afficherEnnemi -> x : " + circleEnnemi1.x);
+            console.log("afficherEnnemi -> y : " + circleEnnemi1.y);
+
+            console.log("hitTest -> " + arcDeCercle.hitTest(circleEnnemi1.x, circleEnnemi1.y));
 
         };
 
@@ -203,6 +205,18 @@ var JeuVue = (function()
         function sleep(ms) {
   			return new Promise(resolve => setTimeout(resolve, ms));
 		};
+
+
+        function demarrerEnnemis(){
+            setInterval(
+                function()
+                {
+                    stagePrincipal.removeChild(circleEnnemiAutres);
+                    afficherEnnemis();
+                },1500);
+        };
+
+
     
         initialiser();
 

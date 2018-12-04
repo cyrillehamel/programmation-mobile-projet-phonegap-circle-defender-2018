@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Marc-Antoine
  * Date: 04/12/2018
- * Time: 08:19
+ * Time: 09:00
  */
 
 // headers requis
@@ -13,28 +13,28 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json; charset=UTF-8');
 
-require_once '../donnee/ModeDeJeuDAO.php';
+require_once '../donnee/PersonnageDAO.php';
 
 //ini_set('display_errors', 'On');
 //error_reporting(E_ALL);
 
 // Création du DAO
-$modeDeJeuDAO = new ModeDeJeuDAO();
+$PersonnageDAO = new PersonnageDAO();
 
-// définition de l'id du mode de jeu à récupérer
+// définition de l'id du personnage à récupérer
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
-    // lecture des détails du mode de jeu à récupérer
-    $modeDeJeu = $modeDeJeuDAO->lireUnId($id);
+    // lecture des détails du personnage à récupérer
+    $personnage = $PersonnageDAO->lireUnId($id);
 } else die();
 
-$itemModeDeJeu = array();
+$itemPersonnage = array();
 
-if($modeDeJeu->getId() !== null)
+if($personnage->getId() !== null)
 {
-    $itemModeDeJeu['id'] = $modeDeJeu->getId();
-    $itemModeDeJeu['nom'] = $modeDeJeu->getNom();
+    $itemPersonnage['id'] = $personnage->getId();
+    $itemPersonnage['taille_bouclier'] = $personnage->getTailleBouclier();
 }
 
-echo json_encode($itemModeDeJeu);
+echo json_encode($itemPersonnage);

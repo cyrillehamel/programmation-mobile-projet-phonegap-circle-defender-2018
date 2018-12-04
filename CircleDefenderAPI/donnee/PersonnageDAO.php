@@ -2,20 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: Marc-Antoine
- * Date: 29/11/2018
- * Time: 16:29
+ * Date: 04/12/2018
+ * Time: 08:44
  */
 
-require_once "../modele/ModeDeJeu.php";
+require_once "../modele/Personnage.php";
 require_once "Connexion.php";
 
-class ModeDeJeuDAO
+class PersonnageDAO
 {
     // Connexion à la base de données
     private $connexion_bdd;
 
-    // Définition du nom de la table des modes de jeu
-    private $nom_table = "mode_de_jeu";
+    // Définition du nom de la table des personnages
+    private $nom_table = "personnage";
 
     /**
      * Constructeur du DAO
@@ -26,46 +26,46 @@ class ModeDeJeuDAO
     }
 
     /**
-     * Lire l'ensemble des modes de jeu
+     * Lire l'ensemble des personnages
      * @return mixed
      */
     function lire()
     {
         $requete = "SELECT
-                mdj.id, mdj.nom
+                p.id, p.taille_bouclier
             FROM
-                " . $this->nom_table . " mdj";
+                " . $this->nom_table . " p";
 
         $stmt = $this->connexion_bdd->prepare($requete);
 
         $stmt->execute();
 
         // récupérer l'enregistrement renvoyé
-        $modes_de_jeu = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $personnages = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $modes_de_jeu;
+        return $personnages;
     }
 
     /**
-     * Lire les données d'un mode de jeu par son id
-     * @return ModeDeJeu
+     * Lire les données d'un personnage par son id
+     * @return Personnage
      */
     function lireUnId($id)
     {
-        // requete pour lire un seul enregistrement
+        // requete pour lire un seul personnage
         $requete = "SELECT
-                mdj.id, mdj.nom
+                p.id, p.taille_bouclier
             FROM
-                " . $this->nom_table . " mdj
+                " . $this->nom_table . " p
             WHERE
-                mdj.id = ?
+                p.id = ?
             LIMIT
                 1";
 
         // préparation de la requete
         $stmt = $this->connexion_bdd->prepare($requete);
 
-        // liaison de l'id du mode de jeu à récupérer
+        // liaison de l'id du personnage à récupérer
         $stmt->bindParam(1, $id);
 
         // exécution de la requete
@@ -75,10 +75,10 @@ class ModeDeJeuDAO
         $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         // définir les valeurs comme propriétés de l'objet
-        $modeDeJeu = new ModeDeJeu();
-        $modeDeJeu->setId($enregistrement['id']);
-        $modeDeJeu->setNom($enregistrement['nom']);
+        $personnage = new Personnage();
+        $personnage->setId($enregistrement['id']);
+        $personnage->setTailleBouclier($enregistrement['taille_bouclier']);
 
-        return $modeDeJeu;
+        return $personnage;
     }
 }

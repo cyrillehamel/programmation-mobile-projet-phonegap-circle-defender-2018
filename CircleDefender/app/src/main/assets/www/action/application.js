@@ -14,6 +14,13 @@
         }else{
            var idUtilisateur= null;
         }
+
+    mute = function()
+    {
+        soundWait.mute(true);
+        console.log("oui");
+    }
+        
     var initialiser = function()
     {
         window.addEventListener("hashchange",naviguer);
@@ -140,7 +147,6 @@
              window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
             naviguerAuthentification();
         }
-       
     }
 
     var naviguerAccueil = function()

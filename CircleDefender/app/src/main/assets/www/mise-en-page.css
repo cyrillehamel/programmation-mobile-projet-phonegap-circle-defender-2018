@@ -34,3 +34,8 @@ li{
     margin-top: 15%;
 }
 
+.mute-auth {
+    position:absolute;
+    right:0;
+    top:0;
+}

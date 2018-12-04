@@ -75,10 +75,10 @@ class ModeDeJeuDAO
         $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         // définir les valeurs comme propriétés de l'objet
-        $mode_de_jeu = new ModeDeJeu();
-        $mode_de_jeu->setId($enregistrement['id']);
-        $mode_de_jeu->setNom($enregistrement['nom']);
+        $modeDeJeu = new ModeDeJeu();
+        $modeDeJeu->setId($enregistrement['id']);
+        $modeDeJeu->setNom($enregistrement['nom']);
 
-        return $mode_de_jeu;
+        return $modeDeJeu;
     }
 }

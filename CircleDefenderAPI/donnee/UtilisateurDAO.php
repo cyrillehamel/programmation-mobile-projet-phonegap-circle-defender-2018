@@ -106,7 +106,7 @@ class UtilisateurDAO
         // préparation de la requete
         $stmt = $this->connexion_bdd->prepare($requete);
 
-        // liaison de l'id de l'utilisateur à modifier
+        // liaison de l'id de l'utilisateur à récupérer
         $stmt->bindParam(1, $id);
 
         // exécution de la requete

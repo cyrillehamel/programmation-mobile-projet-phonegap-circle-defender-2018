@@ -1,23 +1,39 @@
 var UtilisateurDAO = function ()
 {
-    this.lireUtilisateurParId = async (idUtilisateur) => {
-        if (!Number.isInteger(idUtilisateur)) {
-            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + idUtilisateur);
+    // TODO
+    this.lireListeMeilleursJoueurs = async () => {
+        var listeMeilleursJoueurs = [];
+
+        const reponse = await fetch('http://URL_DE_L_API');
+        const monJson = await reponse.json();
+
+        localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
+
+        // return ??
+    }
+
+    /**
+     * Lit un utilisateur en fonction de l'id en paramètre
+     * @param {Number} id l'id de l'utilisateur à lire
+     * @return {null} si l'id en paramètre n'est pas un nombre entier
+     * ou si l 'enregistrement associé n'existe pas en base de données
+     * @return {Utilisateur} l'utilisateur associé à l'id
+     */
+    this.lireUtilisateurParId = async (id) => {
+        if (!Number.isInteger(id)) {
+            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
             return null;
         }
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?id=' + idUtilisateur);
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?id=' + id);
         var utilisateur = await reponse.json();
 
-        return new Utilisateur(
-            utilisateur.id,
-            utilisateur.mail,
-            null,
-            utilisateur.pseudonyme,
-            utilisateur.creation
-            );
+        return (utilisateur.id === undefined ? null : new Utilisateur(utilisateur.id, utilisateur.mail, null, utilisateur.pseudonyme, utilisateur.creation));
     }
 
+    /**
+     * 
+     */
     this.lireUtilisateurParMail = async (mail) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?mail=' + mail);
         var utilisateur = await reponse.json();
@@ -31,6 +47,9 @@ var UtilisateurDAO = function ()
         );
     }
 
+    /**
+     * 
+     */
     this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
             method: 'POST',
@@ -49,20 +68,12 @@ var UtilisateurDAO = function ()
         return (rep.id === undefined ? false : true);
     }
 
-    // TODO
-    this.lireListeMeilleursJoueurs = async () => {
-        var listeMeilleursJoueurs = [];
-
-        const reponse = await fetch('http://URL_DE_L_API');
-        const monJson = await reponse.json();
-
-        // TODO : prendre le JSON et ajouter à la liste tous les joueurs récupérés
-        
-        //localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
-
-        // return ??
-    }
-
+    /**
+     * 
+     * @param {String} 
+     * @param {String} 
+     * @param {String} 
+     */
     this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/ajouter.php', {
             method: 'POST',
@@ -88,6 +99,10 @@ var UtilisateurDAO = function ()
         );
     }
 
+    /**
+     * Modifie le mot de passe et le pseudonyme
+     * @param {Utilisateur} utilisateur l'utilisateur contenant les nouveaux champs
+     */
     this.modifierUtilisateur = async (utilisateur) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/modifier.php', {
             method: 'POST',
@@ -103,11 +118,15 @@ var UtilisateurDAO = function ()
         // TODO : message pour confirmer la modification
     }
 
-    this.supprimerUtilisateur = async (idUtilisateur) => {
+    /**
+     * Supprimer un utilisateur avec un id donné
+     * @param {number} id l'id de l'utilisateur
+     */
+    this.supprimerUtilisateur = async (id) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/supprimer.php', {
             method: 'POST',
             body: JSON.stringify({
-                id: idUtilisateur
+                id: id
             }),
             headers: {
                 'Content-Type': 'application/json'

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: UtilisateurDAO.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: UtilisateurDAO.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var UtilisateurDAO = function ()
+{
+    // TODO
+    this.lireListeMeilleursJoueurs = async () => {
+        var listeMeilleursJoueurs = [];
+
+        const reponse = await fetch('http://URL_DE_L_API');
+        const monJson = await reponse.json();
+
+        localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
+
+        // return ??
+    }
+
+    /**
+     * Lit un utilisateur en fonction de l'id en paramètre
+     * @param {Number} id l'id de l'utilisateur à lire
+     * @return {null} si l'id en paramètre n'est pas un nombre entier
+     * ou si l 'enregistrement associé n'existe pas en base de données
+     * @return {Utilisateur} l'utilisateur associé à l'id
+     */
+    this.lireUtilisateurParId = async (id) => {
+        if (!Number.isInteger(id)) {
+            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
+            return null;
+        }
+
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?id=' + id);
+        var utilisateur = await reponse.json();
+
+        return (utilisateur.id === undefined ? null : new Utilisateur(utilisateur.id, utilisateur.mail, null, utilisateur.pseudonyme, utilisateur.creation));
+    }
+
+    /**
+     * 
+     */
+    this.lireUtilisateurParMail = async (mail) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?mail=' + mail);
+        var utilisateur = await reponse.json();
+
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            null,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+        );
+    }
+
+    /**
+     * 
+     */
+    this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                mail: mail,
+                mdp: motDePasse
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        var rep = await reponse.json();
+        
+        return (rep.id === undefined ? false : true);
+    }
+
+    /**
+     * 
+     * @param {String} 
+     * @param {String} 
+     * @param {String} 
+     */
+    this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/ajouter.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                mail: mail,
+                mdp: motDePasse,
+                pseudonyme: pseudonyme
+            }),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        }
+        );
+        const utilisateur = await reponse.json();
+
+        return new Utilisateur(
+            utilisateur.id,
+            utilisateur.mail,
+            null,
+            utilisateur.pseudonyme,
+            utilisateur.creation
+        );
+    }
+
+    /**
+     * Modifie le mot de passe et le pseudonyme
+     * @param {Utilisateur} utilisateur l'utilisateur contenant les nouveaux champs
+     */
+    this.modifierUtilisateur = async (utilisateur) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/modifier.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: utilisateur.id,
+                mdp: utilisateur.motDePasse,
+                pseudonyme: utilisateur.pseudonyme
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // TODO : message pour confirmer la modification
+    }
+
+    /**
+     * Supprimer un utilisateur avec un id donné
+     * @param {number} id l'id de l'utilisateur
+     */
+    this.supprimerUtilisateur = async (id) => {
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/supprimer.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                id: id
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // TODO : message pour confirmer la suppression
+    }
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajouterUtilisateur">ajouterUtilisateur</a></li><li><a href="global.html#lireListeModesDeJeu">lireListeModesDeJeu</a></li><li><a href="global.html#lireModeDeJeuParId">lireModeDeJeuParId</a></li><li><a href="global.html#lireUtilisateurParId">lireUtilisateurParId</a></li><li><a href="global.html#lireUtilisateurParMail">lireUtilisateurParMail</a></li><li><a href="global.html#lireUtilisateurPourAuthentification">lireUtilisateurPourAuthentification</a></li><li><a href="global.html#modifierUtilisateur">modifierUtilisateur</a></li><li><a href="global.html#supprimerUtilisateur">supprimerUtilisateur</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Dec 04 2018 09:12:37 GMT-0500 (Est)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

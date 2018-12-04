@@ -1,15 +1,19 @@
 var UtilisateurDAO = function ()
 {
-    // TODO
+    
+    /**
+     * Lit la liste des meilleurs joueurs
+     * @return {Object} un tableau associatif
+     */
     this.lireListeMeilleursJoueurs = async () => {
         var listeMeilleursJoueurs = [];
 
         const reponse = await fetch('http://URL_DE_L_API');
-        const monJson = await reponse.json();
+        const listeMeilleursJoueursJson = await reponse.json();
 
         localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 
-        // return ??
+        return JSON.parse(listeMeilleursJoueursJson);
     }
 
     /**
@@ -32,23 +36,24 @@ var UtilisateurDAO = function ()
     }
 
     /**
-     * 
+     * Lit un utilisateur en fonction de son mail
+     * @param {String} mail l'adresse mail de l'utilisateur à lire
+     * @return {null} si l'utilisateur demandé n'existe pas
+     * @return {Utilisateur} l'utilisateur associé à l'adresse mail
      */
     this.lireUtilisateurParMail = async (mail) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?mail=' + mail);
         var utilisateur = await reponse.json();
 
-        return new Utilisateur(
-            utilisateur.id,
-            utilisateur.mail,
-            null,
-            utilisateur.pseudonyme,
-            utilisateur.creation
-        );
+        return (utilisateur.id === undefined ? null : new Utilisateur(utilisateur.id, utilisateur.mail, null, utilisateur.pseudonyme, utilisateur.creation));
     }
 
     /**
-     * 
+     * Vérifie si la combinaison mail / mot de passe existe en base de données
+     * @param {String} mail le mail de l'utilisateur
+     * @param {String} motDePasse le mot de passe hashé de l'utilisateur
+     * @return {boolean} true si la combinaison est valide
+     * @return {boolean} false si la combinaison n'est pas valide
      */
     this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
@@ -69,10 +74,11 @@ var UtilisateurDAO = function ()
     }
 
     /**
-     * 
-     * @param {String} 
-     * @param {String} 
-     * @param {String} 
+     * Ajoute en base de données en nouvel utilisateur
+     * @param {String} mail l'adresse mail de l'utilisateur
+     * @param {String} motDePasse le mot de passe hashé de l'utilisateur
+     * @param {String} pseudonyme le pseudonyme de l'utilisateur
+     * @return {Utilisateur} l'utilisateur venant d'être créé
      */
     this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/ajouter.php', {
@@ -90,6 +96,11 @@ var UtilisateurDAO = function ()
         );
         const utilisateur = await reponse.json();
 
+        if (reponse.ok)
+        {
+            window.alert("L'utilisateur a bien été créé. Bon jeu !");
+        }
+
         return new Utilisateur(
             utilisateur.id,
             utilisateur.mail,
@@ -104,6 +115,11 @@ var UtilisateurDAO = function ()
      * @param {Utilisateur} utilisateur l'utilisateur contenant les nouveaux champs
      */
     this.modifierUtilisateur = async (utilisateur) => {
+        if (!(utilisateur instanceof Utilisateur))
+        {
+            window.alert("Tentative de modification d'un utilisateur qui n'est pas de type Utilisateur.");
+        }
+
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/modifier.php', {
             method: 'POST',
             body: JSON.stringify({
@@ -115,7 +131,11 @@ var UtilisateurDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
-        // TODO : message pour confirmer la modification
+
+        if (reponse.ok)
+        {
+            window.alert("L'utilisateur a été correctement modifié.");
+        }
     }
 
     /**
@@ -132,7 +152,11 @@ var UtilisateurDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
-        // TODO : message pour confirmer la suppression
+
+        if (reponse.ok)
+        {
+            window.alert("L'utilisateur a été correctement supprimé.");
+        }
     }
 
 }

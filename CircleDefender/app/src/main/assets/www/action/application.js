@@ -5,10 +5,15 @@
         loop: true,
         volume: 0.2
     });
-    var idUtilisateur;
+     
     var utilisateurDao= new UtilisateurDAO();
     var instance = this;
-
+    if (localStorage['idUtilisateur'] != null)
+        {
+        var idUtilisateur=Number(localStorage['idUtilisateur']);
+        }else{
+           var idUtilisateur= null;
+        }
     var initialiser = function()
     {
         window.addEventListener("hashchange",naviguer);
@@ -36,6 +41,7 @@
                naviguerAuthentification(); 
             }
             stopMusique();
+            soundWait.play();
             var menuVue = new MenuVue();
             menuVue.afficher();
         }
@@ -68,7 +74,7 @@
         }
         else if(hash.match(/^#detail-joueur\/([0-9]+)/))
         {   
-            if(null==idUtilisateur)
+            if(null==localStorage['idUtilisateur'])
             {
                naviguerAuthentification(); 
             }
@@ -78,7 +84,7 @@
         }
         else if(hash.match(/^#leaderboard/))
         {   
-            if(null==idUtilisateur)
+            if(null==localStorage['idUtilisateur'])
             {
                naviguerAuthentification(); 
             }
@@ -96,6 +102,11 @@
         {
             stopMusique();
             navigator.app.exitApp();
+        }
+        else if (hash.match(/^#deconecter/))
+        {
+            stopMusique();
+            actionDeconectionCompte();
         }
         else {
             stopMusique();
@@ -122,7 +133,8 @@
         var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,utilisateur.motDePasse);
         if(testauthen==true){
             utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
-            idUtilisateur=utilisateurAutentifier.id;
+            localStorage['idUtilisateur']=utilisateurAutentifier.id;
+            idUtilisateur=Number(localStorage['idUtilisateur']);
              naviguerAccueil();
         }else{
              window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
@@ -138,6 +150,13 @@
      var naviguerAuthentification = function()
     {
         window.location.hash = "#";
+    }
+     
+     var actionDeconectionCompte = async function()
+    {
+         localStorage.removeItem('idUtilisateur');
+        idUtilisateur=null;
+    naviguerAccueil();
     }
 
     var stopMusique = function()

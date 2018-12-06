@@ -13,13 +13,12 @@
         document.addEventListener("pause", onPause, false);
     }, false);
 
-
     function onPause() {
         soundWait.mute(true);
     }
 
     function onResume() {
-        soundWait.resume();
+        soundWait.mute(false);
     }
      
     var utilisateurDao= new UtilisateurDAO();

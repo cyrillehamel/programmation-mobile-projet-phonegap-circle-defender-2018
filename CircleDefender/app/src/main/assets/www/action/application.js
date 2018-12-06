@@ -32,8 +32,25 @@
 
     mute = function()
     {
+        if(localStorage['mute'] != null){
+            if(localStorage['mute'] == true){
+                localStorage['mute']=false;
+                soundWait.mute(false);
+            }
+            else{
+                localStorage['mute']=true;
+                soundWait.mute(true);
+            }
+        }
+        else{
+            localStorage['mute']=false;
+        }
+
+        // Test boolean
+
+        // If / Else
+
         soundWait.mute(true);
-        console.log("oui");
     }
         
     var initialiser = function()

@@ -15,11 +15,11 @@
 
 
     function onPause() {
-        alert('paused');
+        soundWait.mute(true);
     }
 
     function onResume() {
-        alert('resumed');
+        soundWait.resume();
     }
      
     var utilisateurDao= new UtilisateurDAO();

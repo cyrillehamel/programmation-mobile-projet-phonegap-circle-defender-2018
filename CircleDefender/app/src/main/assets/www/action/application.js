@@ -33,17 +33,19 @@
     mute = function()
     {
         if(localStorage['mute'] != null){
-            if(localStorage['mute'] == true){
-                localStorage['mute']=false;
+            if(localStorage['mute'] == 'true'){
+                localStorage['mute']= 'false';
                 soundWait.stop();
+                console.log("stop");
             }
             else{
-                localStorage['mute']=true;
+                localStorage['mute']= 'true';
                 soundWait.play();
+                console.log("play");
             }
         }
         else{
-            localStorage['mute']=false;
+            localStorage['mute']= 'false';
         }
 
         // Test boolean

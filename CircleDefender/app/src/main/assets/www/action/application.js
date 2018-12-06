@@ -6,16 +6,20 @@
         volume: 0.2
     });
 
-    document.addEventListener("pause", onPause, false);
+    document.addEventListener("deviceready", function(){
 
-	function onPause() {
-	    soundWait.pause();
-	}
+        // attach events
+        document.addEventListener("resume", onResume, false);
+        document.addEventListener("pause", onPause, false);
+    }, false);
 
-    document.addEventListener("resume", onResume, false);
+
+    function onPause() {
+        alert('paused');
+    }
 
     function onResume() {
-        soundWait.resume();
+        alert('resumed');
     }
      
     var utilisateurDao= new UtilisateurDAO();

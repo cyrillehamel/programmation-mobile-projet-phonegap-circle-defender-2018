@@ -4,21 +4,25 @@ var JeuVue = (function()
 
     return function()
     {
-        var stagePrincipal, arcDeCercle;
+        var canvas;
+        var stagePrincipal;
+        var arcDeCercle;
+        var cercleJoueur;
 
         var positionJoueurX, positionJoueurY;
 
         var positionJoueurXPourCible, positionJoueurYPourCible;
 
         var arcDeCercleEstEnHaut = true;
-        var circleEnnemi1 = new createjs.Shape();
-        var circleEnnemiAutres = new createjs.Shape();  
-        
-        circleEnnemi1.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
+        var cercleEnnemis = new createjs.Shape();
+        var circleEnnemiAutres = new createjs.Shape();
+
 
         var initialiser = function(){
 
-            var canvas = document.createElement('canvas');
+            cercleEnnemis.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
+
+            canvas = document.createElement('canvas');
             canvas.id = "demo-canvas";
             canvas.width = window.screen.availWidth;
             canvas.height = window.screen.availHeight;
@@ -26,8 +30,8 @@ var JeuVue = (function()
             canvas.style.position = "center";
             canvas.style.border = "1px solid";*/
 
-            positionJoueurX = (canvas.width / 2);
-            positionJoueurY = (canvas.height / 2);
+            positionJoueurX = Math.round(canvas.width / 2);
+            positionJoueurY = Math.round(canvas.height / 2);
 
             document.getElementsByTagName("body")[0].innerHTML = pageJeuVue;
             document.body.appendChild(canvas);
@@ -35,32 +39,11 @@ var JeuVue = (function()
 
             //var ctx = canvas.getContext("2d");    Peut être utile !! NE PAS SUPPRIMER !!
 
-            console.log("initialiser : canvas width : " + canvas.width);
-            console.log("initialiser : canvas height : " +  canvas.height);
-            console.log("initialiser : posX : " + positionJoueurX);
-            console.log("initialiser : posY : " + positionJoueurY);
+            rendreGesturePourArcDeCercleDisponible();
 
             stagePrincipal = new createjs.Stage("demo-canvas");
             createjs.Ticker.setFPS(60);
-            createjs.Ticker.addEventListener("tick", stagePrincipal);
-
-
-            ///// GESTURE
-            var myElement = document.getElementById('demo-canvas');
-
-            var mc = new Hammer(myElement);
-
-            // let the pan gesture support all directions.
-            // this will block the vertical scrolling on a touch-device while on the element
-            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-
-
-            mc.on("panleft panright panup pandown tap press", function(ev) {
-                console.log("Test gesture");
-                stagePrincipal.removeChild(arcDeCercle);
-                arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
-                afficherArcDeCercle(arcDeCercleEstEnHaut);
-            });
+            createjs.Ticker.addEventListener("tick", rafraichirScene);
         };
 
 
@@ -69,14 +52,74 @@ var JeuVue = (function()
             afficherCercleJoueur();
             afficherArcDeCercle(arcDeCercleEstEnHaut);
             demarrerEnnemis();
-
         };
+
+        function rafraichirScene(evenement){
+            stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
+        };
+
+        function rendreGesturePourArcDeCercleDisponible(){
+
+            var myElement = document.getElementById('demo-canvas');
+            var mc = new Hammer(myElement);
+
+            // let the pan gesture support all directions.
+            // this will block the vertical scrolling on a touch-device while on the element
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+            mc.on("panleft panright panup pandown tap press", function(ev) {
+                console.log("Gesture Arc de Cercle détectée");
+                stagePrincipal.removeChild(arcDeCercle);
+                arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
+                afficherArcDeCercle(arcDeCercleEstEnHaut);
+            });
+        }
+
+        function testerIntersection(rect1,  rect2){
+                if ( rect1.x >= rect2.x + rect2.width || rect1.x + rect1.width <= rect2.x || rect1.y >= rect2.y + rect2.height || rect1.y + rect1.height <= rect2.y ) return false;
+                return true;
+        };
+
+        function testerCollision(){
+
+            var rectangleEnnemi = {
+                x : cercleEnnemis.x,
+                y : cercleEnnemis.y,
+                width : cercleEnnemis.getBounds().width,
+                height : cercleEnnemis.getBounds().height
+            };
+
+            var rectangleJoueur = cercleJoueur.getBounds();
+
+            if (testerIntersection(rectangleJoueur, rectangleEnnemi)){
+                var centreJoueurX = (rectangleJoueur.width - rectangleJoueur.x) / 2;
+                var centreJoueurY = (rectangleJoueur.height - rectangleJoueur.y) / 2;
+
+                var centreEnnemiX = (rectangleEnnemi.width - rectangleEnnemi.x) / 2;
+                var centreEnnemiY = (rectangleEnnemi.height - rectangleEnnemi.y) / 2;
+
+                var distanceReelle = Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
+
+                var distanceCollision = rectangleJoueur.width / 2  + rectangleEnnemi.width / 2;
+
+                if ( distanceReelle < distanceCollision ){
+                    console.log("Intersection détectée");
+                    //alert("Intersection détectée");
+                    //cercleJoueur.alpha = .2;
+                }
+            }
+        }
         
         function afficherCercleJoueur(){
 
-            var circleJoueur = new createjs.Shape();
-            circleJoueur.graphics.beginFill("Black").drawCircle(positionJoueurX, positionJoueurY, 18);
-            stagePrincipal.addChild(circleJoueur);
+            cercleJoueur = new createjs.Shape();
+            cercleJoueur.setBounds(positionJoueurX, positionJoueurY, 36, 36);
+
+            cercleJoueur.x = positionJoueurX;
+            cercleJoueur.y = positionJoueurY;
+            cercleJoueur.graphics.beginFill("Black").drawCircle(0, 0, 18);
+
+            stagePrincipal.addChild(cercleJoueur);
             //stagePrincipal.update();
         };
 
@@ -107,49 +150,51 @@ var JeuVue = (function()
 
             // quart haut gauche
             if((randomGaucheDroite===0) && (randomBasHaut===0)){
-                circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+                cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible -= 20;
-                positionJoueurYPourCible -= 20;
-
-
-
+                positionJoueurXPourCible -= 15;
+                positionJoueurYPourCible -= 15;
             }
             // Quart haut droite
             else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
-                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
-                circleEnnemi1.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
+                cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
+                cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible += 20;
-                positionJoueurYPourCible -= 20;
+                positionJoueurXPourCible += 15;
+                positionJoueurYPourCible -= 15;
             }
             // Quart bas gauche
             else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
-                circleEnnemi1.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+                cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible -= 20;
-                positionJoueurYPourCible += 20;
+                positionJoueurXPourCible -= 15;
+                positionJoueurYPourCible += 15;
             }
             // Quart bas droite
             else {
-                circleEnnemi1.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
-                circleEnnemi1.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
+                cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
+                cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible += 20;
-                positionJoueurYPourCible += 20;
+                positionJoueurXPourCible += 15;
+                positionJoueurYPourCible += 15;
             }
 
-            stagePrincipal.addChild(circleEnnemi1);
+            cercleEnnemis.setBounds(cercleEnnemis.x, cercleEnnemis.y, 20, 20);
 
-            createjs.Tween.get(circleEnnemi1, {loop: true})
-                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 1500, createjs.Ease.linear);
 
-            console.log("afficherEnnemi -> x : " + circleEnnemi1.x);
-            console.log("afficherEnnemi -> y : " + circleEnnemi1.y);
+            stagePrincipal.addChild(cercleEnnemis);
 
-            console.log("hitTest -> " + arcDeCercle.hitTest(circleEnnemi1.x, circleEnnemi1.y));
+            createjs.Tween.get(cercleEnnemis, {loop: true})
+                .to({x:positionJoueurX, y: positionJoueurY}, 1500, createjs.Ease.linear)
+                .call(handleComplete)
+                .addEventListener("change", testerCollision);
+
+            function handleComplete() {
+                //throw new Error();
+
+            }
 
         };
 

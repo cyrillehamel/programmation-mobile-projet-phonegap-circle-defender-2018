@@ -5,6 +5,18 @@
         loop: true,
         volume: 0.2
     });
+
+    document.addEventListener("pause", onPause, false);
+
+	function onPause() {
+	    soundWait.pause();
+	}
+
+    document.addEventListener("resume", onResume, false);
+
+    function onResume() {
+        soundWait.resume();
+    }
      
     var utilisateurDao= new UtilisateurDAO();
     var instance = this;
@@ -36,6 +48,10 @@
         
         if(!hash)
         {
+            if(null!=idUtilisateur)
+            {
+               naviguerAccueil(); 
+            }
             stopMusique();
             soundWait.play();
             var authentifierVue = new AuthentifierVue(actionAuthentifierCompte);

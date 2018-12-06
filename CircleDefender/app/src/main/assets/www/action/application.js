@@ -14,11 +14,11 @@
     }, false);
 
     function onPause() {
-        soundWait.mute(true);
+        soundWait.stop();
     }
 
     function onResume() {
-        soundWait.mute(false);
+        soundWait.play();
     }
      
     var utilisateurDao= new UtilisateurDAO();

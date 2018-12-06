@@ -6,16 +6,19 @@
         volume: 0.2
     });
 
-    document.addEventListener("pause", onPause, false);
+    document.addEventListener("deviceready", function(){
 
-	function onPause() {
-	    soundWait.pause();
-	}
+        // attach events
+        document.addEventListener("resume", onResume, false);
+        document.addEventListener("pause", onPause, false);
+    }, false);
 
-    document.addEventListener("resume", onResume, false);
+    function onPause() {
+        stopMusique();
+    }
 
     function onResume() {
-        soundWait.resume();
+        playMusique();
     }
      
     var utilisateurDao= new UtilisateurDAO();
@@ -29,8 +32,22 @@
 
     mute = function()
     {
-        soundWait.mute(true);
-        console.log("oui");
+        if(localStorage['mute'] != null){
+            if(localStorage['mute'] == 'true'){
+                localStorage['mute']= 'false';
+                stopMusique();
+                console.log("stop");
+            }
+            else{
+                localStorage['mute']= 'true';
+                playMusique();
+                console.log("play");
+            }
+        }
+        else{
+            localStorage['mute']= 'false';
+            mute();
+        }
     }
         
     var initialiser = function()
@@ -184,6 +201,10 @@
     var stopMusique = function()
     {
         soundWait.stop();
+    }
+
+    var playMusique = function(){
+        soundWait.play();
     }
     
     initialiser();

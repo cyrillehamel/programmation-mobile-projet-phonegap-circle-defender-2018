@@ -46,6 +46,7 @@
         }
         else{
             localStorage['mute']= 'false';
+            mute();
         }
 
         // Test boolean

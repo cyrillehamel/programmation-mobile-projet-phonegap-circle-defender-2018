@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: PersonnageDAO.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,55 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: PersonnageDAO.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var PersonnageDAO = function ()
+{
+    /**
+     * Lit la liste complète des personnages
+     * @return {Object} un tableau associatif
+     */
+    this.lireListePersonnages = async () => {
+        var listePersonnages = [];
 
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/personnage/lire.php');
+        const listePersonnagesJson = await reponse.json();
 
-    <h3> </h3>
+        localStorage['personnages'] = JSON.stringify(listePersonnages);
 
+        return JSON.parse(listePersonnagesJson);
+    }
 
+    /**
+     * Lit un personnage en fonction d'un id donné
+     * @param {Number} id l'id du personnage à lire
+     * @return {null} si le nombre en paramètre n'est pas un entier
+     * ou si l'enregistrement associé n'existe pas en base de données
+     * @return {Personnage} le personnage associé à l'id
+     */
 
+    this.lirePersonnageParId = async (id) => {
+        if (!Number.isInteger(id))
+        {
+            window.alert("Vous devez entrer un nombre entier pour lire un personnage. ID : " + id);
+            return null;
+        }
 
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/personnage/lireUn.php?id=' + id);
+        var personnage = await reponse.json();
 
-
-
-
-
-
-    
-
-
-
-
-
+        return (personnage.id === undefined ? null : new Personnage(personnage.id, personnage.taille_bouclier));
+    }
+}</code></pre>
+        </article>
+    </section>
 
 
 

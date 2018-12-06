@@ -35,11 +35,11 @@
         if(localStorage['mute'] != null){
             if(localStorage['mute'] == true){
                 localStorage['mute']=false;
-                soundWait.mute(false);
+                soundWait.stop();
             }
             else{
                 localStorage['mute']=true;
-                soundWait.mute(true);
+                soundWait.play();
             }
         }
         else{

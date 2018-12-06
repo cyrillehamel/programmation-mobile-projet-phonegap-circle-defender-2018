@@ -14,11 +14,11 @@
     }, false);
 
     function onPause() {
-        soundWait.stop();
+        stopMusique();
     }
 
     function onResume() {
-        soundWait.play();
+        playMusique();
     }
      
     var utilisateurDao= new UtilisateurDAO();
@@ -35,12 +35,12 @@
         if(localStorage['mute'] != null){
             if(localStorage['mute'] == 'true'){
                 localStorage['mute']= 'false';
-                soundWait.stop();
+                stopMusique();
                 console.log("stop");
             }
             else{
                 localStorage['mute']= 'true';
-                soundWait.play();
+                playMusique();
                 console.log("play");
             }
         }
@@ -48,12 +48,6 @@
             localStorage['mute']= 'false';
             mute();
         }
-
-        // Test boolean
-
-        // If / Else
-
-        soundWait.mute(true);
     }
         
     var initialiser = function()
@@ -207,6 +201,10 @@
     var stopMusique = function()
     {
         soundWait.stop();
+    }
+
+    var playMusique = function(){
+        soundWait.play();
     }
     
     initialiser();

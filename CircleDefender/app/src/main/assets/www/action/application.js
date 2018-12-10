@@ -6,6 +6,23 @@
         volume: 0.2
     });
 
+    var soundReves = new Howl({
+        src: ['data/musique/Reves-Du-Matin.mp3'],
+        loop: true,
+        volume: 0.2
+    });
+
+    if(localStorage['piste'] != null)
+    {
+        localStorage['piste']= '1';
+	}
+
+    if(localStorage['mute'] == null)
+    {
+      	localStorage['mute'] == false;
+    }
+    
+
     document.addEventListener("deviceready", function(){
 
         // attach events
@@ -23,31 +40,26 @@
      
     var utilisateurDao= new UtilisateurDAO();
     var instance = this;
+
     if (localStorage['idUtilisateur'] != null)
-        {
-        var idUtilisateur=Number(localStorage['idUtilisateur']);
-        }else{
-           var idUtilisateur= null;
-        }
+    {
+    	var idUtilisateur=Number(localStorage['idUtilisateur']);
+    }
+    else{
+       var idUtilisateur= null;
+    }
 
     mute = function()
     {
-        if(localStorage['mute'] != null){
-            if(localStorage['mute'] == 'true'){
-                localStorage['mute']= 'false';
-                stopMusique();
-                console.log("stop");
-            }
-            else{
-                localStorage['mute']= 'true';
-                playMusique();
-                console.log("play");
-            }
+        if(localStorage['mute'] == 'false')
+        {
+            localStorage['mute']= 'true';
+            stopMusique();
         }
         else{
             localStorage['mute']= 'false';
-            mute();
-        }
+            playMusique();
+        }     
     }
         
     var initialiser = function()
@@ -69,8 +81,8 @@
             {
                naviguerAccueil(); 
             }
-            stopMusique();
-            soundWait.play();
+            localStorage['piste']= '1';
+            playMusique();
             var authentifierVue = new AuthentifierVue(actionAuthentifierCompte);
             authentifierVue.afficher();
         }
@@ -80,8 +92,8 @@
             {
                naviguerAuthentification(); 
             }
-            stopMusique();
-            soundWait.play();
+            localStorage['piste']= '1';
+            playMusique();
             var menuVue = new MenuVue();
             menuVue.afficher();
         }
@@ -91,13 +103,13 @@
             {
                naviguerAuthentification(); 
             }
-            stopMusique();
+            localStorage['piste']= '2';
+            playMusique();
             var jeuVue = new JeuVue();
             jeuVue.afficher();
         }
         else if(hash.match(/^#creer-compte/))
         {
-            stopMusique();
             var creerCompte = new CreationCompteVue(actionCreationCompte);
             creerCompte.afficher();
         }
@@ -107,7 +119,6 @@
             {
                naviguerAuthentification(); 
             }
-            stopMusique();
             var utilisateur =await  utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
@@ -118,7 +129,6 @@
             {
                naviguerAuthentification(); 
             }
-            stopMusique();
             var detailJoueurVue = new DetailJoueurVue();
             detailJoueurVue.afficher();
         }
@@ -127,8 +137,7 @@
             if(null==localStorage['idUtilisateur'])
             {
                naviguerAuthentification(); 
-            }
-            stopMusique();        
+            }     
             var utilisateurTest1 = new Utilisateur(1,'toto@mail.fr', 'motDePasse', 'pseudonyme1');
             var utilisateurTest2 = new Utilisateur(2,'toto@mail.fr', 'motDePasse', 'pseudonyme2');
             var listeUtilisateurDonnee = [ utilisateurTest1 ,  utilisateurTest2 ];
@@ -140,15 +149,14 @@
         }
         else if (hash.match(/^#quitter/))
         {
-            stopMusique();
             navigator.app.exitApp();
         }
         else if (hash.match(/^#deconecter/))
         {
-            stopMusique();
             actionDeconectionCompte();
         }
         else {
+            localStorage['piste']= '1';
             stopMusique();
         }
     }
@@ -201,10 +209,24 @@
     var stopMusique = function()
     {
         soundWait.stop();
+        soundReves.stop();
     }
 
     var playMusique = function(){
-        soundWait.play();
+
+        stopMusique();
+
+    	if(localStorage['mute'] == 'false')
+        {
+        	if(localStorage['piste']=='1')
+    		{
+        		soundWait.play();
+    		}
+	    	else
+	    	{
+	    		soundReves.play();
+	    	}
+        }
     }
     
     initialiser();

@@ -21,7 +21,6 @@
     {
       	localStorage['mute'] == false;
     }
-    
 
     document.addEventListener("deviceready", function(){
 
@@ -37,16 +36,28 @@
     function onResume() {
         playMusique();
     }
-     
-    var utilisateurDao= new UtilisateurDAO();
-    var instance = this;
 
-    if (localStorage['idUtilisateur'] != null)
+    var stopMusique = function()
     {
-    	var idUtilisateur=Number(localStorage['idUtilisateur']);
+        soundWait.stop();
+        soundReves.stop();
     }
-    else{
-       var idUtilisateur= null;
+
+    var playMusique = function(){
+
+        stopMusique();
+
+    	if(localStorage['mute'] == 'false')
+        {
+        	if(localStorage['piste']=='1')
+    		{
+        		soundWait.play();
+    		}
+	    	else
+	    	{
+	    		soundReves.play();
+	    	}
+        }
     }
 
     mute = function()
@@ -60,18 +71,51 @@
             localStorage['mute']= 'false';
             playMusique();
         }     
-    }
-        
-    var initialiser = function()
+    }      
+     
+    var utilisateurDao= new UtilisateurDAO();
+    var instance = this;
+
+    if (localStorage['idUtilisateur'] != null)
     {
-        window.addEventListener("hashchange",naviguer);
-        naviguer();
+    	var idUtilisateur=Number(localStorage['idUtilisateur']);
     }
+    else{
+       var idUtilisateur= null;
+    }
+
+    var actionCreationCompte = async function(utilisateur)
+    {
+        
+        var compteCreation = await utilisateurDao.ajouterUtilisateur(utilisateur.mail,utilisateur.motDePasse,utilisateur.pseudonyme);
+        actionAuthentifierCompte(utilisateur);
+    }
+    
+    var actionModifierCompte =async function(utilisateur)
+    {
+        await utilisateurDao.modifierUtilisateur(utilisateur);
+        naviguerAccueil();
+    }
+    
+    var actionAuthentifierCompte = async function(utilisateur)
+    {
+        //appel au DAO
+        
+        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,utilisateur.motDePasse);
+        if(testauthen==true){
+            utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
+            localStorage['idUtilisateur']=utilisateurAutentifier.id;
+            idUtilisateur=Number(localStorage['idUtilisateur']);
+             naviguerAccueil();
+        }else{
+             window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
+            naviguerAuthentification();
+        }
+    }    
 
     var naviguer = async function()
     {
     
-        
      var hash = window.location.hash;
        
         
@@ -160,35 +204,6 @@
             stopMusique();
         }
     }
-    
-    var actionCreationCompte = async function(utilisateur)
-    {
-        
-        var compteCreation = await utilisateurDao.ajouterUtilisateur(utilisateur.mail,utilisateur.motDePasse,utilisateur.pseudonyme);
-        actionAuthentifierCompte(utilisateur);
-    }
-    
-    var actionModifierCompte =async function(utilisateur)
-    {
-        await utilisateurDao.modifierUtilisateur(utilisateur);
-        naviguerAccueil();
-    }
-    
-      var actionAuthentifierCompte = async function(utilisateur)
-    {
-        //appel au DAO
-        
-        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,utilisateur.motDePasse);
-        if(testauthen==true){
-            utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
-            localStorage['idUtilisateur']=utilisateurAutentifier.id;
-            idUtilisateur=Number(localStorage['idUtilisateur']);
-             naviguerAccueil();
-        }else{
-             window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
-            naviguerAuthentification();
-        }
-    }
 
     var naviguerAccueil = function()
     {
@@ -206,27 +221,10 @@
     naviguerAccueil();
     }
 
-    var stopMusique = function()
+    var initialiser = function()
     {
-        soundWait.stop();
-        soundReves.stop();
-    }
-
-    var playMusique = function(){
-
-        stopMusique();
-
-    	if(localStorage['mute'] == 'false')
-        {
-        	if(localStorage['piste']=='1')
-    		{
-        		soundWait.play();
-    		}
-	    	else
-	    	{
-	    		soundReves.play();
-	    	}
-        }
+        window.addEventListener("hashchange",naviguer);
+        naviguer();
     }
     
     initialiser();

@@ -8,6 +8,9 @@ var JeuVue = (function()
         var stagePrincipal;
         var arcDeCercle;
         var cercleJoueur;
+        var bouclier;
+
+        var debutBouclier, finBouclier;
 
         var debutInterval = 0;
         var testInterval;
@@ -46,17 +49,22 @@ var JeuVue = (function()
 
             stagePrincipal = new createjs.Stage("demo-canvas");
             createjs.Ticker.setFPS(60);
+
             createjs.Ticker.addEventListener("tick", rafraichirScene);
         };
 
 
         this.afficher = function()
         {
+            afficherCarreBouclier();
+
             afficherCercleJoueur();
-            afficherArcDeCercle(arcDeCercleEstEnHaut);
+            //afficherArcDeCercle(arcDeCercleEstEnHaut);
         };
 
         function rafraichirScene(evenement){
+            carreBouclier.rotation++;
+
             if (debutInterval == 0){
                 debutInterval = new Date().getTime();
                 demarrerEnnemis();
@@ -91,7 +99,7 @@ var JeuVue = (function()
                 console.log("Gesture Arc de Cercle détectée");
                 stagePrincipal.removeChild(arcDeCercle);
                 arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
-                afficherArcDeCercle(arcDeCercleEstEnHaut);
+                //afficherArcDeCercle(arcDeCercleEstEnHaut);
             });
         }
 
@@ -136,22 +144,59 @@ var JeuVue = (function()
         function afficherCercleJoueur(){
 
             cercleJoueur = new createjs.Shape();
-           //cercleJoueur.graphics.beginFill("red").drawRect(0, 0, 36, 36);
+            //cercleJoueur.graphics.beginFill("red").drawRect(0, 0, 36, 36);
             cercleJoueur.setBounds(positionJoueurX, positionJoueurY, 36, 36);
 
-            cercleJoueur.regX = cercleJoueur.regY = 9;
+            //cercleJoueur.regX = cercleJoueur.regY = 9;
 
-
+            cercleJoueur.graphics.beginFill("Black").drawCircle(0, 0, 18);
             cercleJoueur.x = positionJoueurX;
             cercleJoueur.y = positionJoueurY;
-            cercleJoueur.graphics.beginFill("Black").drawCircle(18, 18, 18);
+
 
 
             stagePrincipal.addChild(cercleJoueur);
             //stagePrincipal.update();
         };
 
-        function afficherArcDeCercle(booleen){
+        function afficherCarreBouclier(){
+            carreBouclier = new createjs.Container();
+
+            var bouclier = new createjs.Shape();
+
+            bouclier.graphics.beginFill("Red").drawRect(0, 0, 65, 65);
+
+            bouclier.graphics.setStrokeStyle(1).beginStroke("rgba(0,0,0,1)");
+            bouclier.graphics.moveTo(65, 0);
+            bouclier.graphics.lineTo(65, 65);
+
+            carreBouclier.x = positionJoueurX;
+            carreBouclier.y = positionJoueurY;
+
+            carreBouclier.regX = carreBouclier.regY = 32.5;
+            carreBouclier.rotation += 45;
+
+            carreBouclier.addChild(bouclier);
+
+            debutBouclier  = new createjs.Shape();
+            debutBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
+            debutBouclier.x = 65;
+            debutBouclier.y = 0;
+
+            finBouclier  = new createjs.Shape();
+            finBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
+            finBouclier.x = 65;
+            finBouclier.y = 65;
+
+            carreBouclier.addChild(debutBouclier, finBouclier);
+
+            stagePrincipal.addChild(carreBouclier);
+
+            console.log("debut bouclier : " + carreBouclier.localToGlobal(65, 0));
+
+        };
+
+        /*function afficherArcDeCercle(booleen){
             arcDeCercle = new createjs.Shape();
             //arcDeCercle.graphics.beginFill("yellow").drawRect(0, 0, 25, 25);
 
@@ -164,7 +209,7 @@ var JeuVue = (function()
             //refactor radius
 
             stagePrincipal.addChild(arcDeCercle);
-        };
+        };*/
         
         function afficherEnnemis() {
 

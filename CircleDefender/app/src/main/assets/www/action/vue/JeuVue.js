@@ -75,13 +75,17 @@ var JeuVue = (function()
             if (testerCollision()){
                 createjs.Ticker.removeEventListener("tick", rafraichirScene);
                 stagePrincipal.removeChild(cercleEnnemis);
-                //plus cercel autres
+                //plus cercles autres
 
             }
             else if (testInterval - debutInterval >= 1500){
                 demarrerEnnemis();
                 debutInterval = testInterval;
             }
+            else if (testerCollisionAvecBouclier()){
+                console.log("WOUHOUOUUUUUUU");
+            }
+
 
             stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
         };
@@ -139,6 +143,60 @@ var JeuVue = (function()
                 }
             }
             return false;
+        }
+
+        function testerCollisionAvecBouclier(){
+
+            var R = 10;
+
+            var pointA = debutBouclier.localToGlobal(65, 0);
+            var pointB = debutBouclier.localToGlobal(65, 65);
+
+            // compute the euclidean distance between A and B
+            var Ax = pointA.x; var Ay = pointA.y;
+            var Bx = pointB.x; var By = pointB.y;
+
+            var LAB = Math.sqrt( Math.pow((Bx - Ax), 2) + Math.pow((By - Ay),2) );
+
+            // compute the direction vector D from A to B
+            var Dx = (Bx - Ax) / LAB;
+            var Dy = (By - Ay) / LAB;
+
+            // the equation of the line AB is x = Dx*t + Ax, y = Dy*t + Ay with 0 <= t <= LAB.
+
+            // compute the distance between the points A and E, where
+            // E is the point of AB closest the circle center (Cx, Cy)
+            var Cx = cercleEnnemis.x + 10; var Cy = cercleEnnemis.y + 10;
+
+            var t = Dx*(Cx-Ax) + Dy*(Cy-Ay);
+
+            // compute the coordinates of the point E
+            var Ex = t*Dx+Ax;
+            var Ey = t*Dy+Ay;
+
+            // compute the euclidean distance between E and C
+            var LEC = Math.sqrt(Math.pow((Ex-Cx),2) + Math.pow((Ey-Cy),2));
+
+            // test if the line intersects the circle
+            if( LEC < R ) {
+                /*// compute distance from t to circle intersection point
+                var dt = Math.sqrt( R * R - LEC * LEC);
+
+                // compute first intersection point
+                var Fx = (t-dt)*Dx + Ax;
+                var Fy = (t-dt)*Dy + Ay;
+
+                // compute second intersection point
+               var  Gx = (t+dt)*Dx + Ax;
+               var Gy = (t+dt)*Dy + Ay;*/
+
+               console.log("Intersection avec bouclier detectee!");
+               return true;
+            }
+
+            return false;
+
+
         }
         
         function afficherCercleJoueur(){

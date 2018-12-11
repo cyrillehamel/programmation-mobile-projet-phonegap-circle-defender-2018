@@ -1,6 +1,5 @@
 var UtilisateurDAO = function ()
 {
-    
     /**
      * Lit la liste des meilleurs joueurs
      * @return {Object} un tableau associatif
@@ -8,10 +7,10 @@ var UtilisateurDAO = function ()
     this.lireListeMeilleursJoueurs = async () => {
         var listeMeilleursJoueurs = [];
 
-        const reponse = await fetch('http://URL_DE_L_API');
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/meilleursScores.php');
         const listeMeilleursJoueursJson = await reponse.json();
 
-        localStorage['meilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
+        localStorage['listeMeilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 
         return JSON.parse(listeMeilleursJoueursJson);
     }

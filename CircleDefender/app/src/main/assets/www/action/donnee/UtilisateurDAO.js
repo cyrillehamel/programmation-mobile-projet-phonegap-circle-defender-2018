@@ -10,7 +10,7 @@ var UtilisateurDAO = function ()
 
         localStorage['listeMeilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 
-        return JSON.parse(listeMeilleursJoueurs);
+        return listeMeilleursJoueurs;
     }
 
     /**

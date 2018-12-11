@@ -9,6 +9,7 @@ var UtilisateurDAO = function ()
 
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/meilleursScores.php');
         const listeMeilleursJoueursJson = await reponse.json();
+        listeMeilleursJoueurs = listeMeilleursJoueursJson;
 
         localStorage['listeMeilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 

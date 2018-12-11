@@ -53,7 +53,7 @@
         	<li><a class="btn btn-primary animated fadeIn slow" href='#jeu'>Jouer</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Leaderboard</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#modifier-compte'>Paramètres</a></li>
-        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconecter'>Deconecter</a></li>
+        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconecter'>déconnexion</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#quitter'>Quitter</a></li>
         </ul>
     </script>
@@ -90,10 +90,11 @@
     </script>
 
       <script type="plain/text" id="page-leaderboard">
-        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
-
+        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
+        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>    
         <h1 class="animated rubberBand infinite slower">Classement</h1>
 	   <ul id="liste-score"></ul>
+       
     </script>
 
     <script type="plain/text" id="page-detail-joueur">

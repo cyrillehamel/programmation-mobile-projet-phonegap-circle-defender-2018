@@ -2,29 +2,26 @@ var LeaderboardVue = (function()
 {
     var pageLeaderboardVue = document.getElementById("page-leaderboard").innerHTML;
 
-    return function(listeScoreDonnee,listeUtilisateurDonnee)
+    return function(arrayleaderboard)
     {
         this.afficher = function()
         {
             document.getElementsByTagName("body")[0].innerHTML = pageLeaderboardVue;
             
-            var listeCadeau = document.getElementById("liste-score");
+            var listeScore = document.getElementById("liste-score");
 
             var li="";
-            for(var numeroScore in listeScoreDonnee)
+            for(var numeroScore in arrayleaderboard)
             {   
-                if(listeScoreDonnee[numeroScore] !=null){
-                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\'; 
-                for(var numeroUtilisateur in listeUtilisateurDonnee){
-                    if(listeUtilisateurDonnee[numeroUtilisateur].id === listeScoreDonnee[numeroScore].idUtilisateur ){                   
-                     li+= listeUtilisateurDonnee[numeroUtilisateur].id +'">'+listeUtilisateurDonnee[numeroUtilisateur].pseudonyme;
-                    }
-                }
-                    li+=" "+listeScoreDonnee[numeroScore].score+
+                
+                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\';                
+                li+= arrayleaderboard[numeroScore].id +'">'+arrayleaderboard[numeroScore].pseudonyme;
+                   
+                    li+=" "+arrayleaderboard[numeroScore].score+
                 '</a> </li>';
-                    }
+                   
             }
-            listeCadeau.innerHTML = li;
+            listeScore.innerHTML = li;
             
         }
     };

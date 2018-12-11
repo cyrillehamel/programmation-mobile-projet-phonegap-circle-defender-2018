@@ -2,17 +2,15 @@ var UtilisateurDAO = function ()
 {
     /**
      * Lit la liste des meilleurs joueurs
-     * @return {Object} un tableau associatif
+     * @return {Object} un tableau associatif Json
      */
     this.lireListeMeilleursJoueurs = async () => {
-        var listeMeilleursJoueurs = [];
-
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/meilleursScores.php');
-        const listeMeilleursJoueursJson = await reponse.json();
+        const listeMeilleursJoueurs = await reponse.json();
 
         localStorage['listeMeilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
 
-        return JSON.parse(listeMeilleursJoueursJson);
+        return listeMeilleursJoueurs;
     }
 
     /**
@@ -28,10 +26,19 @@ var UtilisateurDAO = function ()
             return null;
         }
 
-        const reponse = await fetch('http://URL');
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id = ' + id);
         const utilisateur = await reponse.json();
 
-        return (utilisateur.id === undefined ? null : new UtilisateurDetail());
+        return (utilisateur.id_utilisateur === undefined ? null :
+            new UtilisateurDetail(
+                utilisateur.id_utilisateur,
+                utilisateur.pseudonyme_utilisateur,
+                utilisateur.meilleur_score,
+                utilisateur.score_total,
+                utilisateur.nombre_parties,
+                utilisateur.classement
+            )
+        );
     }
 
     /**

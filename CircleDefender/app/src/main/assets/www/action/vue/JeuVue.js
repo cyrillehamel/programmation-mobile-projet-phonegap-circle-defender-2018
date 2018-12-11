@@ -9,6 +9,9 @@ var JeuVue = (function()
         var arcDeCercle;
         var cercleJoueur;
 
+        var debutInterval = 0;
+        var testInterval;
+
         var positionJoueurX, positionJoueurY;
 
         var positionJoueurXPourCible, positionJoueurYPourCible;
@@ -51,10 +54,27 @@ var JeuVue = (function()
         {
             afficherCercleJoueur();
             afficherArcDeCercle(arcDeCercleEstEnHaut);
-            demarrerEnnemis();
         };
 
         function rafraichirScene(evenement){
+            if (debutInterval == 0){
+                debutInterval = new Date().getTime();
+                demarrerEnnemis();
+            }
+
+            testInterval = new Date().getTime();
+
+            if (testerCollision()){
+                createjs.Ticker.removeEventListener("tick", rafraichirScene);
+                stagePrincipal.removeChild(cercleEnnemis);
+                //plus cercel autres
+
+            }
+            else if (testInterval - debutInterval >= 1500){
+                demarrerEnnemis();
+                debutInterval = testInterval;
+            }
+
             stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
         };
 
@@ -102,22 +122,30 @@ var JeuVue = (function()
 
                 var distanceCollision = rectangleJoueur.width / 2  + rectangleEnnemi.width / 2;
 
-                if ( distanceReelle < distanceCollision ){
+                if (distanceReelle < distanceCollision ){
                     console.log("Intersection détectée");
                     //alert("Intersection détectée");
                     //cercleJoueur.alpha = .2;
+                    return true;
+
                 }
             }
+            return false;
         }
         
         function afficherCercleJoueur(){
 
             cercleJoueur = new createjs.Shape();
+           //cercleJoueur.graphics.beginFill("red").drawRect(0, 0, 36, 36);
             cercleJoueur.setBounds(positionJoueurX, positionJoueurY, 36, 36);
+
+            cercleJoueur.regX = cercleJoueur.regY = 9;
+
 
             cercleJoueur.x = positionJoueurX;
             cercleJoueur.y = positionJoueurY;
-            cercleJoueur.graphics.beginFill("Black").drawCircle(0, 0, 18);
+            cercleJoueur.graphics.beginFill("Black").drawCircle(18, 18, 18);
+
 
             stagePrincipal.addChild(cercleJoueur);
             //stagePrincipal.update();
@@ -125,8 +153,15 @@ var JeuVue = (function()
 
         function afficherArcDeCercle(booleen){
             arcDeCercle = new createjs.Shape();
+            //arcDeCercle.graphics.beginFill("yellow").drawRect(0, 0, 25, 25);
 
-            arcDeCercle.graphics.beginStroke("teal").arc(positionJoueurX, positionJoueurY, 25, 0, Math.PI, booleen);
+            arcDeCercle.regX = arcDeCercle.regY = 15;
+
+            arcDeCercle.x = positionJoueurX;
+            arcDeCercle.y = positionJoueurY;
+
+            arcDeCercle.graphics.beginStroke("teal").arc(25, 25, 25, 0, Math.PI, booleen);
+            //refactor radius
 
             stagePrincipal.addChild(arcDeCercle);
         };
@@ -188,8 +223,9 @@ var JeuVue = (function()
 
             createjs.Tween.get(cercleEnnemis, {loop: true})
                 .to({x:positionJoueurX, y: positionJoueurY}, 1500, createjs.Ease.linear)
-                .call(handleComplete)
-                .addEventListener("change", testerCollision);
+                .call(handleComplete);
+                //.addEventListener("change", testerCollision)
+
 
             function handleComplete() {
                 //throw new Error();
@@ -247,18 +283,11 @@ var JeuVue = (function()
 
         };
 
-        function sleep(ms) {
-  			return new Promise(resolve => setTimeout(resolve, ms));
-		};
-
 
         function demarrerEnnemis(){
-            setInterval(
-                function()
-                {
-                    stagePrincipal.removeChild(circleEnnemiAutres);
-                    afficherEnnemis();
-                },1500);
+            stagePrincipal.removeChild(circleEnnemiAutres);
+            afficherEnnemis();
+
         };
 
 

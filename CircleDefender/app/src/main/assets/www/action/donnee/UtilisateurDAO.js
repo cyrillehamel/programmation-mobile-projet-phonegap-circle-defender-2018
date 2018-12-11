@@ -16,20 +16,39 @@ var UtilisateurDAO = function ()
     }
 
     /**
+     * Lit des détails d'un joueur en fonction de son id
+     * @param {Number} id l'id de l'utilisateur à lire
+     * @return {null} si l 'id en paramètre n'est pas un nombre entier
+     * ou si l 'enregistrement associé n'existe pas en base de données
+     * @return {Utilisateur} l 'utilisateur associé à l'id
+    */
+    this.lireDetailJoueur = async(id) => {
+        if (!Number.isInteger(id)) {
+            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
+            return null;
+        }
+
+        const reponse = await fetch('http://URL');
+        const utilisateur = await reponse.json();
+
+        return (utilisateur.id === undefined ? null : new UtilisateurDetail());
+    }
+
+    /**
      * Lit un utilisateur en fonction de l'id en paramètre
      * @param {Number} id l'id de l'utilisateur à lire
      * @return {null} si l'id en paramètre n'est pas un nombre entier
      * ou si l 'enregistrement associé n'existe pas en base de données
      * @return {Utilisateur} l'utilisateur associé à l'id
      */
-    this.lireUtilisateurParId = async (id) => {
+    this.lireUtilisateurParId = async(id) => {
         if (!Number.isInteger(id)) {
             window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
             return null;
         }
 
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?id=' + id);
-        var utilisateur = await reponse.json();
+        const utilisateur = await reponse.json();
 
         return (utilisateur.id === undefined ? null : new Utilisateur(utilisateur.id, utilisateur.mail, null, utilisateur.pseudonyme, utilisateur.creation));
     }
@@ -40,9 +59,9 @@ var UtilisateurDAO = function ()
      * @return {null} si l'utilisateur demandé n'existe pas
      * @return {Utilisateur} l'utilisateur associé à l'adresse mail
      */
-    this.lireUtilisateurParMail = async (mail) => {
+    this.lireUtilisateurParMail = async(mail) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/lireUn.php?mail=' + mail);
-        var utilisateur = await reponse.json();
+        const utilisateur = await reponse.json();
 
         return (utilisateur.id === undefined ? null : new Utilisateur(utilisateur.id, utilisateur.mail, null, utilisateur.pseudonyme, utilisateur.creation));
     }
@@ -54,7 +73,7 @@ var UtilisateurDAO = function ()
      * @return {boolean} true si la combinaison est valide
      * @return {boolean} false si la combinaison n'est pas valide
      */
-    this.lireUtilisateurPourAuthentification = async (mail, motDePasse) => {
+    this.lireUtilisateurPourAuthentification = async(mail, motDePasse) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/auth.php', {
             method: 'POST',
             body: JSON.stringify({
@@ -67,7 +86,7 @@ var UtilisateurDAO = function ()
             }
         });
 
-        var rep = await reponse.json();
+        const rep = await reponse.json();
         
         return (rep.id === undefined ? false : true);
     }
@@ -79,7 +98,7 @@ var UtilisateurDAO = function ()
      * @param {String} pseudonyme le pseudonyme de l'utilisateur
      * @return {Utilisateur} l'utilisateur venant d'être créé
      */
-    this.ajouterUtilisateur = async (mail, motDePasse, pseudonyme) => {
+    this.ajouterUtilisateur = async(mail, motDePasse, pseudonyme) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/ajouter.php', {
             method: 'POST',
             body: JSON.stringify({
@@ -113,7 +132,7 @@ var UtilisateurDAO = function ()
      * Modifie le mot de passe et le pseudonyme
      * @param {Utilisateur} utilisateur l'utilisateur contenant les nouveaux champs
      */
-    this.modifierUtilisateur = async (utilisateur) => {
+    this.modifierUtilisateur = async(utilisateur) => {
         if (!(utilisateur instanceof Utilisateur))
         {
             window.alert("Tentative de modification d'un utilisateur qui n'est pas de type Utilisateur.");
@@ -141,7 +160,7 @@ var UtilisateurDAO = function ()
      * Supprimer un utilisateur avec un id donné
      * @param {number} id l'id de l'utilisateur
      */
-    this.supprimerUtilisateur = async (id) => {
+    this.supprimerUtilisateur = async(id) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/utilisateur/supprimer.php', {
             method: 'POST',
             body: JSON.stringify({

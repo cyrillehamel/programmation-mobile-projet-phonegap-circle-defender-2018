@@ -58,13 +58,13 @@ class ScoreDAO
         $requete = "SELECT
                    u.id,
                    u.pseudonyme,
-                   (SELECT MAX(s.score) FROM score s WHERE s.id_utilisateur = 288) as meilleur_score,
-                   (SELECT SUM(s.score) FROM score s WHERE s.id_utilisateur = 288) as score_total,
-                   (SELECT COUNT(*) FROM score s WHERE s.id_utilisateur = 288) as nombre_parties,
-                   985 as classement
-            FROM score s
+                   (SELECT MAX(s.score) FROM score s WHERE s.id_utilisateur = ?) as meilleur_score,
+                   (SELECT SUM(s.score) FROM score s WHERE s.id_utilisateur = ?) as score_total,
+                   (SELECT COUNT(*) FROM score s WHERE s.id_utilisateur = ?) as nombre_parties,
+                   -1 as classement
+            FROM " . $this->nom_table . " s
               LEFT JOIN utilisateur u on s.id_utilisateur = u.id
-            WHERE u.id = 288
+            WHERE u.id = ?
             GROUP BY u.id, u.pseudonyme, meilleur_score, nombre_parties";
 
         // préparation de la requete
@@ -72,6 +72,9 @@ class ScoreDAO
 
         // liaison de l'id de l'utilisateur dont on doit récupérer les scores
         $stmt->bindParam(1, $id);
+        $stmt->bindParam(2, $id);
+        $stmt->bindParam(3, $id);
+        $stmt->bindParam(4, $id);
 
         // exécution de la requete
         $stmt->execute();
@@ -81,8 +84,8 @@ class ScoreDAO
 
         // définir les valeurs comme propriétés de l'objet
         $score = new Score();
-        $score->setIdUtilisateur($enregistrement['id']);
-        $score->setPseudonymeUtilisateur($enregistrement['pseudonyme']);
+        $score->getUtilisateur()->setId($enregistrement['id']);
+        $score->getUtilisateur()->setPseudonyme($enregistrement['pseudonyme']);
         $score->setMeilleurScore($enregistrement['meilleur_score']);
         $score->setScoreTotal($enregistrement['score_total']);
         $score->setNombreParties($enregistrement['nombre_parties']);

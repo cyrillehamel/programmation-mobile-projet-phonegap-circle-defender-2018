@@ -6,6 +6,10 @@
  * Time: 08:33
  */
 
+require_once "Utilisateur.php";
+require_once "ModeDeJeu.php";
+require_once "Personnage.php";
+
 class Score
 {
     // Propriétés de l'objet

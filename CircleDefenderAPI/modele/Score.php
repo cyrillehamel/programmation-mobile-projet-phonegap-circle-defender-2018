@@ -138,43 +138,11 @@ class Score
     }
 
     /**
-     * @return mixed
-     */
-    public function getIdUtilisateur()
-    {
-        return $this->utilisateur->getId();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPseudonymeUtilisateur()
-    {
-        return $this->utilisateur->getPseudonyme();
-    }
-
-    /**
      * @param Utilisateur $utilisateur
      */
     public function setUtilisateur(Utilisateur $utilisateur)
     {
         $this->utilisateur = $utilisateur;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setIdUtilisateur($id)
-    {
-        $this->utilisateur->setId($id);
-    }
-
-    /**
-     * @param mixed $pseudonyme
-     */
-    public function setPseudonymeUtilisateur($pseudonyme)
-    {
-        $this->utilisateur->setPseudonyme($pseudonyme);
     }
 
     /**

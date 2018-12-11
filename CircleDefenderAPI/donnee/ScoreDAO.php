@@ -50,19 +50,22 @@ class ScoreDAO
 
     /**
      * Lire les scores d'un utilisateur à partir de son id
-     * @return Utilisateur
+     * @return Score
      */
     function lireUnId($id)
     {
         // requete pour lire un seul enregistrement
         $requete = "SELECT
-                u.id, u.mail, u.pseudonyme, u.creation
-            FROM
-                " . $this->nom_table . " u
-            WHERE
-                u.id = ?
-            LIMIT
-                1";
+                   u.id,
+                   u.pseudonyme,
+                   (SELECT MAX(s.score) FROM score s WHERE s.id_utilisateur = 288) as meilleur_score,
+                   (SELECT SUM(s.score) FROM score s WHERE s.id_utilisateur = 288) as score_total,
+                   (SELECT COUNT(*) FROM score s WHERE s.id_utilisateur = 288) as nombre_parties,
+                   985 as classement
+            FROM score s
+              LEFT JOIN utilisateur u on s.id_utilisateur = u.id
+            WHERE u.id = 288
+            GROUP BY u.id, u.pseudonyme, meilleur_score, nombre_parties";
 
         // préparation de la requete
         $stmt = $this->connexion_bdd->prepare($requete);
@@ -77,12 +80,14 @@ class ScoreDAO
         $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         // définir les valeurs comme propriétés de l'objet
-        $utilisateur = new Utilisateur();
-        $utilisateur->setId($enregistrement['id']);
-        $utilisateur->setMail($enregistrement['mail']);
-        $utilisateur->setPseudonyme($enregistrement['pseudonyme']);
-        $utilisateur->setCreation($enregistrement['creation']);
+        $score = new Score();
+        $score->setIdUtilisateur($enregistrement['id']);
+        $score->setPseudonymeUtilisateur($enregistrement['pseudonyme']);
+        $score->setMeilleurScore($enregistrement['meilleur_score']);
+        $score->setScoreTotal($enregistrement['score_total']);
+        $score->setNombreParties($enregistrement['nombre_parties']);
+        $score->setClassement($enregistrement['classement']);
 
-        return $utilisateur;
+        return $score;
     }
 }

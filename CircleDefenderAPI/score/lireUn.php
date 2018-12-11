@@ -31,10 +31,14 @@ if (isset($_GET['id'])) {
 
 $itemScore = array();
 
-if($score->getId() !== null)
+if($score->getClassement() !== null)
 {
-    $itemScore['id'] = $score->getId();
-    //$itemScore['taille_bouclier'] = $score->;
+    $itemScore['id_utilisateur'] = $score->getIdUtilisateur();
+    $itemScore['pseudonyme_utilisateur'] = $score->getPseudonymeUtilisateur();
+    $itemScore['meilleur_score'] = $score->getMeilleurScore();
+    $itemScore['score_total'] = $score->getScoreTotal();
+    $itemScore['nombre_parties'] = $score->getNombreParties();
+    $itemScore['classement'] = $score->getClassement();
 }
 
 echo json_encode($itemScore);

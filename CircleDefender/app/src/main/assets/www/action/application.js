@@ -12,14 +12,15 @@
         volume: 0.2
     });
 
-    if(localStorage['piste'] != null)
+    if(localStorage['piste'] == null)
     {
         localStorage['piste']= '1';
 	}
 
     if(localStorage['mute'] == null)
     {
-      	localStorage['mute'] == false;
+        // Musique activée
+      	localStorage['mute'] = false;
     }
 
     document.addEventListener("deviceready", function(){
@@ -47,6 +48,7 @@
 
         stopMusique();
 
+        // Musique activée
     	if(localStorage['mute'] == 'false')
         {
         	if(localStorage['piste']=='1')

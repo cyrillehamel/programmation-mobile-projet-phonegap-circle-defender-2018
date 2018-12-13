@@ -13,28 +13,25 @@
     });
 
     if(localStorage['piste'] == null)
-    {
         localStorage['piste']= '1';
-	}
 
     if(localStorage['mute'] == null)
-    {
         // Musique activée
-      	localStorage['mute'] = false;
-    }
+        localStorage['mute'] = false;
 
-    document.addEventListener("deviceready", function(){
-
-        // attach events
+    document.addEventListener("deviceready", function()
+    {
         document.addEventListener("resume", onResume, false);
         document.addEventListener("pause", onPause, false);
     }, false);
 
-    function onPause() {
+    function onPause()
+    {
         stopMusique();
     }
 
-    function onResume() {
+    function onResume()
+    {
         playMusique();
     }
 
@@ -44,8 +41,8 @@
         soundReves.stop();
     }
 
-    var playMusique = function(){
-
+    var playMusique = function()
+    {
         stopMusique();
 
         // Musique activée
@@ -79,17 +76,14 @@
     var instance = this;
 
     if (localStorage['idUtilisateur'] != null)
-    {
     	var idUtilisateur=Number(localStorage['idUtilisateur']);
-    }
-    else{
+    else
        var idUtilisateur= null;
-    }
 
     var actionCreationCompte = async function(utilisateur)
     {
-        
-        var compteCreation = await utilisateurDao.ajouterUtilisateur(utilisateur.mail,utilisateur.motDePasse,utilisateur.pseudonyme);
+        var compteCreation = await utilisateurDao.ajouterUtilisateur(
+            utilisateur.mail, utilisateur.motDePasse, utilisateur.pseudonyme);
         actionAuthentifierCompte(utilisateur);
     }
     
@@ -102,15 +96,18 @@
     var actionAuthentifierCompte = async function(utilisateur)
     {
         //appel au DAO
-        
-        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(utilisateur.mail,utilisateur.motDePasse);
-        if(testauthen==true){
+        var testauthen= await utilisateurDao.lireUtilisateurPourAuthentification(
+            utilisateur.mail,utilisateur.motDePasse);
+        if(testauthen)
+        {
             utilisateurAutentifier= await utilisateurDao.lireUtilisateurParMail(utilisateur.mail);
-            localStorage['idUtilisateur']=utilisateurAutentifier.id;
-            idUtilisateur=Number(localStorage['idUtilisateur']);
-             naviguerAccueil();
-        }else{
-             window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
+            localStorage['idUtilisateur'] = utilisateurAutentifier.id;
+            idUtilisateur = Number(localStorage['idUtilisateur']);
+            naviguerAccueil();
+        }
+        else
+        {
+            window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
             naviguerAuthentification();
         }
     }    
@@ -118,15 +115,13 @@
     var naviguer = async function()
     {
     
-     var hash = window.location.hash;
+    var hash = window.location.hash;
        
-        
         if(!hash)
         {
-            if(null!=idUtilisateur)
-            {
-               naviguerAccueil(); 
-            }
+            if(null != idUtilisateur)
+                naviguerAccueil();
+
             localStorage['piste']= '1';
             playMusique();
             var authentifierVue = new AuthentifierVue(actionAuthentifierCompte);
@@ -134,12 +129,9 @@
         }
         else if(hash.match(/^#menu/))
         {
-            // TODO : faire une fonction pour vérifier si l'id existe, plutot
-            // que de l'écrire 10 fois à la suite
             if(null==idUtilisateur)
-            {
-               naviguerAuthentification(); 
-            }
+                naviguerAuthentification();
+
             localStorage['piste'] = '1';
             playMusique();
             var menuVue = new MenuVue();
@@ -148,9 +140,7 @@
         else if(hash.match(/^#jeu/))
         {
             if(null==idUtilisateur)
-            {
-               naviguerAuthentification(); 
-            }
+                naviguerAuthentification(); 
             localStorage['piste']= '2';
             playMusique();
             var jeuVue = new JeuVue();
@@ -164,9 +154,7 @@
         else if(hash.match(/^#modifier-compte/))
         {
             if(null==idUtilisateur)
-            {
-               naviguerAuthentification();
-            }
+                naviguerAuthentification();
             var utilisateur =await  utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
@@ -174,9 +162,8 @@
         else if(hash.match(/^#leaderboard/))
         {
             if(null==localStorage['idUtilisateur'])
-            {
                naviguerAuthentification();
-            }
+            
             var tableauLeaderboard = await utilisateurDao.lireListeMeilleursJoueurs();
             
             var leaderboardVue = new LeaderboardVue(tableauLeaderboard);
@@ -185,24 +172,27 @@
         else if (hash.match(/^#detail-joueur\/([0-9]+)/))
         {
             if (null == localStorage['idUtilisateur'])
-            {
                 naviguerAuthentification();
-            }
+            
             var url = hash.match(/^#detail-joueur\/([0-9]+)/);
             var utilisateur = await utilisateurDao.lireDetailJoueur(parseInt(url[1]));
 
-            var detailJoueurVue = new DetailJoueurVue(utilisateur);
-            detailJoueurVue.afficher();
+            if (utilisateur == null)
+                naviguerLeaderboard();
+            else
+            {
+                var detailJoueurVue = new DetailJoueurVue(utilisateur);
+                detailJoueurVue.afficher();
+            }
         }
         else if (hash.match(/^#quitter/))
         {
             navigator.app.exitApp();
         }
-        // TODO : refactor deconecter en deconNecter
-        else if (hash.match(/^#deconecter/))
+        else if (hash.match(/^#deconnecter/))
         {
             // TODO : refactor egalement pour deux 'n'
-            actionDeconectionCompte();
+            actionDeconnexionCompte();
         }
         else {
             localStorage['piste']= '1';
@@ -214,21 +204,27 @@
     {
         window.location.hash = "#menu";
     }
-     var naviguerAuthentification = function()
+
+    var naviguerAuthentification = function()
     {
         window.location.hash = "#";
     }
-     
-     var actionDeconectionCompte = async function()
+
+    var naviguerLeaderboard = function()
     {
-         localStorage.removeItem('idUtilisateur');
-        idUtilisateur=null;
-    naviguerAccueil();
+        window.location.hash = "#leaderboard";
+    }
+
+    var actionDeconnexionCompte = async function()
+    {
+        localStorage.removeItem('idUtilisateur');
+        idUtilisateur = null;
+        naviguerAccueil();
     }
 
     var initialiser = function()
     {
-        window.addEventListener("hashchange",naviguer);
+        window.addEventListener("hashchange", naviguer);
         naviguer();
     }
     

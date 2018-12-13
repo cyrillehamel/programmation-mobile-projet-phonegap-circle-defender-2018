@@ -50,7 +50,7 @@
         	<li><a class="btn btn-primary animated fadeIn slow" href='#jeu'>Jouer !</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Leaderboard</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#modifier-compte'>Paramètres</a></li>
-        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconecter'>Déconnexion</a></li>
+        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconnecter'>Déconnexion</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#quitter'>Quitter</a></li>
         </ul>
     </script>
@@ -90,26 +90,17 @@
         <a class="retour-btn btn btn-primary" href='#leaderboard'>Retour</a>
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
-        <p>Classement :</p>
         <p id="classement-joueur">-1</p>
 
         <details>
             <summary>Scores :</summary>
-
-            <p>Meilleur :</p>
             <p id="meilleur-score-joueur"></p>
-
-            <p>Total :</p>
-            <p id="Score-total-joueur"></p>
+            <p id="score-total-joueur"></p>
         </details>
 
         <details>
             <summary>Autres statistiques :</summary>
-
-            <p>Parties :</p>
             <p id="nombre-parties-joueur"></p>
-
-            <p>Frags :</p>
             <p id="nombre-frags-joueur"></p>
         </details>
     </script>

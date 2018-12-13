@@ -14,23 +14,38 @@ var DetailJoueurVue = (function()
 
             // Changement du classement
             var classement = document.getElementById("classement-joueur");
-            classement.innerHTML = "Classement : #" + utilisateur.classement;
+            if (utilisateur.classement !== undefined)
+                classement.innerHTML = "Classement : #" + utilisateur.classement;
+            else
+                classement.innerHTML = "Classement : Non calculé";
 
             // Changement du meilleur score
             var meilleurScore = document.getElementById("meilleur-score-joueur");
-            meilleurScore.innerHTML = "Meilleur Score : " + utilisateur.meilleurScore;
+            if (utilisateur.meilleurScore !== undefined)
+                meilleurScore.innerHTML = "Meilleur Score : " + utilisateur.meilleurScore;
+            else
+                meilleurScore.innerHTML = "Meilleur Score : Non calculé";
 
             // Changement du score total
             var scoreTotal = document.getElementById("score-total-joueur");
-            scoreTotal.innerHTML = "Score total : " + utilisateur.scoreTotal;
+            if (utilisateur.scoreTotal !== undefined)
+                scoreTotal.innerHTML = "Score total : " + utilisateur.scoreTotal;
+            else
+                scoreTotal.innerHTML = "Score total : Non calculé";
 
             // Changement du nombre 
             var nombreParties = document.getElementById("nombre-parties-joueur");
-            nombreParties.innerHTML = "Parties : " + utilisateur.nombreParties;
+            if (utilisateur.nombreParties !== undefined)
+                nombreParties.innerHTML = "Parties : " + utilisateur.nombreParties;
+            else
+                nombreParties.innerHTML = "Parties : Non calculé";
 
             // Changement du nombre de frags
             var nombreFrags = document.getElementById("nombre-frags-joueur");
-            nombreFrags.innerHTML = "Frags : " + utilisateur.nombreFrags;
+            if (utilisateur.nombreFrags !== undefined)
+                nombreFrags.innerHTML = "Frags : " + utilisateur.nombreFrags;
+            else
+                nombreFrags.innerHTML = "Frags : Non calculé";
         }
         
     };

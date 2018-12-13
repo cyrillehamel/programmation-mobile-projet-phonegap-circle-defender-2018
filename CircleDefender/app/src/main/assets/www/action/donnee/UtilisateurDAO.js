@@ -22,7 +22,7 @@ var UtilisateurDAO = function ()
     */
     this.lireDetailJoueur = async(id) => {
         if (!Number.isInteger(id)) {
-            window.alert("Vous devez entrer un nombre entier pour consulter les détails d'un profil. ID : " + id);
+            window.alert("Vous devez entrer un nombre entier pour consulter les détails d'un profil &. ID : " + id);
             return null;
         }
 

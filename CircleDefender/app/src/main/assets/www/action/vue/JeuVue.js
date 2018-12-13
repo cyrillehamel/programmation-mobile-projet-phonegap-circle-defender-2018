@@ -6,10 +6,7 @@ var JeuVue = (function()
     {
         var canvas;
         var stagePrincipal;
-        var arcDeCercle;
         var cercleJoueur;
-
-        var debutBouclier, finBouclier;
 
         var debutInterval = 0;
         var testInterval;
@@ -20,7 +17,6 @@ var JeuVue = (function()
 
         var positionJoueurXPourCible, positionJoueurYPourCible;
 
-        var arcDeCercleEstEnHaut = true;
         var cercleEnnemis = new createjs.Shape();
         var circleEnnemiAutres = new createjs.Shape();
 
@@ -60,45 +56,36 @@ var JeuVue = (function()
 
             afficherCercleJoueur();
             afficherCarreBouclier();
-            //afficherArcDeCercle(arcDeCercleEstEnHaut);
         };
 
         function rafraichirScene(evenement){
-            //carreBouclier.rotation++;
 
             var isNouvelEnnemi = false;
 
             if (debutInterval == 0){
                 debutInterval = new Date().getTime();
                 isNouvelEnnemi = true;
-                //console.log("rafraichir scene : début interval");
-
             }
             else {
                 testInterval = new Date().getTime();
 
                 if (testInterval - debutInterval >= dureeTrajetEnnmi){
                     isNouvelEnnemi = true;
-                    // console.log("rafraichir scene : test interval");
                 }
 
                 if (testerCollisionAvecBouclier()){
                     detruireEnnemis();
                     isNouvelEnnemi = true;
-                    //console.log("collision avec bouclier : true  ");
                 }
                 else if (testerCollision()) {
-                    //  createjs.Ticker.removeEventListener("tick", rafraichirScene);
                     detruireEnnemis();
                     isNouvelEnnemi = true;
-                    //console.log("collision avec joueur : true  ");
                 }
-
             }
+
             if(isNouvelEnnemi) {
                 demarrerEnnemis();
                 debutInterval = testInterval;
-                //console.log("condition isNouvelEnnmi ");
             }
 
             stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
@@ -109,9 +96,6 @@ var JeuVue = (function()
 
             var myElement = document.getElementById('demo-canvas');
             var mc = new Hammer(myElement);
-
-            // let the pan gesture support all directions.
-            // this will block the vertical scrolling on a touch-device while on the element
             mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 
             mc.on("panleft", function(ev) {
@@ -154,7 +138,6 @@ var JeuVue = (function()
                     //alert("Intersection détectée");
                     //cercleJoueur.alpha = .2;
                     return true;
-
                 }
             }
             return false;
@@ -183,50 +166,35 @@ var JeuVue = (function()
             var pointA = carreBouclier.localToGlobal(65, 0);
             var pointB = carreBouclier.localToGlobal(65, 65);
 
-            // compute the euclidean distance between A and B
+            //calcule distance euclidienne entre A et B
             var Ax = pointA.x; var Ay = pointA.y;
             var Bx = pointB.x; var By = pointB.y;
 
             var LAB = Math.sqrt( Math.pow((Bx - Ax), 2) + Math.pow((By - Ay),2) );
 
-            // compute the direction vector D from A to B
+            // calcule vector directionnel D de A à B
             var Dx = (Bx - Ax) / LAB;
             var Dy = (By - Ay) / LAB;
 
-            // the equation of the line AB is x = Dx*t + Ax, y = Dy*t + Ay with 0 <= t <= LAB.
+            // l'équation d'une droite AB est x = Dx*t + Ax, y = Dy*t + Ay with 0 <= t <= LAB
 
-            // compute the distance between the points A and E, where
-            // E is the point of AB closest the circle center (Cx, Cy)
+            //calcule la distance entre A et E, où E est le point appartenant à AB et
+            //le plus proche du centre du cercle (Cx, Cy)
             var Cx = cercleEnnemis.x + 10; var Cy = cercleEnnemis.y + 10;
 
             var t = Dx*(Cx-Ax) + Dy*(Cy-Ay);
 
-            // compute the coordinates of the point E
+            // calcule les coordonnées du point E
             var Ex = t*Dx+Ax;
             var Ey = t*Dy+Ay;
 
-            // compute the euclidean distance between E and C
+            // calcule la distance entre E et C
             var LEC = Math.sqrt(Math.pow((Ex-Cx),2) + Math.pow((Ey-Cy),2));
 
-            // test if the line intersects the circle
+            // teste si le segment croise le cercle
             if( LEC < R ) {
-                /*// compute distance from t to circle intersection point
-                var dt = Math.sqrt( R * R - LEC * LEC);
-
-                // compute first intersection point
-                var Fx = (t-dt)*Dx + Ax;
-                var Fy = (t-dt)*Dy + Ay;
-
-                // compute second intersection point
-               var  Gx = (t+dt)*Dx + Ax;
-               var Gy = (t+dt)*Dy + Ay;*/
-               // console.log("Bouclier : pointA " + pointA.x + ", " + pointA.y + "; pointB " + pointB.x + ", " + pointB.y);
-                //console.log("Point central ennemi : " + cercleEnnemis.x + ", " +cercleEnnemis.y + " " + cercleEnnemis.radius);
-
-                //console.log("Intersection avec bouclier detectee!");
                return true;
             }
-
             return false;
         }
 
@@ -234,25 +202,19 @@ var JeuVue = (function()
         function afficherCercleJoueur(){
 
             cercleJoueur = new createjs.Shape();
-            //cercleJoueur.graphics.beginFill("red").drawRect(0, 0, 36, 36);
             cercleJoueur.setBounds(positionJoueurX, positionJoueurY, 36, 36);
-
-            //cercleJoueur.regX = cercleJoueur.regY = 9;
 
             cercleJoueur.graphics.beginFill("Black").drawCircle(0, 0, 18);
             cercleJoueur.x = positionJoueurX;
             cercleJoueur.y = positionJoueurY;
 
             stagePrincipal.addChild(cercleJoueur);
-            //stagePrincipal.update();
         };
 
         function afficherCarreBouclier(){
             carreBouclier = new createjs.Container();
 
             var bouclier = new createjs.Shape();
-
-            //bouclier.graphics.beginFill("Red").drawRect(0, 0, 65, 65);
 
             bouclier.graphics.setStrokeStyle(1).beginStroke("rgba(0,0,0,1)");
             bouclier.graphics.moveTo(50, 0);
@@ -262,42 +224,15 @@ var JeuVue = (function()
             carreBouclier.y = positionJoueurY;
 
             carreBouclier.regX = carreBouclier.regY = 25;
-            //carreBouclier.rotation += 45;
+            carreBouclier.rotation -= 90;
 
             carreBouclier.addChild(bouclier);
-
-            /*debutBouclier  = new createjs.Shape();
-            //debutBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
-            debutBouclier.x = 65;
-            debutBouclier.y = 0;
-
-            finBouclier  = new createjs.Shape();
-            //finBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
-            finBouclier.x = 65;
-            finBouclier.y = 65;
-
-            carreBouclier.addChild(debutBouclier, finBouclier);*/
 
             stagePrincipal.addChild(carreBouclier);
 
             console.log("debut bouclier : " + carreBouclier.localToGlobal(65, 0));
 
         };
-
-        /*function afficherArcDeCercle(booleen){
-            arcDeCercle = new createjs.Shape();
-            //arcDeCercle.graphics.beginFill("yellow").drawRect(0, 0, 25, 25);
-
-            arcDeCercle.regX = arcDeCercle.regY = 15;
-
-            arcDeCercle.x = positionJoueurX;
-            arcDeCercle.y = positionJoueurY;
-
-            arcDeCercle.graphics.beginStroke("teal").arc(25, 25, 25, 0, Math.PI, booleen);
-            //refactor radius
-
-            stagePrincipal.addChild(arcDeCercle);
-        };*/
         
         function afficherEnnemis() {
 

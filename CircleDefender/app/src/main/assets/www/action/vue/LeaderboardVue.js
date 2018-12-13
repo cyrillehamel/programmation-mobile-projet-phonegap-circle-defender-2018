@@ -2,7 +2,7 @@ var LeaderboardVue = (function()
 {
     var pageLeaderboardVue = document.getElementById("page-leaderboard").innerHTML;
 
-    return function(arrayleaderboard)
+    return function(tableauLeaderboard)
     {
         this.afficher = function()
         {
@@ -11,18 +11,13 @@ var LeaderboardVue = (function()
             var listeScore = document.getElementById("liste-score");
 
             var li="";
-            for(var numeroScore in arrayleaderboard)
-            {   
-                
-                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\';                
-                li+= arrayleaderboard[numeroScore].id +'">'+arrayleaderboard[numeroScore].pseudonyme;
-                   
-                    li+=" "+arrayleaderboard[numeroScore].score+
-                '</a> </li>';
-                   
+            for (var numeroScore in tableauLeaderboard)
+            {
+                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\/';                
+                li += tableauLeaderboard[numeroScore].id + '">' + tableauLeaderboard[numeroScore].pseudonyme;
+                li += " " + tableauLeaderboard[numeroScore].score + '</a> </li>';
             }
             listeScore.innerHTML = li;
-            
         }
     };
 

@@ -49,13 +49,9 @@
     	if(localStorage['mute'] == 'false')
         {
         	if(localStorage['piste']=='1')
-    		{
         		soundWait.play();
-    		}
 	    	else
-	    	{
 	    		soundReves.play();
-	    	}
         }
     }
 
@@ -66,7 +62,8 @@
             localStorage['mute']= 'true';
             stopMusique();
         }
-        else{
+        else
+        {
             localStorage['mute']= 'false';
             playMusique();
         }     
@@ -107,7 +104,7 @@
         }
         else
         {
-            window.alert("Erreur d'authentification, login ou mot de passe incorect !!  ");
+            window.alert("Erreur d'authentification : Identifiant ou mot de passe incorect.");
             naviguerAuthentification();
         }
     }    
@@ -115,8 +112,8 @@
     var naviguer = async function()
     {
     
-    var hash = window.location.hash;
-       
+        var hash = window.location.hash;
+
         if(!hash)
         {
             if(null != idUtilisateur)
@@ -140,7 +137,8 @@
         else if(hash.match(/^#jeu/))
         {
             if(null==idUtilisateur)
-                naviguerAuthentification(); 
+                naviguerAuthentification();
+
             localStorage['piste']= '2';
             playMusique();
             var jeuVue = new JeuVue();
@@ -155,7 +153,8 @@
         {
             if(null==idUtilisateur)
                 naviguerAuthentification();
-            var utilisateur =await  utilisateurDao.lireUtilisateurParId(idUtilisateur);
+
+            var utilisateur = await utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
         }
@@ -191,7 +190,6 @@
         }
         else if (hash.match(/^#deconnecter/))
         {
-            // TODO : refactor egalement pour deux 'n'
             actionDeconnexionCompte();
         }
         else {

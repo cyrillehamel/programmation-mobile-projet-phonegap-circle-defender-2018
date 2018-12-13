@@ -6,7 +6,7 @@ var DetailJoueurVue = (function()
     {
         this.afficher = function()
         {
-            document.getElementsByTagName("body")[0].innerHTML = DetailJoueurVue;
+            document.getElementsByTagName("body")[0].innerHTML = pageDetailJoueurVue;
         }
         
     };

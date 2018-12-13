@@ -14,7 +14,7 @@ var LeaderboardVue = (function()
             for(var numeroScore in arrayleaderboard)
             {   
                 
-                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\\';                
+                li += '<li class="list-group-item  justify-content-between lh-condensed " ><a class="nav-link" href="#detail-joueur\/';                
                 li+= arrayleaderboard[numeroScore].id +'">'+arrayleaderboard[numeroScore].pseudonyme;
                    
                     li+=" "+arrayleaderboard[numeroScore].score+

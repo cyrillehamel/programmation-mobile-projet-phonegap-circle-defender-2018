@@ -134,11 +134,13 @@
         }
         else if(hash.match(/^#menu/))
         {
+            // TODO : faire une fonction pour vérifier si l'id existe, plutot
+            // que de l'écrire 10 fois à la suite
             if(null==idUtilisateur)
             {
                naviguerAuthentification(); 
             }
-            localStorage['piste']= '1';
+            localStorage['piste'] = '1';
             playMusique();
             var menuVue = new MenuVue();
             menuVue.afficher();
@@ -160,41 +162,46 @@
             creerCompte.afficher();
         }
         else if(hash.match(/^#modifier-compte/))
-        {   
+        {
             if(null==idUtilisateur)
             {
-               naviguerAuthentification(); 
+               naviguerAuthentification();
             }
             var utilisateur =await  utilisateurDao.lireUtilisateurParId(idUtilisateur);
             var modifierCompteVue = new ModifierCompteVue(utilisateur,actionModifierCompte);
             modifierCompteVue.afficher();
         }
-        else if(hash.match(/^#detail-joueur\/([0-9]+)/))
-        {   
-            if(null==localStorage['idUtilisateur'])
-            {
-               naviguerAuthentification(); 
-            }
-            var detailJoueurVue = new DetailJoueurVue();
-            detailJoueurVue.afficher();
-        }
         else if(hash.match(/^#leaderboard/))
-        {   
+        {
             if(null==localStorage['idUtilisateur'])
             {
-               naviguerAuthentification(); 
-            }     
-            var arrayleaderboard = await  utilisateurDao.lireListeMeilleursJoueurs();
+               naviguerAuthentification();
+            }
+            var tableauLeaderboard = await utilisateurDao.lireListeMeilleursJoueurs();
             
-            var leaderboardVue = new LeaderboardVue(arrayleaderboard);
-            leaderboardVue.afficher();  
+            var leaderboardVue = new LeaderboardVue(tableauLeaderboard);
+            leaderboardVue.afficher();
+        }
+        else if (hash.match(/^#detail-joueur\/([0-9]+)/))
+        {
+            if (null == localStorage['idUtilisateur'])
+            {
+                naviguerAuthentification();
+            }
+            var url = hash.match(/^#detail-joueur\/([0-9]+)/);
+            var utilisateur = await utilisateurDao.lireDetailJoueur(parseInt(url[1]));
+
+            var detailJoueurVue = new DetailJoueurVue(utilisateur);
+            detailJoueurVue.afficher();
         }
         else if (hash.match(/^#quitter/))
         {
             navigator.app.exitApp();
         }
+        // TODO : refactor deconecter en deconNecter
         else if (hash.match(/^#deconecter/))
         {
+            // TODO : refactor egalement pour deux 'n'
             actionDeconectionCompte();
         }
         else {

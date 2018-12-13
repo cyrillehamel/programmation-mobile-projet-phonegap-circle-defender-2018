@@ -22,11 +22,11 @@ var UtilisateurDAO = function ()
     */
     this.lireDetailJoueur = async(id) => {
         if (!Number.isInteger(id)) {
-            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
+            window.alert("Vous devez entrer un nombre entier pour consulter les détails d'un profil. ID : " + id);
             return null;
         }
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id = ' + id);
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id=' + id);
         const utilisateur = await reponse.json();
 
         return (utilisateur.id_utilisateur === undefined ? null :
@@ -50,7 +50,7 @@ var UtilisateurDAO = function ()
      */
     this.lireUtilisateurParId = async(id) => {
         if (!Number.isInteger(id)) {
-            window.alert("Vous devez entrer un nombre entier pour voir un profil. ID : " + id);
+            window.alert("Vous devez entrer un nombre entier pour consulter un profil. ID : " + id);
             return null;
         }
 

@@ -39,6 +39,7 @@ if($score->getClassement() !== null)
     $itemScore['score_total'] = $score->getScoreTotal();
     $itemScore['nombre_parties'] = $score->getNombreParties();
     $itemScore['classement'] = $score->getClassement();
+    $itemScore['frags'] = $score->getFragtotal();
 }
 
 echo json_encode($itemScore);

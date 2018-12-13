@@ -18,6 +18,7 @@ class Score
     private $meilleur_score;
     private $score_total;
     private $nombre_parties;
+    private $frag_total;
     private $classement;
     private $utilisateur;
     private $modeDeJeu;
@@ -111,6 +112,22 @@ class Score
     public function setNombreParties($nombre_parties)
     {
         $this->nombre_parties = $nombre_parties;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFragtotal()
+    {
+        return $this->frag_total;
+    }
+
+    /**
+     * @param mixed $frag_total
+     */
+    public function setFragtotal($frag_total)
+    {
+        $this->frag_total = $frag_total;
     }
 
     /**

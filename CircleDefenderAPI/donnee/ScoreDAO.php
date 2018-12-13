@@ -61,11 +61,12 @@ class ScoreDAO
                    (SELECT MAX(s.score) FROM score s WHERE s.id_utilisateur = ?) as meilleur_score,
                    (SELECT SUM(s.score) FROM score s WHERE s.id_utilisateur = ?) as score_total,
                    (SELECT COUNT(*) FROM score s WHERE s.id_utilisateur = ?) as nombre_parties,
-                   -1 as classement
+                   -1 as classement,
+                   (SELECT SUM(s.frag) FROM score s WHERE s.id_utilisateur = 288) as frag_total
             FROM " . $this->nom_table . " s
               LEFT JOIN utilisateur u on s.id_utilisateur = u.id
             WHERE u.id = ?
-            GROUP BY u.id, u.pseudonyme, meilleur_score, nombre_parties";
+            GROUP BY u.id, u.pseudonyme, meilleur_score, score_total, nombre_parties, classement, frag_total";
 
         // préparation de la requete
         $stmt = $this->connexion_bdd->prepare($requete);
@@ -90,6 +91,7 @@ class ScoreDAO
         $score->setScoreTotal($enregistrement['score_total']);
         $score->setNombreParties($enregistrement['nombre_parties']);
         $score->setClassement($enregistrement['classement']);
+        $score->setFragtotal($enregistrement['frag_total']);
 
         return $score;
     }

@@ -26,6 +26,54 @@ class ScoreDAO
     }
 
     /**
+     * Ajouter un score
+     * @return Score Données complètes du score créé
+     */
+    function ajouter($score_data, $id_utilisateur, $id_mode_de_jeu, $id_personnage, $frag)
+    {
+        // requete pour insérer un enregistrement
+        $requete = "INSERT INTO
+                " . $this->nom_table . "(score, id_utilisateur, id_mode_de_jeu, id_personnage, frag)
+            VALUES
+                (:score, :id_utilisateur, :id_mode_de_jeu, :id_personnage, :frag)
+            RETURNING id";
+
+        // préparation de la requete
+        $stmt = $this->connexion_bdd->prepare($requete);
+
+        // sanitize
+        $score_data = htmlspecialchars(strip_tags($score_data));
+        $id_utilisateur = htmlspecialchars(strip_tags($id_utilisateur));
+        $id_mode_de_jeu = htmlspecialchars(strip_tags($id_mode_de_jeu));
+        $id_personnage = htmlspecialchars(strip_tags($id_personnage));
+        $frag = htmlspecialchars(strip_tags($frag));
+
+        // liaison des variables
+        $stmt->bindParam(":score", $score_data);
+        $stmt->bindParam(":id_utilisateur", $id_utilisateur);
+        $stmt->bindParam(":id_mode_de_jeu", $id_mode_de_jeu);
+        $stmt->bindParam(":id_personnage", $id_personnage);
+        $stmt->bindParam(":frag", $frag);
+
+        // exécution de la requete
+        $stmt->execute();
+
+        // récupérer l'enregistrement renvoyé
+        $enregistrement = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        // définir les valeurs comme propriétés de l'objet
+        $score = new Score();
+        $score->setId($enregistrement['id']);
+        $score->setScore($score_data);
+        $score->getUtilisateur()->setId($id_utilisateur);
+        $score->getModeDeJeu()->setId($id_mode_de_jeu);
+        $score->getPersonnage()->setId($id_personnage);
+        $score->setFrag($frag);
+
+        return $score;
+    }
+
+    /**
      * Lire l'ensemble des personnages
      * @return mixed
      */

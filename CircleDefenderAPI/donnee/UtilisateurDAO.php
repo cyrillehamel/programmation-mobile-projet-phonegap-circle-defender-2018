@@ -27,7 +27,7 @@ class UtilisateurDAO
 
     /**
      * Ajouter un utilisateur
-     * @return Utilisateur Donnée complètes de l'utilisateur créé
+     * @return Utilisateur Données complètes de l'utilisateur créé
      */
     function ajouter($mail, $mdp, $pseudonyme)
     {

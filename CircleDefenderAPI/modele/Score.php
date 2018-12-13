@@ -15,6 +15,7 @@ class Score
     // Propriétés de l'objet
     private $id;
     private $score;
+    private $frag;
     private $meilleur_score;
     private $score_total;
     private $nombre_parties;
@@ -69,6 +70,22 @@ class Score
     /**
      * @return mixed
      */
+    public function getFrag()
+    {
+        return $this->frag;
+    }
+
+    /**
+     * @param mixed $frag
+     */
+    public function setFrag($frag)
+    {
+        $this->frag = $frag;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getMeilleurScore()
     {
         return $this->meilleur_score;
@@ -117,7 +134,7 @@ class Score
     /**
      * @return mixed
      */
-    public function getFragtotal()
+    public function getFragTotal()
     {
         return $this->frag_total;
     }
@@ -125,7 +142,7 @@ class Score
     /**
      * @param mixed $frag_total
      */
-    public function setFragtotal($frag_total)
+    public function setFragTotal($frag_total)
     {
         $this->frag_total = $frag_total;
     }

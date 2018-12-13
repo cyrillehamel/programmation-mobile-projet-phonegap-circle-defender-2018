@@ -59,31 +59,19 @@
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>     
     </script>
 
-     <script type="plain/text" id="page-modifier-compte">      
+     <script type="plain/text" id="page-modifier-compte">
         <h1 class="animated fadeIn slow">Modification du compte</h1>
 
-        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
         <form id="formulaire-modifier-compte">
-            <div>
-                <input class="form-control animated fadeIn slow" required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
-            </div>
-            <div>
-                <input class="form-control animated fadeIn slow" required type="email" name="mail" id="mail" placeholder="Email"/>
-            </div>
-            <div>
-                <input class="form-control animated fadeIn slow" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe" />
-            </div>
-            <div>
-                <input class="form-control animated fadeIn slow" required type="password" name="confirmer_mot_de_passe" id="confirmer_mot_de_passe" placeholder="Confirmer le mot de passe"/>
-            </div>
-            <div>
-                <input class="btn btn-success animated fadeIn slow" type="submit" id="modifier_compte" value="Modifier"/>
-            </div>
-            <div class="retour">
-                <a class="btn btn-primary animated fadeIn slow" href='#menu'>Retour</a>
-            </div>
+            <input class="form-control animated fadeIn slow" required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
+            <input class="form-control animated fadeIn slow" required type="email" name="mail" id="mail" placeholder="Email"/>
+            <input class="form-control animated fadeIn slow" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe" />
+            <input class="form-control animated fadeIn slow" required type="password" name="confirmer_mot_de_passe" id="confirmer_mot_de_passe" placeholder="Confirmer le mot de passe"/>
+            <input class="btn btn-success animated fadeIn slow" type="submit" id="modifier_compte" value="Modifier"/>
+
+            <a class="retour-btn btn btn-primary animated fadeIn slow" href='#menu'>Retour</a>
         </form>
     </script>
 
@@ -97,32 +85,32 @@
     </script>
 
     <script type="plain/text" id="page-detail-joueur">
-        <h1 id="pseudo_joueur">DEBUG Pseudonyme<h1>
+        <h1 id="pseudo-joueur"></h1>
 
-        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
+        <a class="retour-btn btn btn-primary" href='#leaderboard'>Retour</a>
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
         <p>Classement :</p>
-        <p id="classement_joueur"></p>
-        <br>
+        <p id="classement-joueur">-1</p>
+
         <details>
-            <summary>Score:</summary>
+            <summary>Scores :</summary>
 
-            <p>Meilleur:</p>
-            <p id="meilleur_score_joueur"></p>
+            <p>Meilleur :</p>
+            <p id="meilleur-score-joueur"></p>
 
-            <p>Total:</p>
-            <p id="Score_total_joueur"></p>
+            <p>Total :</p>
+            <p id="Score-total-joueur"></p>
         </details>
-        <br>
+
         <details>
-            <summary>Nombres :</summary>
+            <summary>Autres statistiques :</summary>
 
             <p>Parties :</p>
-            <p id="nombre_parties_joueur"></p>
+            <p id="nombre-parties-joueur"></p>
 
             <p>Frags :</p>
-            <p id="nombre_frags_joueur"></p>
+            <p id="nombre-frags-joueur"></p>
         </details>
         <div class="retour">
                 <a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Retour</a>
@@ -134,6 +122,7 @@
     <script src="action/donnee/UtilisateurDAO.js"></script>
     <script src="action/donnee/ModeDeJeuDAO.js"></script>
     <script src="action/modele/Utilisateur.js"></script>
+    <script src="action/modele/UtilisateurDetail.js"></script>
     <script src="action/modele/Score.js"></script>
     <script src="action/modele/UtilisateurDetail.js"></script>
     <script src="action/vue/DetailJoueurVue.js"></script>
@@ -147,7 +136,7 @@
     <script src="sjcl.js"></script>
     <script src="sha512.js"></script>
 
-    <script type="text/javascript" charset="utf-8" src="lib/cordova.js"></script>
+    <!-- <script type="text/javascript" charset="utf-8" src="lib/cordova.js"></script> -->
     <!--<script type="text/javascript" charset="utf-8" src="lib/jquery.js"></script> -->
     
 </body>

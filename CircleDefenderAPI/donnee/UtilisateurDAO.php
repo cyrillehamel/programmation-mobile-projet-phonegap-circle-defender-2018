@@ -25,26 +25,6 @@ class UtilisateurDAO
         $this->connexion_bdd = Connexion::get()->connect();
     }
 
-//    /**
-//     * Lire l'ensemble des utilisateurs
-//     * @return mixed
-//     */
-//    function lire()
-//    {
-//        $requete = "SELECT
-//                u.id, u.mail, u.pseudonyme, u.creation
-//            FROM
-//                " . $this->nom_table . " u
-//            ORDER BY
-//                u.creation DESC";
-//
-//        $stmt = $this->connexion_bdd->prepare($requete);
-//
-//        $stmt->execute();
-//
-//        return $stmt;
-//    }
-
     /**
      * Ajouter un utilisateur
      * @return Utilisateur Donnée complètes de l'utilisateur créé

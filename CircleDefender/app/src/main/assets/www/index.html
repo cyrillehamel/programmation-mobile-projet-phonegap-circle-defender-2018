@@ -9,12 +9,12 @@
     <meta charset="utf-8"/>
 </head>
 <body>
- 	Une erreur est survenue lors du lancement de l'application. Veuillez la relancer.
-     
-     <script type="plain/text" id="page-authentification">
-        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
+ 	Chargement de CircleDefender en cours... Si cela prend trop de temps, veuillez relancer l'application.
+    
+    <script type="plain/text" id="page-authentification">
+        <h1 class="animated bounce infinite slow">Authentification</h1>
 
-        <h2 class="animated bounce infinite slow">Authentification</h2>
+        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
         <form id="formulaire-authentification">
             <input class="form-control animated fadeIn slow" required type="email" name="identifiant" id="identifiant" placeholder="Identifiant"/>
@@ -27,33 +27,30 @@
     </script>
 
     <script type="plain/text" id="page-creation-compte">
-        <h2 class="animated fadeIn slow">Créer un compte</h2>
+        <h1 class="animated fadeIn slow">Créer un compte</h1>
 
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
         <form id="formulaire-creation-compte">
-        
-             <input class="form-control animated fadeIn slow" required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
-             
+            <input class="form-control animated fadeIn slow" required type="text" name="pseudonyme" id="pseudonyme" placeholder="Pseudonyme"/>
             <input class="form-control animated fadeIn slow" required type="email" name="email" id="email" placeholder="Email"/>
-
             <input class="form-control animated fadeIn slow" required type="password" name="mot_de_passe" id="mot_de_passe" placeholder="Mot de passe"/>
-
             <input class="btn btn-success animated fadeIn slow" type="submit" id="se_connecter" value="Connexion"/>
         </form>
     </script>
 
     <script type="plain/text" id="page-menu">
-
         <h1 class="animated infinite pulse slow">Circle Defender</h1>
+
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
+
         <h2 class="animated fadeIn slow">Menu Principal</h2>
 
         <ul>
-        	<li><a class="btn btn-primary animated fadeIn slow" href='#jeu'>Jouer</a></li>
+        	<li><a class="btn btn-primary animated fadeIn slow" href='#jeu'>Jouer !</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Leaderboard</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#modifier-compte'>Paramètres</a></li>
-        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconecter'>déconnexion</a></li>
+        	<li><a class="btn btn-primary animated fadeIn slow" href='#deconecter'>Déconnexion</a></li>
         	<li><a class="btn btn-primary animated fadeIn slow" href='#quitter'>Quitter</a></li>
         </ul>
     </script>
@@ -63,8 +60,9 @@
     </script>
 
      <script type="plain/text" id="page-modifier-compte">      
-        <h2 class="animated fadeIn slow">Modification du compte</h2>
-        
+        <h1 class="animated fadeIn slow">Modification du compte</h1>
+
+        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
         <form id="formulaire-modifier-compte">
@@ -89,46 +87,43 @@
         </form>
     </script>
 
-      <script type="plain/text" id="page-leaderboard">
-        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
-        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>    
+    <script type="plain/text" id="page-leaderboard">
         <h1 class="animated rubberBand infinite slower">Classement</h1>
-	   <ul id="liste-score"></ul>
-       
+
+        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
+        <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
+
+	    <ul id="liste-score"></ul>
     </script>
 
     <script type="plain/text" id="page-detail-joueur">
+        <h1 id="pseudo_joueur">DEBUG Pseudonyme<h1>
+
+        <a class="retour-btn btn btn-primary" href='#menu'>Retour</a>
         <button class="mute-auth btn btn-primary animated fadeIn slow" onclick="mute()">Mute</button>
 
-    	<h1>
-            <label>Détails du Joueur</label>
-            <label id="pseudo_joueur"></label>
-        </h1>
+        <p>Classement :</p>
+        <p id="classement_joueur"></p>
+        <br>
+        <details>
+            <summary>Score:</summary>
 
-        <h2>
-            <details>
-                <summary>Score:</summary>
+            <p>Meilleur:</p>
+            <p id="meilleur_score_joueur"></p>
 
-                <label>Meilleur:</label>
-                <label id="meilleur_score_joueur"></label>
+            <p>Total:</p>
+            <p id="Score_total_joueur"></p>
+        </details>
+        <br>
+        <details>
+            <summary>Nombres :</summary>
 
-                <label>Total:</label>
-                <label id="Score_total_joueur"></label>
-            </details>
-            
-            <details>
-                <summary>Nombres :</summary>
+            <p>Parties :</p>
+            <p id="nombre_parties_joueur"></p>
 
-                <label>Parties :</label>
-                <label id="nombre_parties_joueur"></label>
-
-                <!--<label>Frags :</label>
-                <label id="nombre_frags_joueur"></label>-->
-            </details>
-
-            <label>Classement :</label>
-            <label id="classement_joueur"></label>
-        </h2>
+            <p>Frags :</p>
+            <p id="nombre_frags_joueur"></p>
+        </details>
         <div class="retour">
                 <a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Retour</a>
             </div>
@@ -152,8 +147,8 @@
     <script src="sjcl.js"></script>
     <script src="sha512.js"></script>
 
-    <!--<script type="text/javascript" charset="utf-8" src="lib/cordova.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="lib/cordova.js"></script>
     <!--<script type="text/javascript" charset="utf-8" src="lib/jquery.js"></script> -->
     
- </body>
+</body>
 </html>

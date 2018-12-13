@@ -9,7 +9,7 @@ body{
 }
 
 input{
-    margin-bottom: 5%;
+    padding-bottom: 5%;
 }
 
 ul{
@@ -21,17 +21,12 @@ h1{
     margin-bottom: 3%;
 }
 
-h2{
-    margin-top: 10%;
-    margin-bottom: 10%;
-}
-
 li{
-    margin-top: 7%;
+    padding-top: 7%;
 }
 
 .retour{
-    margin-top: 15%;
+    padding-top: 15%;
 }
 
 .mute-auth {
@@ -39,8 +34,17 @@ li{
     right:0;
     top:0;
 }
+
 .retour-btn {
     position:absolute;
     left:0;
     top:0;
+}
+
+p{
+    text-align: left;
+}
+
+summary{
+    text-align: left;
 }

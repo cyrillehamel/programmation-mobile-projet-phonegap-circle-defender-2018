@@ -2,7 +2,7 @@ var DetailJoueurVue = (function()
 {
     var pageDetailJoueurVue = document.getElementById("page-detail-joueur").innerHTML;
 
-    return function(utilisateurDetail)
+    return function(utilisateur)
     {
         this.afficher = function()
         {

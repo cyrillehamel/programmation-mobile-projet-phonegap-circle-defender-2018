@@ -33,8 +33,8 @@ $itemScore = array();
 
 if($score->getClassement() !== null)
 {
-    $itemScore['id_utilisateur'] = $score->getIdUtilisateur();
-    $itemScore['pseudonyme_utilisateur'] = $score->getPseudonymeUtilisateur();
+    $itemScore['id_utilisateur'] = $score->getUtilisateur()->getId();
+    $itemScore['pseudonyme_utilisateur'] = $score->getUtilisateur()->getPseudonyme();
     $itemScore['meilleur_score'] = $score->getMeilleurScore();
     $itemScore['score_total'] = $score->getScoreTotal();
     $itemScore['nombre_parties'] = $score->getNombreParties();

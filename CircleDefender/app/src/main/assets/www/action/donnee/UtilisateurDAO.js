@@ -26,7 +26,7 @@ var UtilisateurDAO = function ()
             return null;
         }
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id = ' + id);
+        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id=' + id);
         const utilisateur = await reponse.json();
 
         return (utilisateur.id_utilisateur === undefined ? null :

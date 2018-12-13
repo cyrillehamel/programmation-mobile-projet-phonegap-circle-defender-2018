@@ -122,13 +122,16 @@
                 <label>Parties :</label>
                 <label id="nombre_parties_joueur"></label>
 
-                <label>Frags :</label>
-                <label id="nombre_frags_joueur"></label>
+                <!--<label>Frags :</label>
+                <label id="nombre_frags_joueur"></label>-->
             </details>
 
             <label>Classement :</label>
             <label id="classement_joueur"></label>
         </h2>
+        <div class="retour">
+                <a class="btn btn-primary animated fadeIn slow" href='#leaderboard'>Retour</a>
+            </div>
     </script>
 
     <script src="lib/howler.js-master/dist/howler.js"></script>
@@ -137,6 +140,7 @@
     <script src="action/donnee/ModeDeJeuDAO.js"></script>
     <script src="action/modele/Utilisateur.js"></script>
     <script src="action/modele/Score.js"></script>
+    <script src="action/modele/UtilisateurDetail.js"></script>
     <script src="action/vue/DetailJoueurVue.js"></script>
     <script src="action/vue/AuthentifierVue.js"></script>
     <script src="action/vue/CreationCompteVue.js"></script>

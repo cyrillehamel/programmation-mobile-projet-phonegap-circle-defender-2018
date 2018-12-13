@@ -175,7 +175,11 @@
             {
                naviguerAuthentification(); 
             }
-            var detailJoueurVue = new DetailJoueurVue();
+            var navigation = hash.match(/^#detail-joueur\/([0-9]+)/);
+            //alert(navigation);
+            var idDetail =Number(navigation[1]);
+            var utilisateurDetail= await utilisateurDao.lireDetailJoueur(idDetail);
+            var detailJoueurVue = new DetailJoueurVue(utilisateurDetail);
             detailJoueurVue.afficher();
         }
         else if(hash.match(/^#leaderboard/))

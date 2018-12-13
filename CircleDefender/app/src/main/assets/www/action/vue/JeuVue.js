@@ -8,12 +8,13 @@ var JeuVue = (function()
         var stagePrincipal;
         var arcDeCercle;
         var cercleJoueur;
-        var bouclier;
 
         var debutBouclier, finBouclier;
 
         var debutInterval = 0;
         var testInterval;
+
+        var dureeTrajetEnnmi;
 
         var positionJoueurX, positionJoueurY;
 
@@ -56,38 +57,52 @@ var JeuVue = (function()
 
         this.afficher = function()
         {
-            afficherCarreBouclier();
 
             afficherCercleJoueur();
+            afficherCarreBouclier();
             //afficherArcDeCercle(arcDeCercleEstEnHaut);
         };
 
         function rafraichirScene(evenement){
-            carreBouclier.rotation++;
+            //carreBouclier.rotation++;
+
+            var isNouvelEnnemi = false;
 
             if (debutInterval == 0){
                 debutInterval = new Date().getTime();
-                demarrerEnnemis();
-            }
-
-            testInterval = new Date().getTime();
-
-            if (testerCollision()){
-                createjs.Ticker.removeEventListener("tick", rafraichirScene);
-                stagePrincipal.removeChild(cercleEnnemis);
-                //plus cercles autres
+                isNouvelEnnemi = true;
+                //console.log("rafraichir scene : début interval");
 
             }
-            else if (testInterval - debutInterval >= 1500){
+            else {
+                testInterval = new Date().getTime();
+
+                if (testInterval - debutInterval >= dureeTrajetEnnmi){
+                    isNouvelEnnemi = true;
+                    // console.log("rafraichir scene : test interval");
+                }
+
+                if (testerCollisionAvecBouclier()){
+                    detruireEnnemis();
+                    isNouvelEnnemi = true;
+                    //console.log("collision avec bouclier : true  ");
+                }
+                else if (testerCollision()) {
+                    //  createjs.Ticker.removeEventListener("tick", rafraichirScene);
+                    detruireEnnemis();
+                    isNouvelEnnemi = true;
+                    //console.log("collision avec joueur : true  ");
+                }
+
+            }
+            if(isNouvelEnnemi) {
                 demarrerEnnemis();
                 debutInterval = testInterval;
+                //console.log("condition isNouvelEnnmi ");
             }
-            else if (testerCollisionAvecBouclier()){
-                console.log("WOUHOUOUUUUUUU");
-            }
-
 
             stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
+
         };
 
         function rendreGesturePourArcDeCercleDisponible(){
@@ -135,7 +150,7 @@ var JeuVue = (function()
                 var distanceCollision = rectangleJoueur.width / 2  + rectangleEnnemi.width / 2;
 
                 if (distanceReelle < distanceCollision ){
-                    console.log("Intersection détectée");
+                    console.log("testerCollision : intersection détectée");
                     //alert("Intersection détectée");
                     //cercleJoueur.alpha = .2;
                     return true;
@@ -145,12 +160,28 @@ var JeuVue = (function()
             return false;
         }
 
+        function calculerDistancePourEnnemis(){
+            var centreJoueurX = cercleJoueur.x  + 18;
+            var centreJoueurY = cercleJoueur.y + 18;
+
+            var centreEnnemiX = cercleEnnemis.x + 10;
+            var centreEnnemiY = cercleEnnemis.y + 10;
+
+            return Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
+        };
+
+        function calculerDureeTrajetEnnemis(distance){
+            var tempsObjectif = 500; //pour 200px, en ms
+            var distanceObjective = 200; //px
+
+            return Math.floor((tempsObjectif * distance) / distanceObjective);
+        };
+
         function testerCollisionAvecBouclier(){
 
             var R = 10;
-
-            var pointA = debutBouclier.localToGlobal(65, 0);
-            var pointB = debutBouclier.localToGlobal(65, 65);
+            var pointA = carreBouclier.localToGlobal(65, 0);
+            var pointB = carreBouclier.localToGlobal(65, 65);
 
             // compute the euclidean distance between A and B
             var Ax = pointA.x; var Ay = pointA.y;
@@ -189,15 +220,16 @@ var JeuVue = (function()
                 // compute second intersection point
                var  Gx = (t+dt)*Dx + Ax;
                var Gy = (t+dt)*Dy + Ay;*/
+               // console.log("Bouclier : pointA " + pointA.x + ", " + pointA.y + "; pointB " + pointB.x + ", " + pointB.y);
+                //console.log("Point central ennemi : " + cercleEnnemis.x + ", " +cercleEnnemis.y + " " + cercleEnnemis.radius);
 
-               console.log("Intersection avec bouclier detectee!");
+                //console.log("Intersection avec bouclier detectee!");
                return true;
             }
 
             return false;
-
-
         }
+
         
         function afficherCercleJoueur(){
 
@@ -211,8 +243,6 @@ var JeuVue = (function()
             cercleJoueur.x = positionJoueurX;
             cercleJoueur.y = positionJoueurY;
 
-
-
             stagePrincipal.addChild(cercleJoueur);
             //stagePrincipal.update();
         };
@@ -222,31 +252,31 @@ var JeuVue = (function()
 
             var bouclier = new createjs.Shape();
 
-            bouclier.graphics.beginFill("Red").drawRect(0, 0, 65, 65);
+            //bouclier.graphics.beginFill("Red").drawRect(0, 0, 65, 65);
 
             bouclier.graphics.setStrokeStyle(1).beginStroke("rgba(0,0,0,1)");
-            bouclier.graphics.moveTo(65, 0);
-            bouclier.graphics.lineTo(65, 65);
+            bouclier.graphics.moveTo(50, 0);
+            bouclier.graphics.lineTo(50, 50);
 
             carreBouclier.x = positionJoueurX;
             carreBouclier.y = positionJoueurY;
 
-            carreBouclier.regX = carreBouclier.regY = 32.5;
-            carreBouclier.rotation += 45;
+            carreBouclier.regX = carreBouclier.regY = 25;
+            //carreBouclier.rotation += 45;
 
             carreBouclier.addChild(bouclier);
 
-            debutBouclier  = new createjs.Shape();
-            debutBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
+            /*debutBouclier  = new createjs.Shape();
+            //debutBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
             debutBouclier.x = 65;
             debutBouclier.y = 0;
 
             finBouclier  = new createjs.Shape();
-            finBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
+            //finBouclier.graphics.beginFill("Yellow").drawRect(0, 0, 1, 1);
             finBouclier.x = 65;
             finBouclier.y = 65;
 
-            carreBouclier.addChild(debutBouclier, finBouclier);
+            carreBouclier.addChild(debutBouclier, finBouclier);*/
 
             stagePrincipal.addChild(carreBouclier);
 
@@ -275,48 +305,52 @@ var JeuVue = (function()
 
             var chanceSpawnNouveau = Math.floor(Math.random() * 10);
             if (chanceSpawnNouveau >= 8){
-                afficherEnnemiAutres();
+                //afficherEnnemiAutres();
             }
         };
 
         function afficherEnnemi1(){
-            var randomGaucheDroite = Math.floor(Math.random()*2);
-            var randomBasHaut = Math.floor(Math.random()*2);
+            var isGauche = false;
+            var isDroite = false;
+            var isHaut = false;
+            var isBas = false;
 
-            positionJoueurXPourCible = positionJoueurX;
-            positionJoueurYPourCible = positionJoueurY;
+            if (Math.floor(Math.random()*2)){
+                isDroite = true;
+            }else{
+                isGauche = true;
+            }
+            if (Math.floor(Math.random()*2)){
+                isBas = true;
+            }else{
+                isHaut = true;
+            }
+
 
             // quart haut gauche
-            if((randomGaucheDroite===0) && (randomBasHaut===0)){
+            if(isHaut && isGauche){
                 cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible -= 15;
-                positionJoueurYPourCible -= 15;
             }
             // Quart haut droite
-            else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
+            else if (isHaut && isDroite){
                 cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
                 cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
 
-                positionJoueurXPourCible += 15;
-                positionJoueurYPourCible -= 15;
+
             }
             // Quart bas gauche
-            else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
+            else if (isBas && isGauche){
                 cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible -= 15;
-                positionJoueurYPourCible += 15;
             }
             // Quart bas droite
             else {
                 cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
                 cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
 
-                positionJoueurXPourCible += 15;
-                positionJoueurYPourCible += 15;
             }
 
             cercleEnnemis.setBounds(cercleEnnemis.x, cercleEnnemis.y, 20, 20);
@@ -324,10 +358,12 @@ var JeuVue = (function()
 
             stagePrincipal.addChild(cercleEnnemis);
 
-            createjs.Tween.get(cercleEnnemis, {loop: true})
-                .to({x:positionJoueurX, y: positionJoueurY}, 1500, createjs.Ease.linear)
+            dureeTrajetEnnmi = calculerDureeTrajetEnnemis(calculerDistancePourEnnemis());
+
+            createjs.Tween.get(cercleEnnemis, {loop: false})
+                .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear)
                 .call(handleComplete);
-                //.addEventListener("change", testerCollision)
+                //.addEventListener("change", testerCollisionAvecBouclier);
 
 
             function handleComplete() {
@@ -336,6 +372,13 @@ var JeuVue = (function()
             }
 
         };
+
+        function detruireEnnemis(){
+            createjs.Tween.removeTweens(cercleEnnemis);
+            stagePrincipal.removeChild(cercleEnnemis);
+        };
+
+
 
         function afficherEnnemiAutres(){
             circleEnnemiAutres.graphics.beginFill("Green").drawCircle(0, 0, 10);

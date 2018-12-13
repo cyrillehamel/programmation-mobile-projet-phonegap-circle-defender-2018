@@ -114,11 +114,11 @@ var JeuVue = (function()
             // this will block the vertical scrolling on a touch-device while on the element
             mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
 
-            mc.on("panleft panright panup pandown tap press", function(ev) {
-                console.log("Gesture Arc de Cercle détectée");
-                stagePrincipal.removeChild(arcDeCercle);
-                arcDeCercleEstEnHaut = !arcDeCercleEstEnHaut;
-                //afficherArcDeCercle(arcDeCercleEstEnHaut);
+            mc.on("panleft", function(ev) {
+                carreBouclier.rotation += 6;
+            });
+            mc.on("panright", function(ev) {
+                carreBouclier.rotation -= 6;
             });
         }
 

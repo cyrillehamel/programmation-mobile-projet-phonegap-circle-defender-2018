@@ -20,8 +20,14 @@ var JeuVue = (function()
         var cercleEnnemis = new createjs.Shape();
         var circleEnnemiAutres = new createjs.Shape();
 
+        var score = 0;
+        var vie = 5;
+
 
         var initialiser = function(){
+
+            document.getElementsByTagName("body")[0].innerHTML = pageJeuVue;
+
 
             cercleEnnemis.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
 
@@ -29,6 +35,7 @@ var JeuVue = (function()
             canvas.id = "demo-canvas";
             canvas.width = window.screen.availWidth;
             canvas.height = window.screen.availHeight;
+
             /*canvas.style.zIndex = 8;
             canvas.style.position = "center";
             canvas.style.border = "1px solid";*/
@@ -36,11 +43,10 @@ var JeuVue = (function()
             positionJoueurX = Math.round(canvas.width / 2);
             positionJoueurY = Math.round(canvas.height / 2);
 
-            document.getElementsByTagName("body")[0].innerHTML = pageJeuVue;
             document.body.appendChild(canvas);
             demoCanvas = document.getElementById("demo-canvas");
 
-            //var ctx = canvas.getContext("2d");    Peut être utile !! NE PAS SUPPRIMER !!
+
 
             rendreGesturePourArcDeCercleDisponible();
 
@@ -53,7 +59,6 @@ var JeuVue = (function()
 
         this.afficher = function()
         {
-
             afficherCercleJoueur();
             afficherCarreBouclier();
         };
@@ -74,12 +79,20 @@ var JeuVue = (function()
                 }
 
                 if (testerCollisionAvecBouclier()){
+                    score += 25;
                     detruireEnnemis();
                     isNouvelEnnemi = true;
                 }
                 else if (testerCollision()) {
+                    vie -= 1;
                     detruireEnnemis();
                     isNouvelEnnemi = true;
+
+                    if (vie === 0){
+                        cercleJoueur.alpha = .2;
+                        createjs.Ticker.removeEventListener("tick", rafraichirScene);
+                        alert("Game over !");
+                    }
                 }
             }
 
@@ -87,6 +100,10 @@ var JeuVue = (function()
                 demarrerEnnemis();
                 debutInterval = testInterval;
             }
+
+            document.getElementById("score").innerHTML = "<h3>Score : " + score + "</h3>";
+            document.getElementById("vie").innerHTML = "<h3>Vies : " + vie + "</h3>";
+
 
             stagePrincipal.update(evenement); // pour que le framerate soit pris en compte
 
@@ -135,8 +152,6 @@ var JeuVue = (function()
 
                 if (distanceReelle < distanceCollision ){
                     console.log("testerCollision : intersection détectée");
-                    //alert("Intersection détectée");
-                    //cercleJoueur.alpha = .2;
                     return true;
                 }
             }
@@ -154,8 +169,8 @@ var JeuVue = (function()
         };
 
         function calculerDureeTrajetEnnemis(distance){
-            var tempsObjectif = 500; //pour 200px, en ms
-            var distanceObjective = 200; //px
+            var tempsObjectif = 600; //pour 200px, en ms
+            var distanceObjective = 100; //px
 
             return Math.floor((tempsObjectif * distance) / distanceObjective);
         };
@@ -229,9 +244,6 @@ var JeuVue = (function()
             carreBouclier.addChild(bouclier);
 
             stagePrincipal.addChild(carreBouclier);
-
-            console.log("debut bouclier : " + carreBouclier.localToGlobal(65, 0));
-
         };
         
         function afficherEnnemis() {
@@ -266,53 +278,37 @@ var JeuVue = (function()
             if(isHaut && isGauche){
                 cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
-
             }
             // Quart haut droite
             else if (isHaut && isDroite){
                 cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
                 cercleEnnemis.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
-
-
             }
             // Quart bas gauche
             else if (isBas && isGauche){
                 cercleEnnemis.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
                 cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-
             }
             // Quart bas droite
             else {
                 cercleEnnemis.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
                 cercleEnnemis.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-
             }
 
             cercleEnnemis.setBounds(cercleEnnemis.x, cercleEnnemis.y, 20, 20);
-
 
             stagePrincipal.addChild(cercleEnnemis);
 
             dureeTrajetEnnmi = calculerDureeTrajetEnnemis(calculerDistancePourEnnemis());
 
             createjs.Tween.get(cercleEnnemis, {loop: false})
-                .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear)
-                .call(handleComplete);
-                //.addEventListener("change", testerCollisionAvecBouclier);
-
-
-            function handleComplete() {
-                //throw new Error();
-
-            }
-
+                .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear);
         };
 
         function detruireEnnemis(){
             createjs.Tween.removeTweens(cercleEnnemis);
             stagePrincipal.removeChild(cercleEnnemis);
         };
-
 
 
         function afficherEnnemiAutres(){
@@ -372,7 +368,6 @@ var JeuVue = (function()
         };
 
 
-    
         initialiser();
 
     };

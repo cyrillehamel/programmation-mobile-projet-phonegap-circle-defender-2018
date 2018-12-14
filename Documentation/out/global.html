@@ -104,6 +104,210 @@
     
 
     
+    <h4 class="name" id="ajouterScore"><span class="type-signature"></span>ajouterScore<span class="signature">(score, idUtilisateur, idModeDeJeu, frag)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Ajoute en base de données en nouveau score
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>score</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le score de l'utilisateur</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>idUtilisateur</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">l'id de l'utilisateur</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>idModeDeJeu</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">l'id du mode de jeu sur lequel a été réalisée la partie</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">le nombre d'ennemis tués</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ScoreDAO.js.html">ScoreDAO.js</a>, <a href="ScoreDAO.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="ajouterUtilisateur"><span class="type-signature"></span>ajouterUtilisateur<span class="signature">(mail, motDePasse, pseudonyme)</span><span class="type-signature"> &rarr; {Utilisateur}</span></h4>
     
 
@@ -251,7 +455,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line83">line 83</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -296,6 +500,183 @@
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="lireDetailJoueur"><span class="type-signature"></span>lireDetailJoueur<span class="signature">(id)</span><span class="type-signature"> &rarr; {null|Utilisateur}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Lit des détails d'un joueur en fonction de son id
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">l'id de l'utilisateur à lire</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ScoreDAO.js.html">ScoreDAO.js</a>, <a href="ScoreDAO.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+<ul>
+        <li>
+<div class="param-desc">
+    si l 'id en paramètre n'est pas un nombre entierou si l 'enregistrement associé n'existe pas en base de données
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+</li>
+    
+        <li>
+<div class="param-desc">
+    l 'utilisateur associé à l'id
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Utilisateur</span>
+
+
+    </dd>
+</dl>
+</li>
+    </ul>
 
 
 
@@ -359,7 +740,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line8">line 8</a>
+        <a href="ScoreDAO.js.html">ScoreDAO.js</a>, <a href="ScoreDAO.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -386,7 +767,7 @@
 
         
 <div class="param-desc">
-    un tableau associatif
+    un tableau associatif Json
 </div>
 
 
@@ -1086,7 +1467,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line26">line 26</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -1263,7 +1644,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line44">line 44</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -1463,7 +1844,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line58">line 58</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -1640,7 +2021,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line117">line 117</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line101">line 101</a>
     </li></ul></dd>
     
 
@@ -1775,7 +2156,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line145">line 145</a>
+        <a href="UtilisateurDAO.js.html">UtilisateurDAO.js</a>, <a href="UtilisateurDAO.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -1819,13 +2200,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajouterUtilisateur">ajouterUtilisateur</a></li><li><a href="global.html#lireListeMeilleursJoueurs">lireListeMeilleursJoueurs</a></li><li><a href="global.html#lireListeModesDeJeu">lireListeModesDeJeu</a></li><li><a href="global.html#lireListePersonnages">lireListePersonnages</a></li><li><a href="global.html#lireModeDeJeuParId">lireModeDeJeuParId</a></li><li><a href="global.html#lirePersonnageParId">lirePersonnageParId</a></li><li><a href="global.html#lireUtilisateurParId">lireUtilisateurParId</a></li><li><a href="global.html#lireUtilisateurParMail">lireUtilisateurParMail</a></li><li><a href="global.html#lireUtilisateurPourAuthentification">lireUtilisateurPourAuthentification</a></li><li><a href="global.html#modifierUtilisateur">modifierUtilisateur</a></li><li><a href="global.html#supprimerUtilisateur">supprimerUtilisateur</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#ajouterScore">ajouterScore</a></li><li><a href="global.html#ajouterUtilisateur">ajouterUtilisateur</a></li><li><a href="global.html#lireDetailJoueur">lireDetailJoueur</a></li><li><a href="global.html#lireListeMeilleursJoueurs">lireListeMeilleursJoueurs</a></li><li><a href="global.html#lireListeModesDeJeu">lireListeModesDeJeu</a></li><li><a href="global.html#lireListePersonnages">lireListePersonnages</a></li><li><a href="global.html#lireModeDeJeuParId">lireModeDeJeuParId</a></li><li><a href="global.html#lirePersonnageParId">lirePersonnageParId</a></li><li><a href="global.html#lireUtilisateurParId">lireUtilisateurParId</a></li><li><a href="global.html#lireUtilisateurParMail">lireUtilisateurParMail</a></li><li><a href="global.html#lireUtilisateurPourAuthentification">lireUtilisateurPourAuthentification</a></li><li><a href="global.html#modifierUtilisateur">modifierUtilisateur</a></li><li><a href="global.html#supprimerUtilisateur">supprimerUtilisateur</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 06 2018 16:26:49 GMT-0500 (Est)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Dec 13 2018 22:25:55 GMT-0500 (Est)
 </footer>
 
 <script> prettyPrint(); </script>

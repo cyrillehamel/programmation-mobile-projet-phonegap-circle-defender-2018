@@ -1,1 +1,1 @@
-jsdoc ../CircleDefender/app/src/main/assets/www/action/donnee/ModeDeJeuDAO.js ../CircleDefender/app/src/main/assets/www/action/donnee/PersonnageDAO.js ../CircleDefender/app/src/main/assets/www/action/donnee/UtilisateurDAO.js
+jsdoc ../CircleDefender/app/src/main/assets/www/action/donnee/ModeDeJeuDAO.js ../CircleDefender/app/src/main/assets/www/action/donnee/PersonnageDAO.js ../CircleDefender/app/src/main/assets/www/action/donnee/UtilisateurDAO.js ../CircleDefender/app/src/main/assets/www/action/donnee/ScoreDAO.js

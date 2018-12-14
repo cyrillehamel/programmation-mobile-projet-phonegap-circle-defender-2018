@@ -1,47 +1,6 @@
 var UtilisateurDAO = function ()
 {
     /**
-     * Lit la liste des meilleurs joueurs
-     * @return {Object} un tableau associatif Json
-     */
-    this.lireListeMeilleursJoueurs = async () => {
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/meilleursScores.php');
-        const listeMeilleursJoueurs = await reponse.json();
-
-        localStorage['listeMeilleursJoueurs'] = JSON.stringify(listeMeilleursJoueurs);
-
-        return listeMeilleursJoueurs;
-    }
-
-    /**
-     * Lit des détails d'un joueur en fonction de son id
-     * @param {Number} id l'id de l'utilisateur à lire
-     * @return {null} si l 'id en paramètre n'est pas un nombre entier
-     * ou si l 'enregistrement associé n'existe pas en base de données
-     * @return {Utilisateur} l 'utilisateur associé à l'id
-    */
-    this.lireDetailJoueur = async(id) => {
-        if (!Number.isInteger(id)) {
-            window.alert("Vous devez entrer un nombre entier pour consulter les détails d'un profil &. ID : " + id);
-            return null;
-        }
-
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/lireUn.php?id=' + id);
-        const utilisateur = await reponse.json();
-
-        return (utilisateur.id_utilisateur === undefined ? null :
-            new UtilisateurDetail(
-                utilisateur.id_utilisateur,
-                utilisateur.pseudonyme_utilisateur,
-                utilisateur.meilleur_score,
-                utilisateur.score_total,
-                utilisateur.nombre_parties,
-                utilisateur.classement
-            )
-        );
-    }
-
-    /**
      * Lit un utilisateur en fonction de l'id en paramètre
      * @param {Number} id l'id de l'utilisateur à lire
      * @return {null} si l'id en paramètre n'est pas un nombre entier

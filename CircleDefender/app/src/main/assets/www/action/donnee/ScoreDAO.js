@@ -62,7 +62,7 @@ var ScoreDAO = function ()
                 'Content-Type': 'application/json'
             }
         });
-        const score = await reponse.json();
+        const scoreJson = await reponse.json();
 
         if (reponse.ok) {
             window.alert("Votre nouveau score a été correctement enregistré.");

@@ -18,6 +18,8 @@ var JeuVue = (function()
         var cercleEnnemis = new createjs.Shape();
         var cercleEnnemisVerts = new createjs.Shape();
 
+        var scoreDAO = new ScoreDAO();
+
         var score = 0;
         var vie = 5;
 
@@ -83,6 +85,7 @@ var JeuVue = (function()
                     isNouvelEnnemi = true;
 
                     if (vie === 0){
+                        scoreDAO.ajouterScore(score, localStorage['idUtilisateur'], 0,0);
                         cercleJoueur.alpha = .2;
                         createjs.Ticker.removeEventListener("tick", rafraichirScene);
                         alert("Game over !");

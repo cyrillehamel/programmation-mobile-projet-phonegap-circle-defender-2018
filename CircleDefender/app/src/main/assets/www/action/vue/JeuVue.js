@@ -15,10 +15,8 @@ var JeuVue = (function()
 
         var positionJoueurX, positionJoueurY;
 
-        var positionJoueurXPourCible, positionJoueurYPourCible;
-
         var cercleEnnemis = new createjs.Shape();
-        var circleEnnemiAutres = new createjs.Shape();
+        var cercleEnnemisVerts = new createjs.Shape();
 
         var score = 0;
         var vie = 5;
@@ -36,16 +34,11 @@ var JeuVue = (function()
             canvas.width = window.screen.availWidth;
             canvas.height = window.screen.availHeight;
 
-            /*canvas.style.zIndex = 8;
-            canvas.style.position = "center";
-            canvas.style.border = "1px solid";*/
-
             positionJoueurX = Math.round(canvas.width / 2);
             positionJoueurY = Math.round(canvas.height / 2);
 
             document.body.appendChild(canvas);
             demoCanvas = document.getElementById("demo-canvas");
-
 
 
             rendreGesturePourArcDeCercleDisponible();
@@ -54,6 +47,7 @@ var JeuVue = (function()
             createjs.Ticker.setFPS(60);
 
             createjs.Ticker.addEventListener("tick", rafraichirScene);
+
         };
 
 
@@ -252,7 +246,7 @@ var JeuVue = (function()
 
             var chanceSpawnNouveau = Math.floor(Math.random() * 10);
             if (chanceSpawnNouveau >= 8){
-                //afficherEnnemiAutres();
+                afficherEnnemisVerts();
             }
         };
 
@@ -311,58 +305,61 @@ var JeuVue = (function()
         };
 
 
-        function afficherEnnemiAutres(){
-            circleEnnemiAutres.graphics.beginFill("Green").drawCircle(0, 0, 10);
+        function afficherEnnemisVerts(){
+            cercleEnnemisVerts.graphics.beginFill("Green").drawCircle(0, 0, 10);
 
-            positionJoueurXPourCible = positionJoueurX;
-            positionJoueurYPourCible = positionJoueurY;
+            var isGauche = false;
+            var isDroite = false;
+            var isHaut = false;
+            var isBas = false;
 
-            var randomGaucheDroite = Math.floor(Math.random()*2);
-            var randomBasHaut = Math.floor(Math.random()*2);
+            if (Math.floor(Math.random()*2)){
+                isDroite = true;
+            }else{
+                isGauche = true;
+            }
+            if (Math.floor(Math.random()*2)){
+                isBas = true;
+            }else{
+                isHaut = true;
+            }
 
-            // Quart haut gauche
-            if((randomGaucheDroite===0) && (randomBasHaut===0)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 70)+1);
-                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 70)+1);
 
-                positionJoueurXPourCible -= 23;
-                positionJoueurYPourCible -= 23;
+            // quart haut gauche
+            if(isHaut && isGauche) {
+                cercleEnnemisVerts.x = Math.floor(Math.random() * (positionJoueurX - 25) + 1);
+                cercleEnnemisVerts.y = Math.floor(Math.random() * (positionJoueurY - 25) + 1);
             }
             // Quart haut droite
-            else if ((randomGaucheDroite===1) && (randomBasHaut===0)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
-                circleEnnemiAutres.y = Math.floor(Math.random()*(positionJoueurY - 70)+1);
-
-                positionJoueurXPourCible += 23;
-                positionJoueurYPourCible -= 23;
+            else if (isHaut && isDroite){
+                cercleEnnemisVerts.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
+                cercleEnnemisVerts.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
             }
             // Quart bas gauche
-            else if ((randomGaucheDroite===0) && (randomBasHaut===1)){
-                circleEnnemiAutres.x = Math.floor(Math.random()*(positionJoueurX - 70)+1);
-                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-
-                positionJoueurXPourCible -= 23;
-                positionJoueurYPourCible += 23;
+            else if (isBas && isGauche){
+                cercleEnnemisVerts.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
+                cercleEnnemisVerts.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
             }
             // Quart bas droite
             else {
-                circleEnnemiAutres.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
-                circleEnnemiAutres.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-
-                positionJoueurXPourCible += 23;
-                positionJoueurYPourCible += 23;
+                cercleEnnemisVerts.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
+                cercleEnnemisVerts.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
             }
 
-            stagePrincipal.addChild(circleEnnemiAutres);
+            cercleEnnemisVerts.setBounds(cercleEnnemisVerts.x, cercleEnnemisVerts.y, 20, 20);
 
-            createjs.Tween.get(circleEnnemiAutres, {loop: true})
-                .to({x:positionJoueurXPourCible, y: positionJoueurYPourCible}, 500, createjs.Ease.linear);
+            stagePrincipal.addChild(cercleEnnemisVerts);
+
+            dureeTrajetEnnmi = calculerDureeTrajetEnnemis(calculerDistancePourEnnemis());
+
+            createjs.Tween.get(cercleEnnemisVerts, {loop: false})
+                .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear);
 
         };
 
 
         function demarrerEnnemis(){
-            stagePrincipal.removeChild(circleEnnemiAutres);
+            stagePrincipal.removeChild(cercleEnnemisVerts);
             afficherEnnemis();
 
         };

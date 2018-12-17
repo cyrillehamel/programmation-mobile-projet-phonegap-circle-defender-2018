@@ -16,7 +16,6 @@ var JeuVue = (function()
         var positionJoueurX, positionJoueurY;
 
         var cercleEnnemis = new createjs.Shape();
-        var cercleEnnemisVerts = new createjs.Shape();
 
         var scoreDAO = new ScoreDAO();
 
@@ -27,7 +26,6 @@ var JeuVue = (function()
         var initialiser = function(){
 
             document.getElementsByTagName("body")[0].innerHTML = pageJeuVue;
-
 
             cercleEnnemis.graphics.beginFill("Crimson").drawCircle(0, 0, 10);
 
@@ -51,7 +49,6 @@ var JeuVue = (function()
             createjs.Ticker.addEventListener("tick", rafraichirScene);
 
         };
-
 
         this.afficher = function()
         {
@@ -106,111 +103,6 @@ var JeuVue = (function()
 
         };
 
-        function rendreGesturePourArcDeCercleDisponible(){
-
-            var myElement = document.getElementById('demo-canvas');
-            var mc = new Hammer(myElement);
-            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-
-            mc.on("panleft", function(ev) {
-                carreBouclier.rotation += 6;
-            });
-            mc.on("panright", function(ev) {
-                carreBouclier.rotation -= 6;
-            });
-        }
-
-        function testerIntersection(rect1,  rect2){
-                if ( rect1.x >= rect2.x + rect2.width || rect1.x + rect1.width <= rect2.x || rect1.y >= rect2.y + rect2.height || rect1.y + rect1.height <= rect2.y ) return false;
-                return true;
-        };
-
-        function testerCollision(){
-
-            var rectangleEnnemi = {
-                x : cercleEnnemis.x,
-                y : cercleEnnemis.y,
-                width : cercleEnnemis.getBounds().width,
-                height : cercleEnnemis.getBounds().height
-            };
-
-            var rectangleJoueur = cercleJoueur.getBounds();
-
-            if (testerIntersection(rectangleJoueur, rectangleEnnemi)){
-                var centreJoueurX = (rectangleJoueur.width - rectangleJoueur.x) / 2;
-                var centreJoueurY = (rectangleJoueur.height - rectangleJoueur.y) / 2;
-
-                var centreEnnemiX = (rectangleEnnemi.width - rectangleEnnemi.x) / 2;
-                var centreEnnemiY = (rectangleEnnemi.height - rectangleEnnemi.y) / 2;
-
-                var distanceReelle = Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
-
-                var distanceCollision = rectangleJoueur.width / 2  + rectangleEnnemi.width / 2;
-
-                if (distanceReelle < distanceCollision ){
-                    console.log("testerCollision : intersection détectée");
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        function calculerDistancePourEnnemis(){
-            var centreJoueurX = cercleJoueur.x  + 18;
-            var centreJoueurY = cercleJoueur.y + 18;
-
-            var centreEnnemiX = cercleEnnemis.x + 10;
-            var centreEnnemiY = cercleEnnemis.y + 10;
-
-            return Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
-        };
-
-        function calculerDureeTrajetEnnemis(distance){
-            var tempsObjectif = 600; //pour 200px, en ms
-            var distanceObjective = 100; //px
-
-            return Math.floor((tempsObjectif * distance) / distanceObjective);
-        };
-
-        function testerCollisionAvecBouclier(){
-
-            var R = 10;
-            var pointA = carreBouclier.localToGlobal(65, 0);
-            var pointB = carreBouclier.localToGlobal(65, 65);
-
-            //calcule distance euclidienne entre A et B
-            var Ax = pointA.x; var Ay = pointA.y;
-            var Bx = pointB.x; var By = pointB.y;
-
-            var LAB = Math.sqrt( Math.pow((Bx - Ax), 2) + Math.pow((By - Ay),2) );
-
-            // calcule vector directionnel D de A à B
-            var Dx = (Bx - Ax) / LAB;
-            var Dy = (By - Ay) / LAB;
-
-            // l'équation d'une droite AB est x = Dx*t + Ax, y = Dy*t + Ay with 0 <= t <= LAB
-
-            //calcule la distance entre A et E, où E est le point appartenant à AB et
-            //le plus proche du centre du cercle (Cx, Cy)
-            var Cx = cercleEnnemis.x + 10; var Cy = cercleEnnemis.y + 10;
-
-            var t = Dx*(Cx-Ax) + Dy*(Cy-Ay);
-
-            // calcule les coordonnées du point E
-            var Ex = t*Dx+Ax;
-            var Ey = t*Dy+Ay;
-
-            // calcule la distance entre E et C
-            var LEC = Math.sqrt(Math.pow((Ex-Cx),2) + Math.pow((Ey-Cy),2));
-
-            // teste si le segment croise le cercle
-            if( LEC < R ) {
-               return true;
-            }
-            return false;
-        }
-
-        
         function afficherCercleJoueur(){
 
             cercleJoueur = new createjs.Shape();
@@ -242,15 +134,9 @@ var JeuVue = (function()
 
             stagePrincipal.addChild(carreBouclier);
         };
-        
+
         function afficherEnnemis() {
-
             afficherEnnemi1();
-
-            var chanceSpawnNouveau = Math.floor(Math.random() * 10);
-            if (chanceSpawnNouveau >= 8){
-                afficherEnnemisVerts();
-            }
         };
 
         function afficherEnnemi1(){
@@ -302,77 +188,125 @@ var JeuVue = (function()
                 .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear);
         };
 
+        function demarrerEnnemis(){
+            stagePrincipal.removeChild(cercleEnnemis);
+            afficherEnnemis();
+        };
+
+        function rendreGesturePourArcDeCercleDisponible(){
+
+            var myElement = document.getElementById('demo-canvas');
+            var mc = new Hammer(myElement);
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+
+            mc.on("panleft", function(ev) {
+                carreBouclier.rotation += 6;
+            });
+            mc.on("panright", function(ev) {
+                carreBouclier.rotation -= 6;
+            });
+        }
+
+        function testerIntersection(rect1,  rect2){
+                if ( rect1.x >= rect2.x + rect2.width || rect1.x + rect1.width <= rect2.x || rect1.y >= rect2.y + rect2.height || rect1.y + rect1.height <= rect2.y ) return false;
+                return true;
+        };
+
+        function testerCollision(){
+
+            var rectangleEnnemi = {
+                x : cercleEnnemis.x,
+                y : cercleEnnemis.y,
+                width : cercleEnnemis.getBounds().width,
+                height : cercleEnnemis.getBounds().height
+            };
+
+            var rectangleJoueur = cercleJoueur.getBounds();
+
+            if (testerIntersection(rectangleJoueur, rectangleEnnemi)){
+                var centreJoueurX = (rectangleJoueur.width - rectangleJoueur.x) / 2;
+                var centreJoueurY = (rectangleJoueur.height - rectangleJoueur.y) / 2;
+
+                var centreEnnemiX = (rectangleEnnemi.width - rectangleEnnemi.x) / 2;
+                var centreEnnemiY = (rectangleEnnemi.height - rectangleEnnemi.y) / 2;
+
+                var distanceReelle = Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
+
+                var distanceCollision = rectangleJoueur.width / 2  + rectangleEnnemi.width / 2;
+
+                if (distanceReelle < distanceCollision ){
+                    console.log("testerCollision : intersection détectée");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function testerCollisionAvecBouclier(){
+
+            var R = 10;
+            var pointA = carreBouclier.localToGlobal(65, 0);
+            var pointB = carreBouclier.localToGlobal(65, 65);
+
+            //calcule distance euclidienne entre A et B
+            var Ax = pointA.x; var Ay = pointA.y;
+            var Bx = pointB.x; var By = pointB.y;
+
+            var LAB = Math.sqrt( Math.pow((Bx - Ax), 2) + Math.pow((By - Ay),2) );
+
+            // calcule vector directionnel D de A à B
+            var Dx = (Bx - Ax) / LAB;
+            var Dy = (By - Ay) / LAB;
+
+            // l'équation d'une droite AB est x = Dx*t + Ax, y = Dy*t + Ay with 0 <= t <= LAB
+
+            //calcule la distance entre A et E, où E est le point appartenant à AB et
+            //le plus proche du centre du cercle (Cx, Cy)
+            var Cx = cercleEnnemis.x + 10; var Cy = cercleEnnemis.y + 10;
+
+            var t = Dx*(Cx-Ax) + Dy*(Cy-Ay);
+
+            // calcule les coordonnées du point E
+            var Ex = t*Dx+Ax;
+            var Ey = t*Dy+Ay;
+
+            // calcule la distance entre E et C
+            var LEC = Math.sqrt(Math.pow((Ex-Cx),2) + Math.pow((Ey-Cy),2));
+
+            // teste si le segment croise le cercle
+            if( LEC < R ) {
+                return true;
+            }
+            return false;
+        }
+
+        function calculerDistancePourEnnemis(){
+            var centreJoueurX = cercleJoueur.x  + 18;
+            var centreJoueurY = cercleJoueur.y + 18;
+
+            var centreEnnemiX = cercleEnnemis.x + 10;
+            var centreEnnemiY = cercleEnnemis.y + 10;
+
+            return Math.sqrt(Math.pow(centreEnnemiX - centreJoueurX, 2) + Math.pow(centreEnnemiY - centreJoueurY, 2));
+        };
+
+        function calculerDureeTrajetEnnemis(distance){
+            var tempsObjectif = 600; //pour 200px, en ms
+            var distanceObjective = 100; //px
+
+            return Math.floor((tempsObjectif * distance) / distanceObjective);
+        };
+
         function detruireEnnemis(){
             createjs.Tween.removeTweens(cercleEnnemis);
             stagePrincipal.removeChild(cercleEnnemis);
         };
-
-
-        function afficherEnnemisVerts(){
-            cercleEnnemisVerts.graphics.beginFill("Green").drawCircle(0, 0, 10);
-
-            var isGauche = false;
-            var isDroite = false;
-            var isHaut = false;
-            var isBas = false;
-
-            if (Math.floor(Math.random()*2)){
-                isDroite = true;
-            }else{
-                isGauche = true;
-            }
-            if (Math.floor(Math.random()*2)){
-                isBas = true;
-            }else{
-                isHaut = true;
-            }
-
-
-            // quart haut gauche
-            if(isHaut && isGauche) {
-                cercleEnnemisVerts.x = Math.floor(Math.random() * (positionJoueurX - 25) + 1);
-                cercleEnnemisVerts.y = Math.floor(Math.random() * (positionJoueurY - 25) + 1);
-            }
-            // Quart haut droite
-            else if (isHaut && isDroite){
-                cercleEnnemisVerts.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 50)+1)+(positionJoueurX - 50));
-                cercleEnnemisVerts.y = Math.floor(Math.random()*(positionJoueurY - 25)+1);
-            }
-            // Quart bas gauche
-            else if (isBas && isGauche){
-                cercleEnnemisVerts.x = Math.floor(Math.random()*(positionJoueurX - 25)+1);
-                cercleEnnemisVerts.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-            }
-            // Quart bas droite
-            else {
-                cercleEnnemisVerts.x = Math.floor(Math.random()*(window.screen.availWidth-(positionJoueurX - 70)+1)+(positionJoueurX - 70));
-                cercleEnnemisVerts.y = Math.floor(Math.random()*(window.screen.availHeight-(positionJoueurY - 70)+1)+(positionJoueurY - 70));
-            }
-
-            cercleEnnemisVerts.setBounds(cercleEnnemisVerts.x, cercleEnnemisVerts.y, 20, 20);
-
-            stagePrincipal.addChild(cercleEnnemisVerts);
-
-            dureeTrajetEnnmi = calculerDureeTrajetEnnemis(calculerDistancePourEnnemis());
-
-            createjs.Tween.get(cercleEnnemisVerts, {loop: false})
-                .to({x:positionJoueurX, y: positionJoueurY}, dureeTrajetEnnmi, createjs.Ease.linear);
-
-        };
-
-
-        function demarrerEnnemis(){
-            stagePrincipal.removeChild(cercleEnnemisVerts);
-            afficherEnnemis();
-
-        };
         
-       var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,idPersonnage,frag){
+        var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,idPersonnage,frag){
             
             await scoreDAO.ajouterScore(score,idUtilisateur,idModeDeJeu,idPersonnage,frag);
 
         };
-
 
         initialiser();
 

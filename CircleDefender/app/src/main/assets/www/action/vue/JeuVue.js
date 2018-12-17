@@ -85,7 +85,7 @@ var JeuVue = (function()
                     isNouvelEnnemi = true;
 
                     if (vie === 0){
-                        enregistrerScore(score, idUtilisateur,0, 0);
+                        enregistrerScore(score, idUtilisateur,1,2, 0);
                         cercleJoueur.alpha = .2;
                         createjs.Ticker.removeEventListener("tick", rafraichirScene);
                         alert("Game over !");
@@ -367,9 +367,9 @@ var JeuVue = (function()
 
         };
         
-       var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,frag){
+       var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,idPersonnage,frag){
             
-            await scoreDAO.ajouterScore(score,idUtilisateur,idModeDeJeu,frag);
+            await scoreDAO.ajouterScore(score,idUtilisateur,idModeDeJeu,idPersonnage,frag);
 
         };
 

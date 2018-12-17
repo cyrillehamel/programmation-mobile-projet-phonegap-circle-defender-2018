@@ -48,13 +48,14 @@ var ScoreDAO = function ()
      * @param {Number} idModeDeJeu l'id du mode de jeu sur lequel a été réalisée la partie
      * @param {Number} frag le nombre d'ennemis tués
      */
-    this.ajouterScore = async (score, idUtilisateur, idModeDeJeu, frag) => {
+    this.ajouterScore = async (score, idUtilisateur, idModeDeJeu,idPersonnage, frag) => {
         const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/score/ajouter.php', {
             method: 'POST',
             body: JSON.stringify({
                 score: score,
                 id_utilisateur: idUtilisateur,
                 id_mode_de_jeu: idModeDeJeu,
+                id_personnage: idPersonnage,
                 frag: frag
             }),
             headers: {

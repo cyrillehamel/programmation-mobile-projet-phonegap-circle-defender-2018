@@ -50,11 +50,12 @@ p, summary {
     top: 0;
 }
 
-.retour-btn {
+.retour-btn, .recommencer {
     position: absolute;
     left: 0;
     top: 0;
 }
+
 
 .bouton {
     width: 80%;

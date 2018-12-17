@@ -70,6 +70,16 @@
         }     
     }
 
+    recommencer = function(){
+        if(null == idUtilisateur)
+            naviguerAuthentification();
+
+        localStorage['piste']= '2';
+        playMusique();
+        var jeuVue = new JeuVue();
+        jeuVue.afficher();
+    }
+
     // DAOs
     var utilisateurDAO = new UtilisateurDAO();
     var scoreDAO = new ScoreDAO();

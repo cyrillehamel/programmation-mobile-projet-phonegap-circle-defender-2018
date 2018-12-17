@@ -22,7 +22,7 @@ var JeuVue = (function()
 
         var score = 0;
         var vie = 5;
-
+        var idUtilisateur = parseInt(localStorage['idUtilisateur']);
 
         var initialiser = function(){
 
@@ -85,7 +85,7 @@ var JeuVue = (function()
                     isNouvelEnnemi = true;
 
                     if (vie === 0){
-                        scoreDAO.ajouterScore(score, localStorage['idUtilisateur'], 0,0);
+                        enregistrerScore(score, idUtilisateur,0, 0);
                         cercleJoueur.alpha = .2;
                         createjs.Ticker.removeEventListener("tick", rafraichirScene);
                         alert("Game over !");
@@ -364,6 +364,12 @@ var JeuVue = (function()
         function demarrerEnnemis(){
             stagePrincipal.removeChild(cercleEnnemisVerts);
             afficherEnnemis();
+
+        };
+        
+       var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,frag){
+            
+            await scoreDAO.ajouterScore(score,idUtilisateur,idModeDeJeu,frag);
 
         };
 

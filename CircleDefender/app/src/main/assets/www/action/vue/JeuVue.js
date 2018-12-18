@@ -301,7 +301,7 @@ var JeuVue = (function()
             createjs.Tween.removeTweens(cercleEnnemis);
             stagePrincipal.removeChild(cercleEnnemis);
         };
-        
+
         var enregistrerScore = async function(score,idUtilisateur,idModeDeJeu,idPersonnage,frag){
             
             await scoreDAO.ajouterScore(score,idUtilisateur,idModeDeJeu,idPersonnage,frag);

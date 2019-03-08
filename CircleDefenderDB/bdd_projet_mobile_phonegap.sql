@@ -96,8 +96,10 @@ CREATE TABLE public.score (
     score integer,
     id_utilisateur integer,
     id_mode_de_jeu integer,
-    id_personnage integer
+    id_personnage integer,
+    frag integer
 );
+
 
 
 ALTER TABLE public.score OWNER TO appcircledefender;
@@ -132,7 +134,8 @@ CREATE TABLE public.utilisateur (
     id integer NOT NULL,
     mail text,
     mot_de_passe text,
-    pseudonyme text
+    pseudonyme text,
+    creation time with time zone
 );
 
 
@@ -311,6 +314,20 @@ ALTER TABLE ONLY public.score
     ADD CONSTRAINT score_utilisateur_id_fk FOREIGN KEY (id_utilisateur) REFERENCES public.utilisateur(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
+CREATE FUNCTION creation_utilisateur() RETURNS trigger
+    LANGUAGE plpgsql
+AS $$
+   BEGIN
+      UPDATE utilisateur set creation=NOW() where id=new.id;
+      RETURN NEW;
+  END
+
+$$;
+
+CREATE TRIGGER creation_utilisateur_trigger
+    AFTER INSERT ON utilisateur
+    FOR EACH ROW
+    EXECUTE PROCEDURE creation_utilisateur();
 --
 -- PostgreSQL database dump complete
 --

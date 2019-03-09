@@ -7,7 +7,7 @@ var PersonnageDAO = function ()
     this.lireListePersonnages = async () => {
         var listePersonnages = [];
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/personnage/lire.php');
+        const reponse = await fetch('http://nemesis.st/CircleDefenderAPI/personnage/lire.php');
         const listePersonnagesJson = await reponse.json();
 
         localStorage['personnages'] = JSON.stringify(listePersonnages);
@@ -30,7 +30,7 @@ var PersonnageDAO = function ()
             return null;
         }
 
-        const reponse = await fetch('http://54.37.152.134/CircleDefenderAPI/personnage/lireUn.php?id=' + id);
+        const reponse = await fetch('http://nemesis.st/CircleDefenderAPI/personnage/lireUn.php?id=' + id);
         var personnage = await reponse.json();
 
         return (personnage.id === undefined ? null : new Personnage(personnage.id, personnage.taille_bouclier));

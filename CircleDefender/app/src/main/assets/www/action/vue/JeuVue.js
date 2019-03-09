@@ -82,10 +82,11 @@ var JeuVue = (function()
                     isNouvelEnnemi = true;
 
                     if (vie === 0){
-                        enregistrerScore(score, idUtilisateur,1,2, 0);
+                       // enregistrerScore(score, idUtilisateur,1,2, 0);
                         cercleJoueur.alpha = .2;
                         createjs.Ticker.removeEventListener("tick", rafraichirScene);
-                        alert("Game over !");
+                       // alert("Game over !");
+                        navigator.notification.alert( "Vous n'avait plus de vie", enregistrerScore(score, idUtilisateur,1,2, 0),"Game over",'ok');
                     }
                 }
             }

@@ -122,8 +122,15 @@
         }
         else
         {
-            window.alert("Erreur d'authentification : Identifiant ou mot de passe incorect.");
-            naviguerAuthentification();
+            navigator.notification.alert(
+                        "Identifiant ou mot de passe incorect.",  // message
+                        naviguerAuthentification(),         // callback
+                        "Erreur d'authentification",            // title
+                        'ok'                  // buttonName
+                    );
+
+            //window.alert("Erreur d'authentification : Identifiant ou mot de passe incorect.");
+           // naviguerAuthentification();
         }
     }    
 
